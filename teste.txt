@@ -1,0 +1,88 @@
+//Café da Manhã
+        ImageView cfm = (ImageView) findViewById(R.id.cfs);
+        cfm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent cfmI = new Intent(MainActivity.this,PratoActivity.class);
+                startActivity(cfmI);
+            }
+        });
+
+
+
+
+
+
+
+
+
+public class CafeDaManha extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.comida_list);
+
+        final ArrayList<Comidas> refeicao = new ArrayList<>();
+
+        refeicao.add(new Comidas("Capuccino","8 pessoas",R.drawable.cappucino,R.drawable.cap,R.string.Titulo_Cap,R.string.Ingredientes_Cap,R.string.Preparo_Cap));
+        refeicao.add(new Comidas("Ovo mexido","1 pessoa",R.drawable.ovo,R.drawable.ovo_mexido,R.string.Titulo_Ovo,R.string.Ingredientes_Ovo,R.string.Preparo_Ovo));
+	
+	refeicao.add(new Comidas("Bolo de Laranja","8 pessoas",R.drawable.bolo_laranja,R.drawable.bl,R.string.Titulo_Laranja,R.string.Ingredientes_Laranja,R.string.Preparo_Laranja));
+        refeicao.add(new Comidas("Churros","4 pessoa",R.drawable.churros,R.drawable.ch,R.string.Titulo_CH,R.string.Ingredientes_CH,R.string.Preparo_CH));
+
+
+        ComidasAdapter adapter = new ComidasAdapter(this,refeicao,R.color.colorPrimary);
+
+        ListView listView = (ListView) findViewById(R.id.list);
+
+        listView.setAdapter(adapter);
+
+        //vai para a pagina receitas no cafedamanha
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int posicao, long id) {
+
+                    Comidas prato = refeicao.get(posicao);
+                Intent refeicaoI = new Intent(MainActivity.this,PratoActivity.class);
+
+                    //name: = tag
+                    refeicaoI.putExtra("foto_prato",prato.mostreFigura());
+                    refeicaoI.putExtra("quantas_pessoas",prato.quantidadePessoas());
+                    refeicaoI.putExtra("nome_prato",prato.mostrePrato());
+                    
+                    startActivity(refeicaoI);
+            }
+        });
+
+    }
+}
+
+//ReceitaActivity
+
+public class PratoActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.prato_activity);
+
+        //vai para a tela solicitada após o click, tag = name
+        int fotoId = getIntent().getIntExtra("foto_prato",0);
+        int pratoId = getIntent().getIntExtra("nome_prato",0);
+        int pessoasId = getIntent().getIntExtra("quantas_pessoas",0);
+      
+      
+        ImageView foto = (ImageView) findViewById(R.id.foto_prato);
+        foto.setImageResource(fotoId);
+
+        TextView pratos = (TextView) findViewById(R.id.nome_prato);
+        pratos.setText(pratoId);
+
+        TextView ingredientes = (TextView) findViewById(R.id.numero_pessoas);
+        ingredientes.setText(pessoasId);
+
+        View textoContainer = findViewById(R.id.texto_prato);
+    }
+
+}

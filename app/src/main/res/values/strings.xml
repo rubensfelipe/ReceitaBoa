@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">ReceitaBoa</string>
+
+    //Café da Manhã Sobremesas
+
+    //Bolo de Laranja, tag = Titulo_Laranja
+    <string name="Titulo_Laranja">Bolo de Laranja\n</string>
+    <string name="Ingredientes_Laranja">\n-4 ovos\n\n-2 xícaras (chá) de açúcar\n\n-1 xícara (chá) de óleo\n\n-suco de 2 laranjas\n\n-casca de 1 laranja\n\n-2 xícaras (chá) de farinha de trigo\n\n-1 colher (sopa) de fermento\n</string>
+    <string name="Preparo_Laranja">\n-Bata no liquidificador os ovos, o açúcar, o óleo, o suco e a casca da laranja\n\n-Passe para uma tigela e acrescente a farinha de trigo e o fermento\n\n-Leve para assar em uma forma com furo central, untada e enfarinhada, por mais ou menos 30 minutos\n\n-Desenforme o bolo e molhe com suco de laranja</string>
+
+    //Churros
+    <string name="Titulo_CH">Churros\n</string>
+    <string name="Ingredientes_CH">\n-250ml de água\n\n-2 colheres (sopa) de açúcar\n\n-2 colheres (sopa) de margarina ou manteiga sem sal\n\n-1 pitada de sal (se a margarina tiver sal, dispensar a pitada)\n\n-300 g de farinha de trigo\n\n-3 ovos\n\n-óleo para fritar\n\n-açúcar e canela misturados para passar os churros depois de fritos\n\n-doce de leite a gosto\n</string>
+    <string name="Preparo_CH">\n-Aqueça a água em uma panela, abaixe o fogo e acrescente a margarina e o açúcar\n\n-Mexa bem, até dissolver toda a margarina\n\n-Acrescente aos poucos a farinha de trigo, mexendo sempre, até que a massa desprenda da panela\n\n-Tire do fogo e acrescente os ovos um a um, mexendo bem até misturar toda a massa\n\n-A seguir, coloque a massa num saco de confeiteiro com o bico em formato de pitanga, ou na forma própria para churros\n\n-Aperte, já dentro da frigideira com o óleo quente, o tamanho fica a seu critério, corte com a ponta dos dedos ou com uma faca\n\n-Depois de frito, coloque em papel toalha para que absorva a gordura\n-Em seguida, passe pelo açúcar com canela e recheie com doce de leite usando o bico que já vem junto com a forma</string>
+
+    //Café da Manhã
+
+    //Capuccino
+    <string name="Titulo_Cap">Capuccino\n</string>
+    <string name="Ingredientes_Cap">\n-1 lata (400g) de leite em pó instantêneo\n\n-400 g de açúcar refinado ou a gosto\n\n-5 colheres (sopa) de chocolate em pó\n\n-100 g de café solúvel\n\n-1 colher (café) de canela em pó (opcional)\n\n-1 colher (chá) de bicarbonato de sódio\n</string>
+    <string name="Preparo_Cap">\n-Num recipiente grande e bem seco, misture todos os ingredientes. Peneire-os 3 vezes em peneira fina.\n\n-Depois de tudo bem misturado, guarde em vidro seco e bem fechado. Para preparar, adicione uma colher (de sopa) do cappuccino a uma xícara pequena (de café) com água quente.</string>
+
+    //Ovo Mexido
+    <string name="Titulo_Ovo">Ovo Mexido\n</string>
+    <string name="Ingredientes_Ovo">\n-3 ovos\n\n-1 colher de sopa de manteiga\n</string>
+    <string name="Preparo_Ovo">\n-Derreta a manteiga na frigideira em fogo médio\n\n-Adicione o(s) ovo(s) e fure as gemas. Quando começar a encorpar, tempere com sal a gosto\n\n-Mexa bem se quiser que fique com pedaços miudinhos. Se gostar de pedaços maiores, espere o ovo fritar um pouco mais e mexa bem de leve, até obter o resultado desejado!</string>
+
+    //Almoço Sobremesas
+
+    //Sorvete
+    <string name="Titulo_Sorvete">Sorvete\n</string>
+    <string name="Ingredientes_Sorvete">\n-1/2 xícara (120 ml) de leite gelado\n\n-1 colher (sopa) de extrato de baunilha\n\n-1 lata de leite condensado\n\n-1/8 colher (chá) de sal\n\n-475ml de creme de leite sem soro ou fresco\n</string>
+    <string name="Preparo_Sorvete">\n-Misture o leite, a baunilha, o leite condensado e o sal. Reserve.\n\n-Bata o creme de leite até formar picos firmes. Misture o creme de leite ao leite condensado.\n\n-Despeje o sorvete num refratário baixo com capacidade para 2 litros. Congele por 2 horas, mexa o sorvete com uma colher e congele por mais 2 horas.\n\n-Sirva a seguir ou guarde em um recipiente fechado no congelador.</string>
+
+    //Pudim
+    <string name="Titulo_Pudim">Pudim\n</string>
+    <string name="Ingredientes_Pudim">\n1) 1 lata de leite condensado\n\n2) 1 lata de leite (medida da lata de leite condensado)\n\n3) 3 ovos inteiros\n\nCALDA\n\n4) 1 xícara (chá) de açúcar\n\n5)2 xícaras de água\n</string>
+    <string name="Preparo_Pudim">\n+Primeiro, bata bem os ovos no liquidificador\n\n+Acrescente o leite condensado e o leite, e bata novamente\n\n/*CALDA*/\n\n+Derreta o açúcar na panela até ficar moreno, acrescente a água e deixe engrossar\n\n+Coloque em uma forma redonda e despeje a massa do pudim por cima\n\n+Asse em forno médio por 45 minutos, com a assadeira redonda dentro de uma maior com água\n\n+Espete um garfo para ver se está bem assado\n\n+Deixe esfriar e desenforme</string>
+
+    //Almoço
+
+    //Lasanha
+    <string name="Titulo_Lasanha">Lasanha\n</string>
+    <string name="Ingredientes_Lasanha">\n-2 colheres (sopa) de azeite\n\n-1 cebola picada\n\n-500 g de carne moída\n\n-500 g de molho de tomate pronto\n\n-1 pacote (500g) de lasanha pré-cozida\n\n-250 g de presunto\n\n-250 g de mussarela\n\n-50 g de queijo parmesão ralado\n\n-Sal e pimenta a gosto\n</string>
+    <string name="Preparo_Lasanha">\n-Preaqueça o forno médio (180ºC).\n\n-Esquente o azeite e refogue a cebola por 5 minutos. Junte a carne e refogue até a carne cozinhar por igual. Se tiver muita gordura na panela, escorra um pouco. Depois, junte o molho de tomate e deixe apurar no fogo baixo por uns 10 minutos. Tempere a gosto.\n\n-Monte a lasanha fazendo camadas de molho, massa, presunto e mussarela, Termine com uma de molho. Cubra com o queijo ralado e cubra com papel alumínio.\n\n-Leve ao forno por meia hora. Retire o papel alumínio e deixe no forno por mais 10 minutos.</string>
+
+    //Panquecas
+    <string name="Titulo_Panquecas">Panquecas\n</string>
+    <string name="Ingredientes_Panquecas">\n-1 xícara (chá) de leite integral \n-2 ovos \n-4 colheres (sopa) de óleo \n-1 colher (chá) de sal \n-1 1/2 xícara de farinha de trigo\n</string>
+    <string name="Preparo_Panquecas">\n-Bata todos os ingredientes líquidos e o sal no liquidificador.\n\n-Quando estiver homogêneo, acrescente a farinha aos poucos e bata mais.\n\n-Quando um lado estiver dourado, vire e doure o outro. Sirva com qualquer molho e recheio.</string>
+
+    //Jantar Sobremesas
+
+    //Bolo de Chocolate
+    <string name="Titulo_Bolo_Chocolate">Bolo de Chocolate\n</string>
+    <string name="Ingredientes_Bolo_Chocolate">\n-6 ovos\n\n-2 xícaras de farinha de trigo\n-2 xícaras de açúcar\n\n-1 xícara de leite\n\n-6 colheres (sopa) de chocolate em pó\n\n-1 colher (sopa) de fermento em pó\n</string>
+    <string name="Preparo_Bolo_Chocolate">\nMASSA\n\n-Em uma batedeira, bata as claras em neve, acrescente as gemas, o açúcar e bata novamente\n\n-Adicione a farinha, o chocolate em pó, o fermento, o leite e bata por mais alguns minutos\n\n-Despeje a massa em uma forma untada e leve para assar em forno médio (180° C), preaquecido, por 40 minutos\n\nCOBERTURA\n\n-Em uma panela, leve a fogo médio o chocolate em pó, a margarina, o açúcar e o leite, deixe até ferver\n-Despeje quente sobre o bolo já assado</string>
+
+    //Mousse de Chocolate
+    <string name="Titulo_Mousse">Mousse de Chocolate\n</string>
+    <string name="Ingredientes_Mousse">\n-3 ovos\n\n-200g de chocolate meio amargo\n\n-2 colheres (sopa) de açúcar\n\n-1 lata de creme de leite\n</string>
+    <string name="Preparo_Mousse">\n-Bata as gemas até dobrarem de volume\n\n-Junte o açúcar e continue batendo\n\n-Derreta o chocolate e acrescente à gemada\n\n-Junte o creme de leite, batendo sempre\n\n-Por fim, acrescente as claras em neve (bem batidas mesmo), misturando rapidamente na batedeira\n\n-Leve à geladeira e sirva-se!</string>
+
+    //Jantar
+
+    //Peru
+    <string name="Titulo_Peru">Peru\n</string>
+    <string name="Ingredientes_Peru">\n-1 peru limpo com cerca de 4kg\n\n-2 cebolas grandes cortadas em pedaços pequenos\n\n-1/2 colher das de sopa de molho de pimenta\n\n-1 colher das de sopa de mostarda tipo francesa\n\n-1 garrafa de vinho branco seco\n\n-3 xícaras de caldo de galinha\n\n-1 xícara de manteiga derretida\n\n-sal a gosto\n\n-manteiga derretida para injetar\n</string>
+    <string name="Preparo_Peru">\n-Pré-aqueça o forno em temperatura média (180º C)\n\n-Coloque num liqüidificador as cebolas, os alhos, o molho de pimenta, a mostarda, 1 xícara de vinho, 1 xícara de caldo de galinha, a manteiga, o sal e bata bem em seguida\n\n-Passe para uma vasilha, juntando o vinho e o caldo de galinha restantes e misture bem\n\n-Recheie o peru e coloque-o numa assadeira sem untar\n\n-Segure a pele do peito do peru com uma mão e, com a outra, empurre-a para soltar da carne\n\n-Fure a carne com um garfo e, com o auxílio de um injetor de tempero, injete a manteiga derretida em vários pontos do peito do peru
+\n\n-Esfregue o tempero preparado na superfície do peru e injete um pouco na carne\n\n-Puxe a pele de volta, cobrindo novamente o peru, e costure com linha grossa\n\n-Cubra com papel alumínio e leve ao forno por cerca de 3 horas, regando o peru a cada 20 minutos com o molho que cair na assadeira\n\n-Quando o papel já estiver escurecido, retire-o e deixe o peru no forno até dourar</string>
+
+    //Costela
+    <string name="Titulo_Costela">Costela na Panela de Pressão\n</string>
+    <string name="Ingredientes_Costela">\n-1kg de costela bovina (sem muita gordura)\n\n-100g de bacon sem pele\n\n-1 xícara (chá) de óleo\n\n-6 cebolas grandes\n\n-pimenta-de-cheiro a gosto\n\n-sal a gosto\n</string>
+    <string name="Preparo_Costela">\n-Tempere a costela com pouco sal e reserve\n\n-Descasque as cebolas e corte em rodelas\n\n-Pegue a metade das cebolas e faça uma camada no fundo da panela de pressão\n\n-Coloque a costela em cima da camada de cebola e acrescente o bacon\n\n-Cubra a costela e o bacon com a outra metade das cebolas\n\n-Tampe a panela e leve em fogo médio, por 45 minutos ou até que o líquido dentro dela seque\n\n-Não é preciso colocar água, a cebola e a costela vão soltar muita água</string>
+
+    <style name="CategoryStyle">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:textColor">@color/colorBlueDark</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+    </style>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+</resources>
