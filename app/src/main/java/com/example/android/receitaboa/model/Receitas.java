@@ -36,7 +36,7 @@ public class Receitas {
         dadosReceita.put("ingredientes",getIngredientes());
         dadosReceita.put("modoPreparo",getModoPreparo());
         dadosReceita.put("qtdPessoasServidas",getQtdPessoasServidas());
-        dadosReceita.put("urlFotoReceita",urlFotinho);
+        dadosReceita.put("urlFotoReceita",getUrlFotoReceita());
         dadosReceita.put("idReceita",getIdReceita());
         dadosReceita.put("idChefao",getIdChef());
 

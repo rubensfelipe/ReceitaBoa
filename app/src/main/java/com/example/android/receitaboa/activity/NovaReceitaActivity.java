@@ -231,7 +231,7 @@ public class NovaReceitaActivity extends AppCompatActivity {
     public void setarUrlEmReceitas(Uri uri){
         Receitas minhasReceitas = new Receitas();
         minhasReceitas.setUrlFotoReceita(uri.toString());
-        minhasReceitas.guardarUrlFotoReceita();
+        //minhasReceitas.guardarUrlFotoReceita();
     }
 
 

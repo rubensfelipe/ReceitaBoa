@@ -53,9 +53,9 @@ public class LoginActivity extends AppCompatActivity {
                     try{
                         throw task.getException();
                     }catch ( FirebaseAuthInvalidUserException e){
-                        excecao = "Usuário não cadastrado!";
+                        excecao = "Usuário não existe!";
                     }catch (FirebaseAuthInvalidCredentialsException e){
-                        excecao = "Digite um e-mail válido";
+                        excecao = "E-mail ou senha incorreto";
                     }catch (Exception e){
                         excecao ="Erro ao logar o usuário: " + e.getMessage();
                         e.printStackTrace();
@@ -85,11 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                 logarUsuario(chef);
 
             }else {
-                Toast.makeText(LoginActivity.this,"Preencha o e-mail!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,"Preencha a sua senha!",Toast.LENGTH_SHORT).show();
             }
 
         }else {
-            Toast.makeText(LoginActivity.this,"Preencha a senha!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this,"Preencha o seu e-mail!",Toast.LENGTH_SHORT).show();
         }
     }
 
