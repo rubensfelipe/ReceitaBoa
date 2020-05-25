@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".activity.NovaReceitaFotoActivity">
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="302dp"
+        android:layout_height="172dp"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="fitXY"
+        android:src="@drawable/just_the_chef_upper_body_final_copia" />
+
+    <!-- Serve X Pessoas -->
+    <ImageView
+        android:id="@+id/displayFotoReceita"
+        android:layout_width="304dp"
+        android:layout_height="162dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/background_botao2"
+        android:scaleType="fitXY"
+        android:src="@drawable/just_the_blue_board_final_copia" />
+
+    <LinearLayout
+        android:id="@+id/container_people_quantity"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/cameraMinhaReceita"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/ic_camera_cinza_24dp" />
+
+        <ImageView
+            android:id="@+id/galeriaMinhaReceita"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_foto_cinza_24dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
