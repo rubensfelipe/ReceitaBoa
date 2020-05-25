@@ -22,21 +22,22 @@
 
                 <!-- Name field -->
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editNomeReceita"
                     style="@style/EditorFieldStyle"
-                    android:layout_width="180dp"
+                    android:layout_width="200dp"
                     android:layout_height="30dp"
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:hint="Nome da receita"
                     android:inputType="textCapWords"
-                    android:paddingLeft="5dp"
+                    android:paddingLeft="10dp"
                     android:textColor="#484E6E"
                     android:textColorHint="@color/colorHintGraySoft"
                     android:textColorLink="@color/colorBlueDark"
@@ -46,7 +47,16 @@
                     android:id="@+id/textView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:layout_alignWithParentIfMissing="false"
+                    android:layout_alignParentLeft="false"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentRight="false"
+                    android:layout_alignParentBottom="false"
                     android:layout_marginLeft="5dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@+id/editNomeReceita"
                     android:fontFamily="@font/alegreya"
                     android:paddingRight="8dp"
                     android:text="Serve"
@@ -54,10 +64,12 @@
 
                 <EditText
                     android:id="@+id/editQtdPessoasServidas"
-                    android:layout_width="30dp"
+                    android:layout_width="35dp"
                     android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/textView6"
                     android:background="@drawable/background_botao"
                     android:gravity="center"
+                    android:paddingLeft="10dp"
                     android:hint="2"
                     android:paddingRight="16dp"
                     android:spinnerMode="dropdown"
@@ -68,6 +80,7 @@
                     android:id="@+id/buttonSalvarReceita"
                     android:layout_width="70dp"
                     android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
                     android:layout_marginLeft="70dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/background_caixa_texto2"
@@ -75,48 +88,7 @@
                     android:text="salvar"
                     android:textColor="#FFFFFF" />
 
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="302dp"
-                android:layout_height="172dp"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="fitXY"
-                android:src="@drawable/just_the_chef_upper_body_final_copia" />
-
-            <!-- Serve X Pessoas -->
-            <ImageView
-                android:id="@+id/displayFotoReceita"
-                android:layout_width="304dp"
-                android:layout_height="162dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/background_botao2"
-                android:scaleType="fitXY"
-                android:src="@drawable/just_the_blue_board_final_copia" />
-
-            <LinearLayout
-                android:id="@+id/container_people_quantity"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/cameraMinhaReceita"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_camera_cinza_24dp" />
-
-                <ImageView
-                    android:id="@+id/galeriaMinhaReceita"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:src="@drawable/ic_foto_cinza_24dp" />
-
-            </LinearLayout>
+            </RelativeLayout>
 
                 <!-- Breed field -->
                 <TextView
@@ -134,7 +106,8 @@
                 android:id="@+id/editReceitaIngredientes"
                 style="@style/EditorFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="108dp"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
                 android:hint="Adicione aqui os ingredietes!"
@@ -158,9 +131,10 @@
             <EditText
                 android:id="@+id/editModoPreparo"
                 style="@style/EditorFieldStyle"
-                android:layout_height="187dp"
+                android:layout_height="match_parent"
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
+                android:paddingLeft="10dp"
                 android:hint="Adicione aqui o modo de preparo!"
                 android:textColor="#484E6E"
                 android:textColorHint="@color/colorHintGraySoft"

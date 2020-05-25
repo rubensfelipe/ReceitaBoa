@@ -17,14 +17,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.ReceitasAmigoActivity"
+        <activity android:name=".activity.NovaReceitaFotoActivity"
             android:parentActivityName=".activity.MainActivity"></activity>
         <activity
+            android:name=".activity.ReceitasAmigoActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity
             android:name=".activity.ConfiguracoesActivity"
-            android:parentActivityName=".activity.MainActivity"></activity>
+            android:parentActivityName=".activity.MainActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.CadastroActivity" />
-        <activity android:name=".activity.NovaReceitaActivity" />
+        <activity android:name=".activity.NovaReceitaInfoActivity" />
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

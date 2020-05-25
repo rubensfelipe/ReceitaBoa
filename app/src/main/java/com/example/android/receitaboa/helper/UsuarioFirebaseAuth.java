@@ -88,9 +88,9 @@ public class UsuarioFirebaseAuth {
         chef.setNome(chefAuth.getDisplayName());
 
         if(chefAuth.getPhotoUrl() == null){
-            chef.setUrlFotoChef("");  //caso o chef não tenha selecionado uma foto de perfil, seta o caminho da foto como vazio
+            chef.setUrlFotoChefAuth("");  //caso o chef não tenha selecionado uma foto de perfil, seta o caminho da foto como vazio
         }else {
-            chef.setUrlFotoChef(chefAuth.getPhotoUrl().toString()); //recupera o caminho da foto do chef, foto de perfil, do FirebaseAuth e seta este caminho da foto na Classe Chef
+            chef.setUrlFotoChefAuth(chefAuth.getPhotoUrl().toString()); //recupera o caminho da foto do chef, foto de perfil, do FirebaseAuth e seta este caminho da foto na Classe Chef
         }
         return chef;
     }

@@ -11,10 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.example.android.receitaboa.R;
-import com.example.android.receitaboa.activity.NovaReceitaActivity;
+import com.example.android.receitaboa.activity.NovaReceitaInfoActivity;
 import com.example.android.receitaboa.adapter.MinhasReceitasAdapterGrid;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
@@ -80,7 +79,7 @@ public class MinhasReceitasFragment extends Fragment {
         fabMiniChef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent adicionarReceita = new Intent(getActivity(), NovaReceitaActivity.class);
+                Intent adicionarReceita = new Intent(getActivity(), NovaReceitaInfoActivity.class);
                 startActivity(adicionarReceita);
             }
         });
@@ -90,7 +89,7 @@ public class MinhasReceitasFragment extends Fragment {
 
 
     //Recupera as fotos das receitas
-    private void carregarMinhaListaReceitas(){
+    private void recuperarMinhasReceitasFirebaseDb(){
 
         valueEventListenerMinhasReceitas = receitasChefRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -107,7 +106,9 @@ public class MinhasReceitasFragment extends Fragment {
                 minhaListaReceitas.clear();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
+
                     minhaListaReceitas.add(ds.getValue(Receitas.class));
+
                 }
                 adapterMinhasReceitas.notifyDataSetChanged();
             }
@@ -122,7 +123,7 @@ public class MinhasReceitasFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        carregarMinhaListaReceitas();
+        recuperarMinhasReceitasFirebaseDb();
     }
 
     @Override

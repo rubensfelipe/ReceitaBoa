@@ -27,14 +27,14 @@ public class Chef {
         chef.setValue(this); //salva todos os dados da Classe Chef dentro do caminho do chef  (salvo FirebaseDatabase [nome chef, email])
     }
 
-    //Atualiza os dados alterados e reescreve os dados não alterados no FirebaseDatabase
-    public void atualizarFirebaseDatabase(){
+    //Adiciona novos dados e reescreve os dados antigos que não sofreram alteração no FirebaseDatabase
+    public void atualizarDadosFirebaseDb(){
 
         String identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
         DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase(); //instacia o FirebaseDatabase
 
         DatabaseReference chefsRef = database.child("chefs")
-                .child(identificadorChef); //os dados serão atualizados dentro do nó idChef
+                                     .child(identificadorChef); //os dados serão atualizados dentro do nó idChef
 
         Map<String,Object> dadosChef = converterParaMap(); //email,nome,urlFotoChef (necessário para utilizar o método upadateChildren) [Converte: Classe Usuario -> Classe Map]
 
@@ -57,7 +57,7 @@ public class Chef {
         return urlFotoChef;
     }
 
-    public void setUrlFotoChef(String urlFotoChef) {
+    public void setUrlFotoChefAuth(String urlFotoChef) {
         this.urlFotoChef = urlFotoChef;
     }
 

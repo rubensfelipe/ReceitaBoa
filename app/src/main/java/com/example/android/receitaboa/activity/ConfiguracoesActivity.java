@@ -133,7 +133,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                 if (retorno){
 
                     chefLogado.setNome(nome); //seta o nome que foi alterado pelo chef na Classe Chef
-                    chefLogado.atualizarFirebaseDatabase(); //recupera todos os dados já configurados (email, foto) e o nome que foi alterado e atualiza no FirebaseDatabase
+                    chefLogado.atualizarDadosFirebaseDb(); //recupera todos os dados já configurados (email, foto) e o nome que foi alterado e atualiza no FirebaseDatabase
 
                     Toast.makeText(ConfiguracoesActivity.this,"Nome alterado com sucesso!",Toast.LENGTH_SHORT).show();
 
@@ -221,15 +221,15 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     }
 
-    //atualiza o caminho da foto do usuario no FirebaseUser (Auth) ao ele trocar de foto
+    //adiciona o caminho da foto do usuario no FirebaseUser (Auth) e ao FirebaseDb ao ele trocar de foto ou adicionar uma foto
     public void atualizarFotoChefAuth(Uri urlFotoChefAuth){
 
         boolean retorno = UsuarioFirebaseAuth.atualizarFotoChefAuth(urlFotoChefAuth); //atualizando o caminho do foto no FirebaseAuth
         if (retorno){
-            chefLogado.setUrlFotoChef(urlFotoChefAuth.toString()); //recupera o caminho da foto do FirebaseAuth e seta-o na classe Chef
-            chefLogado.atualizarFirebaseDatabase(); //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
+            chefLogado.setUrlFotoChefAuth(urlFotoChefAuth.toString()); //recupera o caminho da foto do FirebaseAuth e seta-o na classe Chef
+            chefLogado.atualizarDadosFirebaseDb(); //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
 
-            Toast.makeText(ConfiguracoesActivity.this,"Sua foto foi alterada com sucesso!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ConfiguracoesActivity.this,"Sua foto foi atualizada com sucesso!",Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -2,7 +2,6 @@ package com.example.android.receitaboa.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import androidx.annotation.Nullable;
 import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.model.Receitas;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
@@ -64,7 +62,7 @@ public class MinhasReceitasAdapterGrid extends ArrayAdapter<Receitas> {
         //Recupera os dados das Minhas Receitas
         Receitas minhaListaReceitas = listaMinhasReceitas.get(position);
 
-        viewHolder.nomeReceita.setText(minhaListaReceitas.getNomeReceita());
+        viewHolder.nomeReceita.setText(minhaListaReceitas.getNome());
         viewHolder.qtdPessoasServidas.setText(minhaListaReceitas.getQtdPessoasServidas());
 
 
