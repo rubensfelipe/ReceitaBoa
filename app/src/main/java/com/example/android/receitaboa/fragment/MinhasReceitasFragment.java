@@ -5,16 +5,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.NovaReceitaInfoActivity;
-import com.example.android.receitaboa.adapter.MinhasReceitasAdapterGrid;
+import com.example.android.receitaboa.adapter.MinhasReceitasAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
@@ -31,16 +33,20 @@ import java.util.List;
  */
 public class MinhasReceitasFragment extends Fragment {
 
-    public GridView gridViewMinhasReceitas;
+    private RecyclerView recyclerMinhasReceitas;
+    private MinhasReceitasAdapter adapterMR;
+
+    //public GridView gridViewMinhasReceitas;
     private ImageView fabMiniChef;
 
     private String idChefLogado;
-    private MinhasReceitasAdapterGrid adapterMinhasReceitas;
     private View emptyFridgeView;
 
     private DatabaseReference firebaseDbRef;
     private DatabaseReference receitasRef;
     private DatabaseReference receitasChefRef;
+
+    private RecyclerView.LayoutManager layoutManager;
 
     private List<Receitas> minhaListaReceitas = new ArrayList<>();
 
@@ -63,17 +69,13 @@ public class MinhasReceitasFragment extends Fragment {
         receitasRef = firebaseDbRef.child("receitas");
 
         //Configurar referência receitas do chef (pelo nó sabemos de qual usuário é a lista de receitas que devemos mostrar na tela)
-        receitasChefRef = receitasRef.child(idChefLogado);
+        receitasChefRef = receitasRef
+                .child(idChefLogado);
 
         //Inicializar componentes
         emptyFridgeView = view.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
-        gridViewMinhasReceitas = view.findViewById(R.id.gridViewMinhasReceitas);
+        recyclerMinhasReceitas = view.findViewById(R.id.recyclerViewMinhasReceitas);
         fabMiniChef = view.findViewById(R.id.fab);
-
-        //Configurar adapterGrid
-        adapterMinhasReceitas = new MinhasReceitasAdapterGrid(getActivity(), R.layout.adapter_minha_receita, minhaListaReceitas);
-        gridViewMinhasReceitas.setAdapter(adapterMinhasReceitas);
-        gridViewMinhasReceitas.setEmptyView(emptyFridgeView); //a imagem da geladeira e os textos abaixo dela só aparecem quando a lista está vazia
 
         //Abre o editor de uma nova receita
         fabMiniChef.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +86,21 @@ public class MinhasReceitasFragment extends Fragment {
             }
         });
 
+        //Configura adapter
+        adapterMR = new MinhasReceitasAdapter(minhaListaReceitas, getActivity() );
+
+        //Configura recyclerview
+        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerMinhasReceitas.setLayoutManager(layoutManager);
+        recyclerMinhasReceitas.setHasFixedSize(true);
+        recyclerMinhasReceitas.setAdapter(adapterMR);
+        //recyclerMinhasReceitas.setEmptyView(emptyFridgeView); //a imagem da geladeira e os textos abaixo dela só aparecem quando a lista está vazia (PROCURAR UMA ALTERNATIVA)
+
+        //Configura evento de click a lista
+        //(A FAZER)
+
         return view;
     }
-
 
     //Recupera as fotos das receitas
     private void recuperarMinhasReceitasFirebaseDb(){
@@ -95,22 +109,14 @@ public class MinhasReceitasFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                //Configurar o tamanho do grid
-
-                int tamanhoGrid = getResources().getDisplayMetrics().widthPixels;
-                int tamanhoImagem = tamanhoGrid / 2; //dividi pelo numero de colunas
-                gridViewMinhasReceitas.setColumnWidth( tamanhoImagem );
-
-
                 //limpa a lista de receitas para evitar que haja repetição ao mudar de tela
                 minhaListaReceitas.clear();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
-
-                    minhaListaReceitas.add(ds.getValue(Receitas.class));
-
+                    Receitas minhasReceitas = ds.getValue(Receitas.class);
+                    minhaListaReceitas.add(minhasReceitas);
                 }
-                adapterMinhasReceitas.notifyDataSetChanged();
+                adapterMR.notifyDataSetChanged();
             }
 
             @Override
@@ -122,8 +128,8 @@ public class MinhasReceitasFragment extends Fragment {
 
     @Override
     public void onStart() {
-        super.onStart();
         recuperarMinhasReceitasFirebaseDb();
+        super.onStart();
     }
 
     @Override

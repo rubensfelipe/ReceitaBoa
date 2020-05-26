@@ -12,7 +12,7 @@ public class Receitas {
 
     private String idChef;
     private String idReceita;
-    private String nomeReceita;
+    private String nome;
     private String ingredientes;
     private String modoPreparo;
     private String qtdPessoasServidas;
@@ -41,12 +41,12 @@ public class Receitas {
 
         //Objeto dados Receita
         HashMap<String, Object> dadosReceita = new HashMap<>();
-        dadosReceita.put("Nome", getNome());
-        dadosReceita.put("Ingredientes",getIngredientes());
-        dadosReceita.put("Modo de Prepraro",getModoPreparo());
-        dadosReceita.put("Pessoas Servidas",getQtdPessoasServidas());
+        dadosReceita.put("nome", getNome());
+        dadosReceita.put("ingredientes",getIngredientes());
+        dadosReceita.put("modoPreparo",getModoPreparo());
+        dadosReceita.put("qtdPessoasServidas",getQtdPessoasServidas());
         dadosReceita.put("idReceita",getIdReceita());
-        dadosReceita.put("idChefao",identificadorChef);
+        dadosReceita.put("idChef",identificadorChef);
 
         DatabaseReference firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference chefRef = firebaseDbRef.child("receitas").child(identificadorChef);
@@ -76,7 +76,7 @@ public class Receitas {
     @Exclude //não será executado dentro do app
     public Map<String,Object> converterParaMap(){ //converte a classe Receitas para Map (Faz a mesma função da classe Receitas) ingredientes = getIngredientes, ....
         HashMap<String,Object> usuarioMap = new HashMap<>();
-        usuarioMap.put("Url", getUrlFotoReceita());
+        usuarioMap.put("urlFotoReceita", getUrlFotoReceita());
 
         return  usuarioMap;
     }
@@ -106,11 +106,11 @@ public class Receitas {
     }
 
     public String getNome() {
-        return nomeReceita;
+        return nome;
     }
 
-    public void setNomeReceita(String nomeReceita) {
-        this.nomeReceita = nomeReceita;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getIngredientes() {

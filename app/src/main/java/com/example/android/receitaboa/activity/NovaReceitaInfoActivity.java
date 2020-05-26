@@ -17,33 +17,20 @@ package com.example.android.receitaboa.activity;
 
 import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
-import com.example.android.receitaboa.model.Chef;
 import com.example.android.receitaboa.model.Receitas;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.io.ByteArrayOutputStream;
 
 /**
  * Allows user to create a new recipe or edit an existing one.
@@ -94,7 +81,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        finish();
     }
 
     public void cadastrarMinhaReceita(final Receitas minhasReceitas){
@@ -103,12 +89,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
         //salvar os dados da Receita no FirebaseDatabase
         minhasReceitas.salvarMinhaReceitaFirebaseDb();
-
-        /*
-        Toast.makeText(NovaReceitaInfoActivity.this,
-                "Sua Receita Boa foi salva com sucesso!",
-                Toast.LENGTH_SHORT).show();
-         */
 
         Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
         startActivity(i);
@@ -129,7 +109,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                 if(!campoModoPreparo.isEmpty()){
 
                     Receitas minhasReceitas = new Receitas();
-                    minhasReceitas.setNomeReceita(campoNomeReceita);
+                    minhasReceitas.setNome(campoNomeReceita);
                     minhasReceitas.setIngredientes(campoIngredientes);
                     minhasReceitas.setModoPreparo(campoModoPreparo);
                     minhasReceitas.setQtdPessoasServidas(campoQtdPessoasServidas);

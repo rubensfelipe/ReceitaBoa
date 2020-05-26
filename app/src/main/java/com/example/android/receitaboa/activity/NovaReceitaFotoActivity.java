@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
+import com.example.android.receitaboa.fragment.MinhasReceitasFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
@@ -214,6 +215,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     minhaReceita.atualizarDadosFirebaseDb(idReceitaRecuperada);
 
                     Toast.makeText(NovaReceitaFotoActivity.this,"Sua foto foi adicionada com sucesso!",Toast.LENGTH_SHORT).show();
+
+                    //Retorna para a main activity após o usuário selecionar uma foto
+                    Intent i = new Intent(NovaReceitaFotoActivity.this, MinhasReceitasFragment.class);
+                    startActivity(i);
                 }
             }
 
