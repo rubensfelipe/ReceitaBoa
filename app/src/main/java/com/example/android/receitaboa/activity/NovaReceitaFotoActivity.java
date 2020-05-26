@@ -266,7 +266,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     minhaReceita.atualizarDadosFirebaseDb(idReceitaRecuperada);
 
                     //Retorna para a main activity após o usuário selecionar uma foto
-                    Intent i = new Intent(NovaReceitaFotoActivity.this, MinhasReceitasFragment.class);
+                    Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
                     startActivity(i);
 
                     Toast.makeText(NovaReceitaFotoActivity.this,"Sua foto foi adicionada com sucesso!",Toast.LENGTH_SHORT).show();
