@@ -114,8 +114,16 @@ public class MinhasReceitasFragment extends Fragment {
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Receitas minhasReceitas = ds.getValue(Receitas.class);
+
+                    //se o usuário já tiver adicionado ao menos uma receita na sua lista, o homem da geladeira desaparece
+                    if(minhasReceitas != null){
+                        emptyFridgeView.setVisibility(View.GONE);
+                    }
+
                     minhaListaReceitas.add(minhasReceitas);
+
                 }
+
                 adapterMR.notifyDataSetChanged();
             }
 

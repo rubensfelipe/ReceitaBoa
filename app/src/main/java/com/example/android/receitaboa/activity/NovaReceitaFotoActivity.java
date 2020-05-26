@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
@@ -42,6 +43,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     private ImageView displayFotoReceita;
     private ImageView cameraMinhaReceita;
     private ImageView galeriaMinhaReceita;
+    private ProgressBar progressBarFotoReceita;
 
     private String[] permissoesNecessarias = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -66,6 +68,8 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         displayFotoReceita = findViewById(R.id.displayFotoReceita);
         cameraMinhaReceita = findViewById(R.id.cameraMinhaReceita);
         galeriaMinhaReceita = findViewById(R.id.galeriaMinhaReceita);
+        progressBarFotoReceita = findViewById(R.id.progressBarNR);
+        progressBarFotoReceita.setVisibility(View.GONE);
 
         //Configurações iniciais
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
@@ -103,6 +107,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    public void carregarProgressBar(){
+        progressBarFotoReceita.setVisibility(View.VISIBLE);
     }
 
     public void abrirDialog(){
@@ -170,6 +178,9 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                 //Se a foto foi selecionada ou da camera ou da galeria, temos uma imagem
                 if (fotoReceita != null){
 
+                    //A progressBar fica visível após o usuário ter selecionado uma foto
+                    carregarProgressBar();
+
                     //Seta a imagem na tela
                     displayFotoReceita.setImageBitmap(fotoReceita);
 
@@ -188,6 +199,8 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                             .child(minhaReceita.getIdReceita() + ".jpg");
 
                     UploadTask uploadTask = fotoReceitaRef.putBytes(dadosImagemReceita);
+
+
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {

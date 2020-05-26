@@ -24,6 +24,14 @@ public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAd
     private MyViewHolder holder;
     private int position;
 
+
+    private RecyclerView.AdapterDataObserver observer = new RecyclerView.AdapterDataObserver() {
+        @Override
+        public void onChanged() {
+
+        }
+    };
+
     public MinhasReceitasAdapter(List<Receitas> list, Context c) {
         this.listaMinhasReceitas = list;
         this.context = c;
