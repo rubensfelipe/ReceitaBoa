@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
@@ -61,6 +62,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nova_receita_foto);
 
         //Inicializar componentes
+        abrirDialog(); //inicializa ao o usuário chegar a essa tela
         displayFotoReceita = findViewById(R.id.displayFotoReceita);
         cameraMinhaReceita = findViewById(R.id.cameraMinhaReceita);
         galeriaMinhaReceita = findViewById(R.id.galeriaMinhaReceita);
@@ -95,6 +97,52 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    public void abrirDialog(){
+
+        //Instancia AlertDialog
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        //Configura titulo e mensagem
+        dialog.setTitle("Foto da Receita");
+        dialog.setMessage("Quer adicionar a foto da sua Receita agora?\n\n Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.");
+
+        //Configura cancelamento
+        dialog.setCancelable(false); //false: se clicar fora do alerta do dialog, o alerta não é fechado e o usuário precisa clicar em sim ou não
+
+        //Configura icone
+        //dialog.setIcon(android.R.drawable.btn_star);
+
+        //Configura ações para o sim e o não
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //VAZIO (Fecha a dialog e volta para a tela de foto)
+            }
+        });
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //Retorna para a main activity se o usuário decidir adicionar uma foto da receita no futuro
+                Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
+                startActivity(i);
+
+                Toast.makeText(getApplicationContext(), "Sua Receita Boa foi adicionada com sucesso!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Criar e exibir AlertDialog
+        dialog.create();
+        dialog.show();
 
     }
 
@@ -157,6 +205,9 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                                     Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
 
                                     result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                                        ///////////////////////////////
+
                                         @Override
                                         public void onSuccess(Uri uri) {
 
@@ -214,11 +265,11 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
                     minhaReceita.atualizarDadosFirebaseDb(idReceitaRecuperada);
 
-                    Toast.makeText(NovaReceitaFotoActivity.this,"Sua foto foi adicionada com sucesso!",Toast.LENGTH_SHORT).show();
-
                     //Retorna para a main activity após o usuário selecionar uma foto
                     Intent i = new Intent(NovaReceitaFotoActivity.this, MinhasReceitasFragment.class);
                     startActivity(i);
+
+                    Toast.makeText(NovaReceitaFotoActivity.this,"Sua foto foi adicionada com sucesso!",Toast.LENGTH_SHORT).show();
                 }
             }
 
