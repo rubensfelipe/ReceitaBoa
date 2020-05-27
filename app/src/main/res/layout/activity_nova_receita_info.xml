@@ -106,11 +106,11 @@
                 android:id="@+id/editReceitaIngredientes"
                 style="@style/EditorFieldStyle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
                 android:hint="Adicione aqui os ingredietes!"
+                android:padding="5dp"
                 android:textColor="#484E6E"
                 android:textColorHint="@color/colorHintGraySoft"
                 tools:text="@string/Ingredientes_Pudim" />
@@ -131,11 +131,11 @@
             <EditText
                 android:id="@+id/editModoPreparo"
                 style="@style/EditorFieldStyle"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
-                android:paddingLeft="10dp"
                 android:hint="Adicione aqui o modo de preparo!"
+                android:padding="10dp"
                 android:textColor="#484E6E"
                 android:textColorHint="@color/colorHintGraySoft"
                 tools:text="@string/Preparo_Pudim" />

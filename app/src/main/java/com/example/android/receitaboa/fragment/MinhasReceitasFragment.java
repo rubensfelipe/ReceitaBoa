@@ -5,19 +5,21 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.NovaReceitaInfoActivity;
+import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.example.android.receitaboa.adapter.MinhasReceitasAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +35,7 @@ import java.util.List;
  */
 public class MinhasReceitasFragment extends Fragment {
 
-    private RecyclerView recyclerMinhasReceitas;
+    private RecyclerView recyclerViewMinhasReceitas;
     private MinhasReceitasAdapter adapterMR;
 
     //public GridView gridViewMinhasReceitas;
@@ -74,7 +76,7 @@ public class MinhasReceitasFragment extends Fragment {
 
         //Inicializar componentes
         emptyFridgeView = view.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
-        recyclerMinhasReceitas = view.findViewById(R.id.recyclerViewMinhasReceitas);
+        recyclerViewMinhasReceitas = view.findViewById(R.id.recyclerViewMinhasReceitas);
         fabMiniChef = view.findViewById(R.id.fab);
 
         //Abre o editor de uma nova receita
@@ -91,13 +93,36 @@ public class MinhasReceitasFragment extends Fragment {
 
         //Configura recyclerview
         layoutManager = new LinearLayoutManager(getActivity());
-        recyclerMinhasReceitas.setLayoutManager(layoutManager);
-        recyclerMinhasReceitas.setHasFixedSize(true);
-        recyclerMinhasReceitas.setAdapter(adapterMR);
-        //recyclerMinhasReceitas.setEmptyView(emptyFridgeView); //a imagem da geladeira e os textos abaixo dela só aparecem quando a lista está vazia (PROCURAR UMA ALTERNATIVA)
+        recyclerViewMinhasReceitas.setLayoutManager(layoutManager);
+        recyclerViewMinhasReceitas.setHasFixedSize(true);
+        recyclerViewMinhasReceitas.setAdapter(adapterMR);
 
         //Configura evento de click a lista
-        //(A FAZER)
+        recyclerViewMinhasReceitas.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getActivity(),
+                        recyclerViewMinhasReceitas,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Receitas receitaSelecionada = minhaListaReceitas.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+                                Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
+                                i.putExtra("dadosReceitaClicada", receitaSelecionada);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {
+
+                            }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            }
+                        }
+                )
+        );
 
         return view;
     }
