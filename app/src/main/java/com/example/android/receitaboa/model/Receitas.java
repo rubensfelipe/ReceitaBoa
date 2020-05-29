@@ -58,8 +58,8 @@ public class Receitas implements Serializable {
 
     }
 
-    //Adiciona novos dados a um nó (nó idReceita) já foi criado anteriormente no FirebaseDatabase
-    public void atualizarDadosFirebaseDb(String idRecipe){
+    //Adiciona novos dados (url) a um nó (nó idReceita) já criado anteriormente no FirebaseDatabase
+    public void adicionarUrlFotoFirebaseDb(String idRecipe){
 
         DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase(); //instacia o FirebaseDatabase
 
@@ -67,20 +67,48 @@ public class Receitas implements Serializable {
                                                     .child(identificadorChef)
                                                          .child(idRecipe); //os dados serão atualizados dentro do nó idChef
 
-        Map<String,Object> urlFotoAdicionado = converterParaMap(); //email,nome,urlFotoChef (necessário para utilizar o método upadateChildren) [Converte: Classe Usuario -> Classe Map]
+        Map<String,Object> urlFotoAdicionada = converterParaMap(); //email,nome,urlFotoChef (necessário para utilizar o método upadateChildren) [Converte: Classe Usuario -> Classe Map]
 
         //atualiza esses dados no FirebaseDatabase
-        receitaRef.updateChildren(urlFotoAdicionado); //updateChildren: necessario utilizar como input um Map
+        receitaRef.updateChildren(urlFotoAdicionada); //updateChildren: necessario utilizar como input um Map
 
     }
 
     @Exclude //não será executado dentro do app
     public Map<String,Object> converterParaMap(){ //converte a classe Receitas para Map (Faz a mesma função da classe Receitas) ingredientes = getIngredientes, ....
-        HashMap<String,Object> usuarioMap = new HashMap<>();
-        usuarioMap.put("urlFotoReceita", getUrlFotoReceita());
+        HashMap<String,Object> novaReceitaMap = new HashMap<>();
+        novaReceitaMap.put("urlFotoReceita", getUrlFotoReceita());
 
-        return  usuarioMap;
+        return  novaReceitaMap;
     }
+
+    public void atualizarReceitaFirebaseDb(String idReceituario){
+
+        DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase(); //instacia o FirebaseDatabase
+
+        DatabaseReference receitaRef = database.child("receitas")
+                .child(identificadorChef)
+                .child(idReceituario); //os dados serão atualizados dentro do nó idChef
+
+        Map<String,Object> receitaAtualizada = converterParaMap2();
+
+        //atualiza esses dados no FirebaseDatabase
+        receitaRef.updateChildren(receitaAtualizada);
+
+    }
+
+    @Exclude //não será executado dentro do app
+    public Map<String,Object> converterParaMap2(){ //converte a classe Receitas para Map (Faz a mesma função da classe Receitas) ingredientes = getIngredientes, ....
+        HashMap<String,Object> receitaAtualMap = new HashMap<>();
+        receitaAtualMap.put("nome", getNome());
+        receitaAtualMap.put("ingredientes", getIngredientes());
+        receitaAtualMap.put("modoPreparo", getModoPreparo());
+        receitaAtualMap.put("qtdPessoasServidas", getQtdPessoasServidas());
+        receitaAtualMap.put("urlFotoReceita", getUrlFotoReceita());
+
+        return  receitaAtualMap;
+    }
+
 
     public String getUrlFotoReceita() {
         return urlFotoReceita;

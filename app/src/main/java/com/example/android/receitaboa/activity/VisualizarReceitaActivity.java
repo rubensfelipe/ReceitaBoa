@@ -140,6 +140,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         i.putExtra("modoPreparo", modoPreparoReceitaClicada);
         i.putExtra("qtdPessoasServidas", qtdPessoasServidasReceitaClicada);
         i.putExtra("urlFoto",receitaFoto);
+        i.putExtra("idR",idReceitaClicada);
         startActivity(i);
 
     }

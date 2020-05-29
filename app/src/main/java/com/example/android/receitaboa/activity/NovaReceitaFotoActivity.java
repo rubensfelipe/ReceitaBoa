@@ -19,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
-import com.example.android.receitaboa.fragment.MinhasReceitasFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
@@ -91,7 +90,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
         galeriaMinhaReceita.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { //+
+            public void onClick(View v) {
 
                 Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI); //escolher a foto da galeria no local onde se encontra a galeria de um celular
 
@@ -234,24 +233,15 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                                     });
                                 }
                             }
-
                         }
 
 
                     });
-
                 }
-
-
-
             }catch (Exception e){
                 e.printStackTrace();
             }
-
-
         }
-
-
     }
 
    //atualiza o dado Url ao nó de receitas do usuário
@@ -276,7 +266,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                     //SALVAR URL NO FIREBASEDB
                     //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
-                    minhaReceita.atualizarDadosFirebaseDb(idReceitaRecuperada);
+                    minhaReceita.adicionarUrlFotoFirebaseDb(idReceitaRecuperada);
 
                     //Retorna para a main activity após o usuário selecionar uma foto
                     Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
@@ -290,6 +280,5 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         };
         receitaIdRef.addListenerForSingleValueEvent(valueEventListener);
-
     }
 }
