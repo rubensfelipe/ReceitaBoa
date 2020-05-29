@@ -26,13 +26,16 @@ public class EditarReceitaActivity extends AppCompatActivity {
     private EditText atualizarNome;
     private EditText atualizarIngredientes;
     private EditText atualizarModoPreparo;
+    private EditText atualizarQtdPessoasServidas;
     private ImageView atualizarCamera;
     private ImageView atualizarGaleria;
     private ImageView atualizarDisplayFotoReceita;
 
-    private Receitas receitaNome;
-    private Receitas receitaIngredientes;
-    private Receitas receitaModoPreparo;
+    private String receitaNome;
+    private String receitaIngredientes;
+    private String receitaModoPreparo;
+    private String receitaQtdPessoasServidas;
+    private String receitaFoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,45 +47,43 @@ public class EditarReceitaActivity extends AppCompatActivity {
         //Validar permissões de Câmera e Galeria de Imagens
         Permissao.validarPermissoes(permissoesNecessarias, this, 1);
 
-        //Recupera os dados da Receita selecionada
-        /*
+        //Recupera os dados da Receita visualizada
+
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
 
-            receitaNome = (Receitas) bundle.getSerializable("nome");
-            atualizarNome.setText(receitaNome.getNome());
+            receitaNome = (String) bundle.getSerializable("nome");
+            atualizarNome.setText(receitaNome);
 
-            /*
+            receitaIngredientes = (String) bundle.getSerializable("ingredientes");
+            atualizarIngredientes.setText(receitaIngredientes);
 
-            receitaIngredientes = (Receitas) bundle.getSerializable("ingredientes");
-            atualizarNome.setText(receitaIngredientes.getIngredientes());
+            receitaModoPreparo = (String) bundle.getSerializable("modoPreparo");
+            atualizarModoPreparo.setText(receitaModoPreparo);
 
-            receitaModoPreparo = (Receitas) bundle.getSerializable("modoPreparo");
-            atualizarNome.setText(receitaModoPreparo.getModoPreparo());
-             */
+            receitaQtdPessoasServidas = (String) bundle.getSerializable("qtdPessoasServidas");
+            atualizarQtdPessoasServidas.setText(receitaQtdPessoasServidas);
 
-            /*
-                        String fotoReceita = receitaClicada.getUrlFotoReceita();
-            if (fotoReceita != null){
-                Uri url = Uri.parse(fotoReceita);
+            receitaFoto = (String) bundle.getSerializable("urlFoto");
+
+            if (receitaFoto != null){
+                Uri url = Uri.parse(receitaFoto);
                 Glide.with(EditarReceitaActivity.this)
                         .load(url)
                         .into(atualizarDisplayFotoReceita);
             }else{
                 atualizarDisplayFotoReceita.setImageResource(R.drawable.cloche_tableware);
             }
-             */
 
+        }
     }
-
-
-
 
 
     private void inicializarComponentes() {
         atualizarNome = findViewById(R.id.atualizarNomeReceita);
         atualizarIngredientes = findViewById(R.id.atualizarIngredientes);
         atualizarModoPreparo = findViewById(R.id.atualizarModoPreparo);
+        atualizarQtdPessoasServidas = findViewById(R.id.atualizarQtdPessoasServidas);
         atualizarCamera = findViewById(R.id.cameraAtualizarReceita);
         atualizarGaleria = findViewById(R.id.galeriaAtualizarReceita);
         atualizarDisplayFotoReceita = findViewById(R.id.displayAtualizarFoto);

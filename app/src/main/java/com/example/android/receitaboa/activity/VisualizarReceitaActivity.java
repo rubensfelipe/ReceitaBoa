@@ -27,11 +27,11 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private TextView textNomeReceita, textIngredientes, textModoPreparo;
     private ImageView displayImageReceitaFinal;
 
-    private String campoNomeReceita;
-    private String campoIngredientes;
-    private String campoModoPreparo;
-
     private String nomeReceitaClicada;
+    private String ingredientesReceitaClicada;
+    private String modoPreparoReceitaClicada;
+    private String qtdPessoasServidasReceitaClicada;
+    private String receitaFoto;
 
     private String idChefLogado;
     private String idReceitaClicada;
@@ -46,9 +46,6 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizar_receita);
-
-        //Copiando os dados da receita para no futuro serem setadas na tela de edição
-        //recuperarDadosReceita();
 
         //Inicializar componentes;
         inicializarComponentes();
@@ -79,17 +76,22 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
             receitaClicada = (Receitas) bundle.getSerializable("dadosReceitaClicada");
 
             nomeReceitaClicada = receitaClicada.getNome();
-
             textNomeReceita.setText(nomeReceitaClicada);
-            textIngredientes.setText(receitaClicada.getIngredientes());
-            textModoPreparo.setText(receitaClicada.getModoPreparo());
+
+            ingredientesReceitaClicada = receitaClicada.getIngredientes();
+            textIngredientes.setText(ingredientesReceitaClicada);
+
+            modoPreparoReceitaClicada = receitaClicada.getModoPreparo();
+            textModoPreparo.setText(modoPreparoReceitaClicada);
+
+            qtdPessoasServidasReceitaClicada = receitaClicada.getQtdPessoasServidas();
 
             //recupera a idReceita que foi selecionada na lista
             idReceitaClicada = receitaClicada.getIdReceita();
 
-            String fotoReceita = receitaClicada.getUrlFotoReceita();
-            if (fotoReceita != null){
-                Uri url = Uri.parse(fotoReceita);
+            receitaFoto = receitaClicada.getUrlFotoReceita();
+            if (receitaFoto != null){
+                Uri url = Uri.parse(receitaFoto);
                 Glide.with(VisualizarReceitaActivity.this)
                         .load(url)
                         .into(displayImageReceitaFinal);
@@ -124,19 +126,6 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void recuperarDadosReceita() {
-
-        //Recuperar textos dos campos digitados
-        //campoNomeReceita = textNomeReceita.getText().toString();
-        //campoIngredientes = textIngredientes.getText().toString();
-        //campoModoPreparo = textModoPreparo.getText().toString();
-
-        //displayImageReceitaFinal.buildDrawingCache();
-        //Bitmap img = displayImageReceitaFinal.getDrawable();
-
-        //String campoQtdPessoasServidas = textqtdPessoasServidas.getText().toString();
-    }
-
     private void excluirReceita() {
         receitasChefRef.child(idReceitaClicada).removeValue();
         Toast.makeText(VisualizarReceitaActivity.this,"A receita " + nomeReceitaClicada + " foi excluída com sucesso", Toast.LENGTH_SHORT).show();
@@ -144,9 +133,15 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     }
 
     private void abrirEditor() {
+
         Intent i = new Intent(VisualizarReceitaActivity.this, EditarReceitaActivity.class);
-        //i.putExtra("nome", campoNomeReceita);
+        i.putExtra("nome", nomeReceitaClicada);
+        i.putExtra("ingredientes", ingredientesReceitaClicada);
+        i.putExtra("modoPreparo", modoPreparoReceitaClicada);
+        i.putExtra("qtdPessoasServidas", qtdPessoasServidasReceitaClicada);
+        i.putExtra("urlFoto",receitaFoto);
         startActivity(i);
+
     }
 
     private void inicializarComponentes() {
