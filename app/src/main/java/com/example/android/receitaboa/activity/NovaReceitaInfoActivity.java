@@ -37,18 +37,6 @@ import com.google.firebase.storage.StorageReference;
  */
 public class NovaReceitaInfoActivity extends AppCompatActivity {
 
-    private String[] permissoesNecessarias = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-    };
-
-    private static final int SELECAO_CAMERA = 100;
-    private static final int SELECAO_GALERIA = 200;
-
-    private ImageView displayFotoReceita;
-    private ImageView cameraMinhaReceita;
-    private ImageView galeriaMinhaReceita;
-
     private EditText editNomeReceita;
     private EditText editIngredientesReceita;
     private EditText editModoPreparo;
@@ -62,9 +50,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nova_receita_info);
-
-        //Validar permissões
-        Permissao.validarPermissoes(permissoesNecessarias,this,1);
 
         //Configurações iniciais
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();

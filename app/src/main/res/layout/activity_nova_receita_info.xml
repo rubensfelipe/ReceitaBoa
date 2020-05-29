@@ -33,7 +33,7 @@
                     android:layout_height="30dp"
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
-                    android:hint="Nome da receita"
+                    android:hint="Nome receita"
                     android:inputType="textCapWords"
                     android:paddingLeft="10dp"
                     android:textColor="#484E6E"

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -131,7 +132,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //VAZIO (Fecha a dialog e volta para a tela de foto)
+
+                //Validar permissões (para acesso da camera e da galeria de fotos do usuário)
+                Permissao.validarPermissoes(permissoesNecessarias,NovaReceitaFotoActivity.this,1);
+
             }
         });
 
