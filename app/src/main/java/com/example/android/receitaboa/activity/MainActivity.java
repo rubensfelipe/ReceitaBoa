@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
@@ -72,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menuSair:
+            case R.id.menuApagar:
                 deslogarChef();
                 finish();
                 break;
-            case R.id.menuConfiguracoes:
+            case R.id.menuEdicao:
                 abrirConfiguracoes();
         }
 

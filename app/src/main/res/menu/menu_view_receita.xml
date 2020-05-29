@@ -2,19 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menuPesquisa"
-        android:title="Pesquisar"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_pesquisa_branco_24dp"
-        />
-
     <item android:id="@+id/menuEdicao"
-        android:title="Configurações"
+        android:title="Editar"
         app:showAsAction="never"
         />
 
     <item android:id="@+id/menuApagar"
-        android:title="Sair"
+        android:title="Deletar"
         app:showAsAction="never"
         />
 

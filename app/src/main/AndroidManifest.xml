@@ -17,7 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.VisualizarReceitaActivity"></activity>
+        <activity android:name=".activity.EditarReceitaActivity"></activity>
+        <activity android:name=".activity.VisualizarReceitaActivity"
+            android:parentActivityName=".activity.MainActivity"/>
         <activity
             android:name=".activity.NovaReceitaFotoActivity"
             android:parentActivityName=".activity.MainActivity" />
