@@ -31,6 +31,8 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private String campoIngredientes;
     private String campoModoPreparo;
 
+    private String nomeReceitaClicada;
+
     private String idChefLogado;
     private String idReceitaClicada;
     private DatabaseReference firebaseDbRef;
@@ -75,7 +77,10 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         if (bundle != null){
 
             receitaClicada = (Receitas) bundle.getSerializable("dadosReceitaClicada");
-            textNomeReceita.setText(receitaClicada.getNome());
+
+            nomeReceitaClicada = receitaClicada.getNome();
+
+            textNomeReceita.setText(nomeReceitaClicada);
             textIngredientes.setText(receitaClicada.getIngredientes());
             textModoPreparo.setText(receitaClicada.getModoPreparo());
 
@@ -134,7 +139,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private void excluirReceita() {
         receitasChefRef.child(idReceitaClicada).removeValue();
-        Toast.makeText(VisualizarReceitaActivity.this,"Sua receita foi excluída com sucesso", Toast.LENGTH_SHORT).show();
+        Toast.makeText(VisualizarReceitaActivity.this,"A receita " + nomeReceitaClicada + " foi excluída com sucesso", Toast.LENGTH_SHORT).show();
         finish();
     }
 
