@@ -30,13 +30,14 @@
                 <EditText
                     android:id="@+id/atualizarNomeReceita"
                     style="@style/EditorFieldStyle"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:hint="Nome da receita"
                     android:inputType="textCapWords"
                     android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:textColor="#484E6E"
                     android:textColorHint="@color/colorHintGraySoft"
                     android:textColorLink="@color/colorBlueDark"
@@ -63,14 +64,13 @@
 
                 <EditText
                     android:id="@+id/atualizarQtdPessoasServidas"
-                    android:layout_width="35dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_toRightOf="@+id/textView6"
                     android:background="@drawable/background_botao"
                     android:gravity="center"
-                    android:hint="2"
                     android:paddingLeft="10dp"
-                    android:paddingRight="16dp"
+                    android:paddingRight="10dp"
                     android:spinnerMode="dropdown"
                     android:textColor="#484E6E"
                     android:textColorHint="@color/colorHintGraySoft" />

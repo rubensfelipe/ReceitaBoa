@@ -24,11 +24,11 @@
         android:id="@+id/fab"
         android:layout_width="110dp"
         android:layout_height="110dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:baselineAlignBottom="false"
-        android:src="@drawable/black_hat_chef_icon_adicionar_transparent"
+        android:src="@drawable/black_hat_chef_icon_transparent_adicionar_botao"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

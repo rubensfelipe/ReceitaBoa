@@ -131,6 +131,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
             atualizarQtdPessoasServidas.setText(receitaQtdPessoasServidas);
 
             receitaFoto = (String) bundle.getSerializable("urlFoto");
+            receitaAtual.setUrlFotoReceita(receitaFoto);
 
             if (receitaFoto != null){
                 Uri url = Uri.parse(receitaFoto);
@@ -160,6 +161,10 @@ public class EditarReceitaActivity extends AppCompatActivity {
                 receitaAtual.atualizarReceitaFirebaseDb(receitaId);
 
                 Toast.makeText(EditarReceitaActivity.this,"Receita " + nome + " atualizada!",Toast.LENGTH_SHORT).show();
+
+                Intent i = new Intent(EditarReceitaActivity.this, MainActivity.class);
+                startActivity(i);
+
                 finish();
 
             }
@@ -191,9 +196,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
                 //Se a foto foi selecionada ou da camera ou da galeria, temos uma imagem
                 if (fotoReceita != null){
-
-                    //A progressBar fica visível após o usuário ter selecionado uma foto
-                    //carregarProgressBar();
 
                     //Seta a imagem na tela
                     displayAtualizarFotoReceita.setImageBitmap(fotoReceita);
@@ -239,7 +241,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
                                             Uri urlReceitaAtualizada = uri;
 
                                             receitaAtual.setUrlFotoReceita(urlReceitaAtualizada.toString());
-                                            //adicionarFotoReceitaFirebaseDb(urlReceitaAtualizada);
 
                                         }
                                     });
@@ -267,40 +268,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
         dialog.show();
 
     }
-
-    /*
-    //atualiza o dado Url ao nó de receitas do usuário
-    public void adicionarFotoReceitaFirebaseDb(final Uri url){
-
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                    Receitas receitaAtual = new Receitas();
-
-                    //recupera o caminho da foto do FirebaseStorage e seta-o na classe Receitas
-                    receitaAtual.setUrlFotoReceita(url.toString());
-
-                    //SALVAR URL NO FIREBASEDB
-                    //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
-                    receitaAtual.adicionarUrlFotoFirebaseDb(receitaId);
-
-                    Toast.makeText(EditarReceitaActivity.this,"Sua foto foi atualizada!",Toast.LENGTH_SHORT).show();
-
-                    //Retorna para a main activity após o usuário selecionar uma foto
-                    Intent i = new Intent(EditarReceitaActivity.this, MainActivity.class);
-                    startActivity(i);
-
-                    //finish();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        };
-    }
-     */
-
 
     private void inicializarComponentes() {
         botaoAtualizarReceita = findViewById(R.id.botaoAtualizarReceita);
