@@ -170,8 +170,12 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                 switch (requestCode){
                     case SELECAO_GALERIA:
                         Uri localImagemSelecionada = data.getData();
-                        ImageDecoder.Source imgSource = ImageDecoder.createSource(getContentResolver(), localImagemSelecionada); //Primeiro cria a source
-                        fotoReceita = ImageDecoder.decodeBitmap(imgSource); //SEGUNDO: converte ImageDecoder.Source -> Bitmap
+
+                        fotoReceita = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada); //DEPRECIADO no API 29 MAS FUNCIONA A PARTIR DO API 28
+
+                        //ImageDecoder.Source imgSource = ImageDecoder.createSource(getContentResolver(), localImagemSelecionada); //Primeiro cria a source
+                        //fotoReceita = ImageDecoder.decodeBitmap(imgSource); //SEGUNDO: converte ImageDecoder.Source -> Bitmap //PARA O API 29 (PROBLEMA: SÓ FUNCIONA EM APARELHOS COM API MIN 28 - PIE - ANDROID 9)
+
                         break;
                     case SELECAO_CAMERA:
                         fotoReceita = (Bitmap) data.getExtras().get("data"); //dados internos da imagem, 0010011001
