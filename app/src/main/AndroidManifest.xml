@@ -17,22 +17,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.EditarReceitaActivity"></activity>
+        <!-- Configurar como vertical a cada nova atividade criada -->
+        <activity android:name=".activity.EditarReceitaActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".activity.VisualizarReceitaActivity"
-            android:parentActivityName=".activity.MainActivity"/>
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.NovaReceitaFotoActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ReceitasAmigoActivity"
-            android:parentActivityName=".activity.MainActivity" />
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ConfiguracoesActivity"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.CadastroActivity" />
-        <activity android:name=".activity.NovaReceitaInfoActivity" />
-        <activity android:name=".activity.LoginActivity">
+            android:parentActivityName=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.CadastroActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.NovaReceitaInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
