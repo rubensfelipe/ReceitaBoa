@@ -13,6 +13,7 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -207,7 +208,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                     UploadTask uploadTask = fotoReceitaRef.putBytes(dadosImagemReceita);
 
-
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
@@ -280,7 +280,9 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
                     startActivity(i);
 
-                    Toast.makeText(NovaReceitaFotoActivity.this,"Sua foto foi adicionada com sucesso!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NovaReceitaFotoActivity.this,
+                            "Sua foto foi adicionada com sucesso!",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
 

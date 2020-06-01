@@ -25,6 +25,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 public class MainActivity extends AppCompatActivity {
 
+    //FIZ UMA ALTERAÇÃO AQUI
     private FirebaseAuth autenticacao;
 
     @Override
