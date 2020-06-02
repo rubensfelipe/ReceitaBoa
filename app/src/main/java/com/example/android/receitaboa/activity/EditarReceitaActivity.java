@@ -8,12 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -171,7 +168,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
     }
 
-    //@RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -186,10 +182,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
                     case SELECAO_GALERIA:
                         Uri localImagemSelecionada = data.getData();
 
-                        fotoReceita = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada); //(depreciado API 29) MAS FUNCIONA A PARTIR DO API 16 EM DIANTE E FUNCIONA NOS APARELHOS API 29 em diante
-
-                        //ImageDecoder.Source imgSource = ImageDecoder.createSource(getContentResolver(), localImagemSelecionada); //Primeiro cria a source
-                        //fotoReceita = ImageDecoder.decodeBitmap(imgSource); //SEGUNDO: converte ImageDecoder.Source -> Bitmap //PARA O API 29 (PROBLEMA: SÓ FUNCIONA EM APARELHOS COM API MIN 28 - PIE - ANDROID 9)
+                        fotoReceita = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada);
 
                         break;
                     case SELECAO_CAMERA:
@@ -200,7 +193,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
                 //Se a foto foi selecionada ou da camera ou da galeria, temos uma imagem
                 if (fotoReceita != null){
 
-                    abrirDialogCarregamento("Aguarde enquanto a foto é carregada!");
+                    abrirDialogCarregamento( getApplicationContext().getString(R.string.dialog_titulo_carregando_foto) );
 
                     //Seta a imagem na tela
                     displayAtualizarFotoReceita.setImageBitmap(fotoReceita);
@@ -224,9 +217,9 @@ public class EditarReceitaActivity extends AppCompatActivity {
                             public void onFailure(@NonNull Exception e) {
 
                                 dialog.dismiss();
-                                Toast.makeText(EditarReceitaActivity.this,
-                                        "Erro ao salvar a imagem, tente novamente!",
-                                        Toast.LENGTH_SHORT).show();
+
+                                mensagemErroUpload();
+
                             }
                         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -234,28 +227,11 @@ public class EditarReceitaActivity extends AppCompatActivity {
                                 //fecha a dialog de carregamento da foto
                                 dialog.dismiss();
 
-                                Toast.makeText(EditarReceitaActivity.this,
-                                        "Foto carregada!",
-                                        Toast.LENGTH_SHORT).show();
+                                mensagemSucessoUpload();
 
                                 //Recupera a foto da receita do FirebaseStorage
-                                if (taskSnapshot.getMetadata() != null) {
-                                    if (taskSnapshot.getMetadata().getReference() != null) {
-                                        Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
+                                recuperarUrlFirebaseStorage(taskSnapshot);
 
-                                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-
-                                            @Override
-                                            public void onSuccess(Uri uri) {
-
-                                                Uri urlFotoReceitaAtualizada = uri;
-
-                                                receitaAtual.setUrlFotoReceita(urlFotoReceitaAtualizada.toString());
-
-                                            }
-                                        });
-                                    }
-                                }
                             }
 
 
@@ -268,6 +244,44 @@ public class EditarReceitaActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void recuperarUrlFirebaseStorage(UploadTask.TaskSnapshot taskSnapshot) {
+
+        if (taskSnapshot.getMetadata() != null) {
+            if (taskSnapshot.getMetadata().getReference() != null) {
+                Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
+
+                result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        Uri urlFotoReceitaAtualizada = uri;
+
+                        receitaAtual.setUrlFotoReceita(urlFotoReceitaAtualizada.toString());
+
+                    }
+                });
+            }
+        }
+
+    }
+
+    private void mensagemErroUpload() {
+
+        Toast.makeText(EditarReceitaActivity.this,
+                getApplicationContext().getString(R.string.erro_upload_img),
+                Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void mensagemSucessoUpload() {
+
+        Toast.makeText(EditarReceitaActivity.this,
+                getApplicationContext().getString(R.string.foto_carregada),
+                Toast.LENGTH_SHORT).show();
+
     }
 
     private void abrirDialogCarregamento(String titulo) {
