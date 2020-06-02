@@ -25,7 +25,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 
 public class MainActivity extends AppCompatActivity {
 
-    //FIZ UMA ALTERAÇÃO AQUI
     private FirebaseAuth autenticacao;
 
     @Override
@@ -39,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Receita Boa");
         setSupportActionBar(toolbar);
 
-        //inicializar componentes
-
-        //Configurar abas
+        //Configurar abas com os respectivos fragments
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)

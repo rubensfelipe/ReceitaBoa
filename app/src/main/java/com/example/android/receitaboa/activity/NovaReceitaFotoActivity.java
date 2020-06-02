@@ -126,9 +126,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         //Configura cancelamento
         dialog.setCancelable(false); //false: se clicar fora do alerta do dialog, o alerta não é fechado e o usuário precisa clicar em sim ou não
 
-        //Configura icone
-        //dialog.setIcon(android.R.drawable.btn_star);
-
         //Configura ações para o sim e o não
         dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override

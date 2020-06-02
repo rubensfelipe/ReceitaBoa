@@ -2,18 +2,18 @@ package com.example.android.receitaboa.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,10 +29,6 @@ import com.example.android.receitaboa.model.Receitas;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -49,6 +45,8 @@ public class EditarReceitaActivity extends AppCompatActivity {
     private static final int SELECAO_GALERIA = 200;
 
     private AlertDialog dialog;
+
+    private Bitmap fotoReceita;
     private EditText atualizarNome;
     private EditText atualizarIngredientes;
     private EditText atualizarModoPreparo;
@@ -70,8 +68,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
     private Receitas receitaAtual;
 
-    private DatabaseReference receitasRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +77,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
         //Configurações iniciais
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
-        receitasRef = ConfiguracaoFirebase.getFirebaseDatabase().child("receitas");
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
         receitaAtual = new Receitas(); //ao iniciar essa tela, a classe Receitas será instanciada para uso
 
@@ -161,8 +156,9 @@ public class EditarReceitaActivity extends AppCompatActivity {
                 receitaAtual.setQtdPessoasServidas(qtdPessoasServidas);
 
                 receitaAtual.atualizarReceitaFirebaseDb(receitaId);
-
-                Toast.makeText(EditarReceitaActivity.this,"Receita " + nome + " atualizada!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditarReceitaActivity.this,
+                        "Receita " + nome +
+                                " atualizada!",Toast.LENGTH_SHORT).show();
 
                 Intent i = new Intent(EditarReceitaActivity.this, MainActivity.class);
                 startActivity(i);
@@ -175,14 +171,14 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.P)
+    //@RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
 
         if (resultCode == RESULT_OK){
-            Bitmap fotoReceita = null;
+            fotoReceita = null;
 
             try {
 
@@ -204,6 +200,8 @@ public class EditarReceitaActivity extends AppCompatActivity {
                 //Se a foto foi selecionada ou da camera ou da galeria, temos uma imagem
                 if (fotoReceita != null){
 
+                    abrirDialogCarregamento("Aguarde enquanto a foto é carregada!");
+
                     //Seta a imagem na tela
                     displayAtualizarFotoReceita.setImageBitmap(fotoReceita);
 
@@ -212,60 +210,67 @@ public class EditarReceitaActivity extends AppCompatActivity {
                     fotoReceita.compress(Bitmap.CompressFormat.JPEG,75,baos);
                     byte[] dadosImagemReceita = baos.toByteArray();
 
-                    //Salvar imagem firebaseStorage
-                    StorageReference fotoReceitaRef = storageRef
-                            .child("imagens")
-                            .child("receitas")
-                            .child(identificadorChef) //idChefAuth
-                            .child(receitaId + ".jpg");
+                        //Salvar imagem firebaseStorage
+                        StorageReference fotoReceitaJPGRef = storageRef
+                                .child("imagens")
+                                .child("receitas")
+                                .child(identificadorChef) //idChefAuth
+                                .child(receitaId + ".jpg");
 
-                    UploadTask uploadTask = fotoReceitaRef.putBytes(dadosImagemReceita);
-                    //abrirDialogCarregamento("Carregando a foto, aguarde!"); //impede o que o chef atrapalhe o processo de salvar a imagem no FirebaseStorage
+                        UploadTask uploadTask = fotoReceitaJPGRef.putBytes(dadosImagemReceita);
 
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditarReceitaActivity.this,
-                                    "Erro ao salvar a imagem, tente novamente!",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        uploadTask.addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                            Toast.makeText(EditarReceitaActivity.this,"Foto Carregada!",Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                Toast.makeText(EditarReceitaActivity.this,
+                                        "Erro ao salvar a imagem, tente novamente!",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                //fecha a dialog de carregamento da foto
+                                dialog.dismiss();
 
-                            //Recupera a foto da receita do FirebaseStorage
-                            if (taskSnapshot.getMetadata() != null) {
-                                if (taskSnapshot.getMetadata().getReference() != null) {
-                                    Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
+                                Toast.makeText(EditarReceitaActivity.this,
+                                        "Foto carregada!",
+                                        Toast.LENGTH_SHORT).show();
 
-                                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                //Recupera a foto da receita do FirebaseStorage
+                                if (taskSnapshot.getMetadata() != null) {
+                                    if (taskSnapshot.getMetadata().getReference() != null) {
+                                        Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
 
-                                        @Override
-                                        public void onSuccess(Uri uri) {
+                                        result.addOnSuccessListener(new OnSuccessListener<Uri>() {
 
-                                            Uri urlReceitaAtualizada = uri;
+                                            @Override
+                                            public void onSuccess(Uri uri) {
 
-                                            receitaAtual.setUrlFotoReceita(urlReceitaAtualizada.toString());
+                                                Uri urlFotoReceitaAtualizada = uri;
 
-                                        }
-                                    });
+                                                receitaAtual.setUrlFotoReceita(urlFotoReceitaAtualizada.toString());
+
+                                            }
+                                        });
+                                    }
                                 }
                             }
-                        }
 
 
-                    });
+                        });
+
+
                 }
+
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
     }
 
-    private void abrirDialogCarregamento(String titulo){ //para que os dados da imagem possam ser salvos no firebaseStorage após o chef selecionar a foto na camera ou galeria
-
+    private void abrirDialogCarregamento(String titulo) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle(titulo);
         alert.setCancelable(false); //impedi que o usuario cancele o pop-up
@@ -273,7 +278,6 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
         dialog = alert.create();
         dialog.show();
-
     }
 
     private void inicializarComponentes() {
