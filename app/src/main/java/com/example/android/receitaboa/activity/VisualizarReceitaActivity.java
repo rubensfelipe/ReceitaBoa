@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -39,6 +39,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private DatabaseReference receitasRef;
     private DatabaseReference receitasChefRef;
 
+    public static Activity atividadeAberta;
 
     private Receitas receitaClicada;
 
@@ -54,6 +55,8 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
         firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         receitasRef = firebaseDbRef.child("receitas");
+
+        atividadeAberta = this;
 
         //Configurar referência receitas do chef logado
         receitasChefRef = receitasRef
@@ -100,6 +103,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
             }
 
         }
+
     }
 
     @Override

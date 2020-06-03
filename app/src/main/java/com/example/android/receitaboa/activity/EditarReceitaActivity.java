@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -157,15 +158,19 @@ public class EditarReceitaActivity extends AppCompatActivity {
                         "Receita " + nome +
                                 " atualizada!",Toast.LENGTH_SHORT).show();
 
-                Intent i = new Intent(EditarReceitaActivity.this, MainActivity.class);
-                startActivity(i);
-
-                finish();
+                fecharAtividadeAtualAnterior(VisualizarReceitaActivity.atividadeAberta);
 
             }
 
         });
 
+    }
+
+    private void fecharAtividadeAtualAnterior(Activity ativadadeAnterior) {
+        //encerra a activity anterior ao clicar no botão atualizar
+        ativadadeAnterior.finish();
+        //encerra essa activity
+        finish();
     }
 
     @Override
