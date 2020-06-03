@@ -43,7 +43,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private String identificadorChef;
 
-    public static Activity addInfoReceita;
+    public static Activity atividadeAberta;
 
 
     @Override
@@ -52,7 +52,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nova_receita_info);
 
         //referenciando a Activity
-        addInfoReceita = this;
+        atividadeAberta = this;
 
         //Configurações iniciais
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();

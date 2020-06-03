@@ -158,15 +158,19 @@ public class EditarReceitaActivity extends AppCompatActivity {
                         "Receita " + nome +
                                 " atualizada!",Toast.LENGTH_SHORT).show();
 
-                //encerra a activity anterior ao clicar no botão atualizar
-                VisualizarReceitaActivity.visualizacaoReceita.finish();
-
-                finish();
+                fecharAtividadeAtualAnterior(VisualizarReceitaActivity.atividadeAberta);
 
             }
 
         });
 
+    }
+
+    private void fecharAtividadeAtualAnterior(Activity ativadadeAnterior) {
+        //encerra a activity anterior ao clicar no botão atualizar
+        ativadadeAnterior.finish();
+        //encerra essa activity
+        finish();
     }
 
     @Override

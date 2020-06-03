@@ -6,15 +6,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -28,16 +27,13 @@ import com.example.android.receitaboa.model.Receitas;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class NovaReceitaFotoActivity extends AppCompatActivity {
@@ -151,7 +147,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
 
-                fecharActivityAtualAnterior();
+                fecharAtividadeAtualAnterior(NovaReceitaInfoActivity.atividadeAberta);
             }
         });
 
@@ -197,14 +193,12 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     fotoReceita.compress(Bitmap.CompressFormat.JPEG,75,baos);
                     byte[] dadosImagemReceita = baos.toByteArray();
 
-                    final Receitas minhaReceita = new Receitas();
-
                     //Salvar imagem firebaseStorage
                     StorageReference fotoReceitaRef = storageRef
                             .child("imagens")
                             .child("receitas")
                             .child(identificadorChef) //idChefAuth
-                            .child(minhaReceita.getIdReceita() + ".jpg");
+                            .child(idReceita + ".jpg");
 
                     UploadTask uploadTask = fotoReceitaRef.putBytes(dadosImagemReceita);
 
@@ -219,26 +213,8 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            //Recupera a foto da receita do FirebaseStorage
-                            if (taskSnapshot.getMetadata() != null) {
-                                if (taskSnapshot.getMetadata().getReference() != null) {
-                                    Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
+                            recuperarUrlFirebaseStoge(taskSnapshot);
 
-                                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
-
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-
-                                            Uri urlImageReceita = uri;
-
-                                            adicionarFotoReceitaFirebaseDb(urlImageReceita);
-
-                                            finish();
-
-                                        }
-                                    });
-                                }
-                            }
                         }
 
 
@@ -250,7 +226,32 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         }
     }
 
-   //atualiza o dado Url ao nó de receitas do usuário
+    private void recuperarUrlFirebaseStoge(UploadTask.TaskSnapshot taskSnapshot) {
+
+        //Recupera a foto da receita do FirebaseStorage
+        if (taskSnapshot.getMetadata() != null) {
+            if (taskSnapshot.getMetadata().getReference() != null) {
+                Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl(); //recupera a foto do firebaseStorage
+
+                result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+
+                    @Override
+                    public void onSuccess(Uri uri) {
+
+                        Uri urlImageReceita = uri;
+
+                        adicionarFotoReceitaFirebaseDb(urlImageReceita);
+
+                        finish();
+
+                    }
+                });
+            }
+        }
+
+    }
+
+    //atualiza o dado Url ao nó de receitas do usuário
     public void adicionarFotoReceitaFirebaseDb(final Uri url) {
 
         Receitas minhaReceita = new Receitas();
@@ -264,14 +265,14 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
         mensagemFotoAdicionada();
 
-        fecharActivityAtualAnterior();
+        fecharAtividadeAtualAnterior(NovaReceitaInfoActivity.atividadeAberta);
 
     }
 
-    private void fecharActivityAtualAnterior() {
-        //encerra a activity anterior ao salvar a foto da receita
-        NovaReceitaInfoActivity.addInfoReceita.finish();
-        //encerra a activity atual
+    private void fecharAtividadeAtualAnterior(Activity ativadadeAnterior) {
+        //encerra a activity anterior ao clicar no botão atualizar
+        ativadadeAnterior.finish();
+        //encerra essa activity
         finish();
     }
 
@@ -283,22 +284,25 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
     }
 
-    /*
+
     private File salvarImagemDiretorio() throws IOException {
 
-        File defaultFilePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Receita Boa/" + novaReceita.getId()); //caminho onde será salva a imagem na memoria interna do celular
+        File defaultFilePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
         if (!defaultFilePath.exists()) {
             defaultFilePath.mkdir();
         }
 
-        String nomeImagem = novaReceita.getId() + ".jpg";
+        String nomeImagem = idReceita + ".jpg";
 
-        File file = new File(defaultFilePath, nomeImagem);
+        File imgFile = new File(defaultFilePath, nomeImagem);
 
-        return file;
+        FileOutputStream outputStream = new FileOutputStream(imgFile);
+
+
+        return imgFile;
 
         }
-
+/*
     private void captureCameraImage() {
         Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
