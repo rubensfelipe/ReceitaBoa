@@ -15,20 +15,22 @@
  */
 package com.example.android.receitaboa.activity;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android.receitaboa.R;
-import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
-import com.google.firebase.storage.StorageReference;
 
 /**
  * Allows user to create a new recipe or edit an existing one.
@@ -40,10 +42,14 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     private EditText editModoPreparo;
     private EditText qtdPessoasServidas;
 
-    private StorageReference storageRef;
     private String identificadorChef;
 
     public static Activity atividadeAberta;
+
+    private String[] permissoesNecessarias = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
 
 
     @Override
@@ -55,7 +61,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         atividadeAberta = this;
 
         //Configurações iniciais
-        storageRef = ConfiguracaoFirebase.getFirebaseStorage();
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
 
         //inicializar componentes
@@ -78,9 +83,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         //salvar os dados da Receita no FirebaseDatabase
         minhasReceitas.salvarMinhaReceitaFirebaseDb();
 
-        Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
-        i.putExtra("idReceita",minhasReceitas.getIdReceita());
-        startActivity(i);
+        abrirDialog(minhasReceitas);
 
     }
 
@@ -116,6 +119,51 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         }else {
             Toast.makeText(NovaReceitaInfoActivity.this,"Preencha o nome de sua receita!",Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    public void abrirDialog(final Receitas minhasReceitas){
+
+        //Instancia AlertDialog
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        //Configura titulo e mensagem
+        dialog.setTitle(getApplicationContext().getString(R.string.dialog_titulo_devo_adicionar_foto_receita));
+        dialog.setMessage(getApplicationContext().getString(R.string.dialog_msg_devo_adicionar_foto_receita));
+
+        //Configura cancelamento
+        dialog.setCancelable(false); //false: se clicar fora do alerta do dialog, o alerta não é fechado e o usuário precisa clicar em sim ou não
+
+        //Configura ações para o sim e o não
+        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.cancel();
+
+                //Validar permissões (para acesso da camera e da galeria de fotos do usuário)
+                Permissao.validarPermissoes(permissoesNecessarias,NovaReceitaInfoActivity.this,1);
+
+                Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
+                i.putExtra("idReceita",minhasReceitas.getIdReceita());
+                startActivity(i);
+
+            }
+        });
+
+        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
+
+                finish();
+            }
+        });
+
+        //Criar e exibir AlertDialog
+        dialog.create();
+        dialog.show();
 
     }
 

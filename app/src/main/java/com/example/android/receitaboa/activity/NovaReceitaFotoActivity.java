@@ -33,22 +33,16 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class NovaReceitaFotoActivity extends AppCompatActivity {
 
-    private AlertDialog dialog;
-
     private ImageView displayFotoReceita;
     private ImageView cameraMinhaReceita;
     private ImageView galeriaMinhaReceita;
     private ProgressBar progressBarFotoReceita;
-
-    private String[] permissoesNecessarias = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-    };
 
     private static final int SELECAO_CAMERA = 100;
     private static final int SELECAO_GALERIA = 200;
@@ -57,15 +51,16 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     private String identificadorChef;
     private String idReceita;
 
-    private DatabaseReference receitasRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nova_receita_foto);
 
+        //Recupera o id da receita gerada na tela anterior
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) { idReceita = (String) bundle.getSerializable("idReceita");    }
+
         //Inicializar componentes
-        abrirDialog(); //inicializa ao o usuário chegar a essa tela
         displayFotoReceita = findViewById(R.id.displayFotoReceita);
         cameraMinhaReceita = findViewById(R.id.cameraMinhaReceita);
         galeriaMinhaReceita = findViewById(R.id.galeriaMinhaReceita);
@@ -74,12 +69,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
         //Configurações iniciais
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
-        receitasRef = ConfiguracaoFirebase.getFirebaseDatabase().child("receitas");
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
-
-        //Recupera o id da receita gerada na tela anterior
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) { idReceita = (String) bundle.getSerializable("idReceita"); }
 
         cameraMinhaReceita.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,44 +108,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         progressBarFotoReceita.setVisibility(View.VISIBLE);
     }
 
-    public void abrirDialog(){
-
-        //Instancia AlertDialog
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-
-        //Configura titulo e mensagem
-        dialog.setTitle(getApplicationContext().getString(R.string.dialog_titulo_devo_adicionar_foto_receita));
-        dialog.setMessage(getApplicationContext().getString(R.string.dialog_msg_devo_adicionar_foto_receita));
-
-        //Configura cancelamento
-        dialog.setCancelable(false); //false: se clicar fora do alerta do dialog, o alerta não é fechado e o usuário precisa clicar em sim ou não
-
-        //Configura ações para o sim e o não
-        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                //Validar permissões (para acesso da camera e da galeria de fotos do usuário)
-                Permissao.validarPermissoes(permissoesNecessarias,NovaReceitaFotoActivity.this,1);
-
-            }
-        });
-
-        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
-
-                fecharAtividadeAtualAnterior(NovaReceitaInfoActivity.atividadeAberta);
-            }
-        });
-
-        //Criar e exibir AlertDialog
-        dialog.create();
-        dialog.show();
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -177,13 +129,18 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     case SELECAO_CAMERA:
                         fotoReceita = (Bitmap) data.getExtras().get("data"); //dados internos da imagem, 0010011001
                         break;
+
                 }
+
+
 
                 //Se a foto foi selecionada ou da camera ou da galeria, temos uma imagem
                 if (fotoReceita != null){
 
                     //A progressBar fica visível após o usuário ter selecionado uma foto
                     carregarProgressBar();
+
+                    //salvarImagemDirCelular(fotoReceita);
 
                     //Seta a imagem na tela
                     displayFotoReceita.setImageBitmap(fotoReceita);
@@ -213,7 +170,8 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            recuperarUrlFirebaseStoge(taskSnapshot);
+
+                            recuperarUrlFirebaseStorage(taskSnapshot);
 
                         }
 
@@ -226,7 +184,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         }
     }
 
-    private void recuperarUrlFirebaseStoge(UploadTask.TaskSnapshot taskSnapshot) {
+    private void recuperarUrlFirebaseStorage(UploadTask.TaskSnapshot taskSnapshot) {
 
         //Recupera a foto da receita do FirebaseStorage
         if (taskSnapshot.getMetadata() != null) {
@@ -285,21 +243,70 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     }
 
 
-    private File salvarImagemDiretorio() throws IOException {
+    private void salvarImagemDirCelular(Bitmap imgFoto) throws IOException {
 
-        File defaultFilePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
+        File filePath = Environment.getExternalStorageDirectory();
+        File imageDir = new File(filePath.getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
+
+        imageDir.mkdir();
+
+        String nomeImagem = idReceita + ".jpg";
+
+        File imgFile = new File(imageDir, nomeImagem);
+
+        if (!imgFile.exists()) {
+            imgFile.createNewFile(); //cria uma pasta com o arquivo a imagem dentro da galeria de fotos
+        }
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(imgFile);
+            imgFoto.compress(Bitmap.CompressFormat.JPEG, 75, outputStream);
+            Toast.makeText(getApplicationContext(), "Image save in internal storage", Toast.LENGTH_SHORT).show();
+
+            outputStream.flush();
+            outputStream.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+        //File defaultFilePath = new File(filePath.getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
+        /*
         if (!defaultFilePath.exists()) {
             defaultFilePath.mkdir();
         }
 
-        String nomeImagem = idReceita + ".jpg";
+
+
+        //String nomeImagem = idReceita + ".jpg";
 
         File imgFile = new File(defaultFilePath, nomeImagem);
 
-        FileOutputStream outputStream = new FileOutputStream(imgFile);
 
+        FileOutputStream outputStream;
 
-        return imgFile;
+            if (!imgFile.exists()) {
+                imgFile.createNewFile(); //cria uma pasta com o arquivo a imagem dentro da galeria de fotos
+            }
+
+            try {
+
+                outputStream = new FileOutputStream(imgFile);
+                int quality = 75;
+                imgFoto.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+                outputStream.flush();
+                outputStream.close();
+                Toast.makeText(getApplicationContext(),"deu certo",Toast.LENGTH_SHORT).show();
+            }catch (Exception e){
+                e.printStackTrace();
+                Toast.makeText(getApplicationContext(),"deu errado",Toast.LENGTH_SHORT).show();
+            }
+            /*
 
         }
 /*
