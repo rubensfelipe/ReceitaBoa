@@ -38,9 +38,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Receita Boa");
         setSupportActionBar(toolbar);
 
-        //inicializar componentes
-
-        //Configurar abas
+        //Configurar abas com os respectivos fragments
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)

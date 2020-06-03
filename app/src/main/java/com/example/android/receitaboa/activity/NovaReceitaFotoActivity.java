@@ -13,6 +13,7 @@ import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -119,14 +120,11 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
         //Configura titulo e mensagem
-        dialog.setTitle("Foto da Receita");
-        dialog.setMessage("Quer adicionar a foto da sua Receita agora?\n\n Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.");
+        dialog.setTitle(getApplicationContext().getString(R.string.dialog_titulo_devo_adicionar_foto_receita));
+        dialog.setMessage(getApplicationContext().getString(R.string.dialog_msg_devo_adicionar_foto_receita));
 
         //Configura cancelamento
         dialog.setCancelable(false); //false: se clicar fora do alerta do dialog, o alerta não é fechado e o usuário precisa clicar em sim ou não
-
-        //Configura icone
-        //dialog.setIcon(android.R.drawable.btn_star);
 
         //Configura ações para o sim e o não
         dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
@@ -147,7 +145,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                 Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
                 startActivity(i);
 
-                Toast.makeText(getApplicationContext(), "Sua Receita Boa foi adicionada com sucesso!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -207,12 +205,11 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                     UploadTask uploadTask = fotoReceitaRef.putBytes(dadosImagemReceita);
 
-
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             Toast.makeText(NovaReceitaFotoActivity.this,
-                                    "Erro ao salvar a imagem, tente novamente!",
+                                    getApplicationContext().getString(R.string.erro_upload_img),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -280,7 +277,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
                     startActivity(i);
 
-                    Toast.makeText(NovaReceitaFotoActivity.this,"Sua foto foi adicionada com sucesso!",Toast.LENGTH_SHORT).show();
+                    mensagemFotoAdicionada();
                 }
             }
 
@@ -288,5 +285,13 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         };
         receitaIdRef.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    private void mensagemFotoAdicionada() {
+
+        Toast.makeText(NovaReceitaFotoActivity.this,
+                getApplicationContext().getString(R.string.foto_adicionada),
+                Toast.LENGTH_SHORT).show();
+
     }
 }
