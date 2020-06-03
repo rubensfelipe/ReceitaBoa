@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
         SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
         viewPagerTab.setViewPager(viewPager);
 
+        if (getIntent().getBooleanExtra("FECHAR_ACTIVITY",false)){
+            Toast.makeText(getApplicationContext(),"FECHANDO",Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
     }
 
     @Override

@@ -141,11 +141,12 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                //Retorna para a main activity se o usuário decidir adicionar uma foto da receita no futuro
-                Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
-                startActivity(i);
-
                 Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
+
+                //encerra a activity anterior ao salvar a foto da receita
+                NovaReceitaInfoActivity.addInfoReceita.finish();
+
+                finish();
             }
         });
 
@@ -169,10 +170,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     case SELECAO_GALERIA:
                         Uri localImagemSelecionada = data.getData();
 
-                        fotoReceita = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada); //DEPRECIADO no API 29 MAS FUNCIONA A PARTIR DO API 28
-
-                        //ImageDecoder.Source imgSource = ImageDecoder.createSource(getContentResolver(), localImagemSelecionada); //Primeiro cria a source
-                        //fotoReceita = ImageDecoder.decodeBitmap(imgSource); //SEGUNDO: converte ImageDecoder.Source -> Bitmap //PARA O API 29 (PROBLEMA: SÓ FUNCIONA EM APARELHOS COM API MIN 28 - PIE - ANDROID 9)
+                        fotoReceita = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada);
 
                         break;
                     case SELECAO_CAMERA:
@@ -223,8 +221,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                                     result.addOnSuccessListener(new OnSuccessListener<Uri>() {
 
-                                        ///////////////////////////////
-
                                         @Override
                                         public void onSuccess(Uri uri) {
 
@@ -273,11 +269,13 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
                     minhaReceita.adicionarUrlFotoFirebaseDb(idReceitaRecuperada);
 
-                    //Retorna para a main activity após o usuário selecionar uma foto
-                    Intent i = new Intent(NovaReceitaFotoActivity.this, MainActivity.class);
-                    startActivity(i);
-
                     mensagemFotoAdicionada();
+
+                    //encerra a activity anterior ao salvar a foto da receita
+                    NovaReceitaInfoActivity.addInfoReceita.finish();
+
+                    finish();
+
                 }
             }
 

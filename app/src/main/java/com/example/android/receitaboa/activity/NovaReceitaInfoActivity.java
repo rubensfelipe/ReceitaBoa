@@ -16,6 +16,7 @@
 package com.example.android.receitaboa.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -45,11 +46,16 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private String identificadorChef;
 
+    public static Activity addInfoReceita;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nova_receita_info);
+
+        //referenciando a Activity
+        addInfoReceita = this;
 
         //Configurações iniciais
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
