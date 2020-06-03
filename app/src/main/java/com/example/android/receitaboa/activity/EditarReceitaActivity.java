@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -143,6 +144,8 @@ public class EditarReceitaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                fecharTeclado();
+
                 String nome = atualizarNome.getText().toString();
                 String ingredientes = atualizarIngredientes.getText().toString();
                 String modoPreparo = atualizarModoPreparo.getText().toString();
@@ -164,6 +167,13 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void fecharTeclado() {
+        atualizarNome.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        atualizarIngredientes.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        atualizarModoPreparo.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        atualizarQtdPessoasServidas.onEditorAction(EditorInfo.IME_ACTION_DONE);
     }
 
     private void fecharAtividadeAtualAnterior(Activity ativadadeAnterior) {

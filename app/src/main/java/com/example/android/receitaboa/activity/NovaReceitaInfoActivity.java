@@ -21,6 +21,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -78,6 +79,9 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
     public void cadastrarMinhaReceita(final Receitas minhasReceitas){
 
+        //apos usuário clicar em salvar, o teclado é encerrado
+        fecharTeclado();
+
         minhasReceitas.setIdChef(identificadorChef); //setando o id do Chef na Classe Receitas
 
         //salvar os dados da Receita no FirebaseDatabase
@@ -85,6 +89,13 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
         abrirDialog(minhasReceitas);
 
+    }
+
+    private void fecharTeclado() {
+        editNomeReceita.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        editIngredientesReceita.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        editModoPreparo.onEditorAction(EditorInfo.IME_ACTION_DONE);
+        qtdPessoasServidas.onEditorAction(EditorInfo.IME_ACTION_DONE);
     }
 
     public void validarReceita(View view){ //metodo onClick (botão salvar)
