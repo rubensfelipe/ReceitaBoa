@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 
 public class NovaReceitaFotoActivity extends AppCompatActivity {
 
@@ -56,6 +59,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
     private StorageReference storageRef;
     private String identificadorChef;
+    private String idReceita;
 
     private DatabaseReference receitasRef;
 
@@ -76,6 +80,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
         receitasRef = ConfiguracaoFirebase.getFirebaseDatabase().child("receitas");
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+
+        //Recupera o id da receita gerada na tela anterior
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) { idReceita = (String) bundle.getSerializable("idReceita"); }
 
         cameraMinhaReceita.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,10 +151,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
 
-                //encerra a activity anterior ao salvar a foto da receita
-                NovaReceitaInfoActivity.addInfoReceita.finish();
-
-                finish();
+                fecharActivityAtualAnterior();
             }
         });
 
@@ -246,43 +251,28 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     }
 
    //atualiza o dado Url ao nó de receitas do usuário
-    public void adicionarFotoReceitaFirebaseDb(final Uri url){
+    public void adicionarFotoReceitaFirebaseDb(final Uri url) {
 
-        //Primeiro recuperamos o id da última receita gerada no firebase
-        DatabaseReference receitasIdChefaoRef = receitasRef.child(identificadorChef);
-        Query receitaIdRef = receitasIdChefaoRef.orderByKey().limitToLast(1);  //Recupera o nó com o id da ultima Receita gerada na tela anterior ao salvar as informações da receita no FirebaseDb
+        Receitas minhaReceita = new Receitas();
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+        //recupera o caminho da foto do FirebaseStorage e seta-o na classe Receitas
+        minhaReceita.setUrlFotoReceita(url.toString());
 
-                for (DataSnapshot dado: dataSnapshot.getChildren()){
+        //SALVAR URL NO FIREBASEDB
+        //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
+        minhaReceita.adicionarUrlFotoFirebaseDb(idReceita);
 
-                    String idReceitaRecuperada = dado.getKey(); //recupera o id da última receita criada no firebaseDb
+        mensagemFotoAdicionada();
 
-                    Receitas minhaReceita = new Receitas();
+        fecharActivityAtualAnterior();
 
-                    //recupera o caminho da foto do FirebaseStorage e seta-o na classe Receitas
-                    minhaReceita.setUrlFotoReceita(url.toString());
+    }
 
-                    //SALVAR URL NO FIREBASEDB
-                    //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
-                    minhaReceita.adicionarUrlFotoFirebaseDb(idReceitaRecuperada);
-
-                    mensagemFotoAdicionada();
-
-                    //encerra a activity anterior ao salvar a foto da receita
-                    NovaReceitaInfoActivity.addInfoReceita.finish();
-
-                    finish();
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        };
-        receitaIdRef.addListenerForSingleValueEvent(valueEventListener);
+    private void fecharActivityAtualAnterior() {
+        //encerra a activity anterior ao salvar a foto da receita
+        NovaReceitaInfoActivity.addInfoReceita.finish();
+        //encerra a activity atual
+        finish();
     }
 
     private void mensagemFotoAdicionada() {
@@ -292,4 +282,31 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
 
     }
+
+    /*
+    private File salvarImagemDiretorio() throws IOException {
+
+        File defaultFilePath = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Receita Boa/" + novaReceita.getId()); //caminho onde será salva a imagem na memoria interna do celular
+        if (!defaultFilePath.exists()) {
+            defaultFilePath.mkdir();
+        }
+
+        String nomeImagem = novaReceita.getId() + ".jpg";
+
+        File file = new File(defaultFilePath, nomeImagem);
+
+        return file;
+
+        }
+
+    private void captureCameraImage() {
+        Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        //stored the image and get the URI
+        Uri imageToUploadUri = Uri.fromFiles(salvarImagemDiretorio());
+        startActivityForResult(chooserIntent, SELECAO_CAMERA);
+    }
+     */
+
+
 }

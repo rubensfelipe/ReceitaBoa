@@ -15,20 +15,17 @@
  */
 package com.example.android.receitaboa.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
-import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
 import com.google.firebase.storage.StorageReference;
@@ -82,6 +79,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         minhasReceitas.salvarMinhaReceitaFirebaseDb();
 
         Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
+        i.putExtra("idReceita",minhasReceitas.getIdReceita());
         startActivity(i);
 
     }

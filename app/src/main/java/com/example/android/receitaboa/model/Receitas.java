@@ -38,6 +38,7 @@ public class Receitas implements Serializable {
 
         //Cria um id para a nova receita criada pelo chef
         String identificadorReceita = receitasRef.push().getKey();
+
         setIdReceita(identificadorReceita);
     }
 
