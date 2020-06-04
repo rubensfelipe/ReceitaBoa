@@ -83,7 +83,7 @@ public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAd
             super(itemView);
 
             fotoReceita = itemView.findViewById(R.id.imageListaFotoReceita);
-            nomeReceita = itemView.findViewById(R.id.textNomeReceita);
+            nomeReceita = itemView.findViewById(R.id.textNomeReceitaPerfil);
             qtdPessoasServidas = itemView.findViewById(R.id.textQtdPessoasServidas);
 
         }

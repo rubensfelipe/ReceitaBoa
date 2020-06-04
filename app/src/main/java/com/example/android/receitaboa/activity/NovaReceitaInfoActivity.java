@@ -139,13 +139,35 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
 
         //Configura titulo e mensagem
-        dialog.setTitle(getApplicationContext().getString(R.string.dialog_titulo_devo_adicionar_foto_receita));
-        dialog.setMessage(getApplicationContext().getString(R.string.dialog_msg_devo_adicionar_foto_receita));
+        configurarTituloMensagem(dialog);
 
         //Configura cancelamento
         dialog.setCancelable(false); //false: se clicar fora do alerta do dialog, o alerta não é fechado e o usuário precisa clicar em sim ou não
 
         //Configura ações para o sim e o não
+        acaoSePositiva(dialog, minhasReceitas);
+
+        acaoSeNegativa(dialog);
+
+        //Criar e exibir AlertDialog
+        exibirAlerta(dialog);
+
+    }
+
+    private void exibirAlerta(AlertDialog.Builder dialog) {
+        dialog.create();
+        dialog.show();
+    }
+
+    private void configurarTituloMensagem(AlertDialog.Builder dialog) {
+
+        dialog.setTitle(getApplicationContext().getString(R.string.dialog_titulo_devo_adicionar_foto_receita));
+        dialog.setMessage(getApplicationContext().getString(R.string.dialog_msg_devo_adicionar_foto_receita));
+
+    }
+
+    private void acaoSePositiva(AlertDialog.Builder dialog, final Receitas minhasReceitas) {
+
         dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -162,6 +184,10 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void acaoSeNegativa(AlertDialog.Builder dialog) {
+
         dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -171,10 +197,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        //Criar e exibir AlertDialog
-        dialog.create();
-        dialog.show();
 
     }
 

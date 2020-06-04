@@ -20,13 +20,16 @@ import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Chef;
+import com.example.android.receitaboa.model.Receitas;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,9 +39,12 @@ public class PesquisaAmigosFragment extends Fragment {
     private RecyclerView recyclerViewListaAmigos;
     private AmigosAdapter adapter;
     private ArrayList<Chef> listaAmigos = new ArrayList<>(); //instanciando a Lista de Amigos que serão recuperados pela Classe Chef
+    private ArrayList<String> listaIdAmigos = new ArrayList<>(); //instanciando a Lista de Amigos que serão recuperados pela Classe Chef
     private DatabaseReference chefsRef;
     private ValueEventListener valueEventListenerAmigos;
     private FirebaseUser chefAtualAuth;
+
+
 
     public PesquisaAmigosFragment() {
         // Required empty public constructor
@@ -73,7 +79,13 @@ public class PesquisaAmigosFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
+                                Chef chefSelecionado = listaAmigos.get(position);
+
+                                String idChefSelecionado = listaIdAmigos.get(position);
+
                                 Intent i = new Intent(getActivity(), ReceitasAmigoActivity.class);
+                                i.putExtra("chefSelecionado", chefSelecionado);
+                                i.putExtra("idChefSeleciondado", idChefSelecionado);
                                 startActivity(i);
 
                             }
@@ -118,6 +130,12 @@ public class PesquisaAmigosFragment extends Fragment {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
 
+                    //recupera a chave de cada chef
+                    String idKey = dados.getKey();
+
+                    //salva as chaves id dos amigos em uma lista
+                    listaIdAmigos.add(idKey);
+
                     Chef amigo = dados.getValue(Chef.class); //recupera os dados salvo nos nós do FirebaseDatabase
 
                     String emailChefLogado = chefAtualAuth.getEmail();
@@ -136,8 +154,6 @@ public class PesquisaAmigosFragment extends Fragment {
 
             }
         });
-
-
 
     }
 

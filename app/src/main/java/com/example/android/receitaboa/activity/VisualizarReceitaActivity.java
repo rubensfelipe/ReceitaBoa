@@ -28,20 +28,27 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private ImageView displayImageReceitaFinal;
 
     private String nomeReceitaClicada;
+    private String nomeReceitaAmigoClicada;
     private String ingredientesReceitaClicada;
+    private String ingredientesReceitaAmigoClicada;
     private String modoPreparoReceitaClicada;
+    private String modoPreparoReceitaAmigoClicada;
     private String qtdPessoasServidasReceitaClicada;
     private String receitaFoto;
+    private String receitaAmigoFoto;
 
     private String idChefLogado;
     private String idReceitaClicada;
+    private String idReceitaAmigoClicada;
+
     private DatabaseReference firebaseDbRef;
     private DatabaseReference receitasRef;
     private DatabaseReference receitasChefRef;
 
     public static Activity atividadeAberta;
 
-    private Receitas receitaClicada;
+    private Receitas minhaReceitaClicada;
+    private Receitas receitaAmigoClicada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,32 +83,68 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
 
-            receitaClicada = (Receitas) bundle.getSerializable("dadosReceitaClicada");
+            minhaReceitaClicada = (Receitas) bundle.getSerializable("dadosReceitaClicada");
+            minhaReceitaDados(minhaReceitaClicada);
 
-            nomeReceitaClicada = receitaClicada.getNome();
-            textNomeReceita.setText(nomeReceitaClicada);
+            /*
+            receitaAmigoClicada = (Receitas) bundle.getSerializable("dadosReceitaAmigo");
+            amigoReceitaDados(receitaAmigoClicada);
+             */
 
-            ingredientesReceitaClicada = receitaClicada.getIngredientes();
-            textIngredientes.setText(ingredientesReceitaClicada);
+        }
 
-            modoPreparoReceitaClicada = receitaClicada.getModoPreparo();
-            textModoPreparo.setText(modoPreparoReceitaClicada);
+    }
 
-            qtdPessoasServidasReceitaClicada = receitaClicada.getQtdPessoasServidas();
+    private void amigoReceitaDados(Receitas receitaAmigoClicada) {
 
-            //recupera a idReceita que foi selecionada na lista
-            idReceitaClicada = receitaClicada.getIdReceita();
+        nomeReceitaAmigoClicada = receitaAmigoClicada.getNome();
+        textNomeReceita.setText(nomeReceitaAmigoClicada);
 
-            receitaFoto = receitaClicada.getUrlFotoReceita();
-            if (receitaFoto != null){
-                Uri url = Uri.parse(receitaFoto);
-                Glide.with(VisualizarReceitaActivity.this)
-                        .load(url)
-                        .into(displayImageReceitaFinal);
-            }else{
-                displayImageReceitaFinal.setImageResource(R.drawable.cloche_tableware);
-            }
+        ingredientesReceitaAmigoClicada = receitaAmigoClicada.getIngredientes();
+        textIngredientes.setText(ingredientesReceitaAmigoClicada);
 
+        modoPreparoReceitaAmigoClicada = receitaAmigoClicada.getModoPreparo();
+        textModoPreparo.setText(modoPreparoReceitaAmigoClicada);
+
+        //recupera a idReceita que foi selecionada na lista
+        idReceitaAmigoClicada = receitaAmigoClicada.getIdReceita();
+
+        receitaAmigoFoto = receitaAmigoClicada.getUrlFotoReceita();
+        if (receitaAmigoFoto != null){
+            Uri url = Uri.parse(receitaAmigoFoto);
+            Glide.with(VisualizarReceitaActivity.this)
+                    .load(url)
+                    .into(displayImageReceitaFinal);
+        }else{
+            displayImageReceitaFinal.setImageResource(R.drawable.cloche_tableware);
+        }
+
+    }
+
+    private void minhaReceitaDados(Receitas receitaClicada) {
+
+        nomeReceitaClicada = receitaClicada.getNome();
+        textNomeReceita.setText(nomeReceitaClicada);
+
+        ingredientesReceitaClicada = receitaClicada.getIngredientes();
+        textIngredientes.setText(ingredientesReceitaClicada);
+
+        modoPreparoReceitaClicada = receitaClicada.getModoPreparo();
+        textModoPreparo.setText(modoPreparoReceitaClicada);
+
+        qtdPessoasServidasReceitaClicada = receitaClicada.getQtdPessoasServidas();
+
+        //recupera a idReceita que foi selecionada na lista
+        idReceitaClicada = receitaClicada.getIdReceita();
+
+        receitaFoto = receitaClicada.getUrlFotoReceita();
+        if (receitaFoto != null){
+            Uri url = Uri.parse(receitaFoto);
+            Glide.with(VisualizarReceitaActivity.this)
+                    .load(url)
+                    .into(displayImageReceitaFinal);
+        }else{
+            displayImageReceitaFinal.setImageResource(R.drawable.cloche_tableware);
         }
 
     }

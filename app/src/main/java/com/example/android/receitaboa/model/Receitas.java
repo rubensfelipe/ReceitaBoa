@@ -1,9 +1,5 @@
 package com.example.android.receitaboa.model;
 
-import android.util.Log;
-import android.widget.Toast;
-
-import com.example.android.receitaboa.activity.EditarReceitaActivity;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.google.firebase.database.DatabaseReference;

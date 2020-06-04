@@ -5,10 +5,11 @@ import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Chef {
+public class Chef implements Serializable {
 
     private String id;
     private String nome;

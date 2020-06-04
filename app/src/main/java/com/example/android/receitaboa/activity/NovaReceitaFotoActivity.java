@@ -245,21 +245,38 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
     private void salvarImagemDirCelular(Bitmap imgFoto) throws IOException {
 
+        criarDiretorioImagem();
+
+        criarArquivoImagem();
+
+        salvarArquivoImagem(imgFoto);
+
+    }
+
+    public File criarDiretorioImagem() {
+        
         File filePath = Environment.getExternalStorageDirectory();
         File imageDir = new File(filePath.getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
-
         imageDir.mkdir();
 
+        return imageDir;
+    }
+
+    public File criarArquivoImagem() throws IOException {
         String nomeImagem = idReceita + ".jpg";
 
-        File imgFile = new File(imageDir, nomeImagem);
+        File imgFile = new File(criarDiretorioImagem(), nomeImagem);
 
         if (!imgFile.exists()) {
             imgFile.createNewFile(); //cria uma pasta com o arquivo a imagem dentro da galeria de fotos
         }
+        return imgFile;
+    }
+
+    private void salvarArquivoImagem(Bitmap imgFoto) {
 
         try {
-            FileOutputStream outputStream = new FileOutputStream(imgFile);
+            FileOutputStream outputStream = new FileOutputStream(criarArquivoImagem());
             imgFoto.compress(Bitmap.CompressFormat.JPEG, 75, outputStream);
             Toast.makeText(getApplicationContext(), "Image save in internal storage", Toast.LENGTH_SHORT).show();
 
@@ -273,51 +290,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         }
 
     }
-
-
-        //File defaultFilePath = new File(filePath.getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
-        /*
-        if (!defaultFilePath.exists()) {
-            defaultFilePath.mkdir();
-        }
-
-
-
-        //String nomeImagem = idReceita + ".jpg";
-
-        File imgFile = new File(defaultFilePath, nomeImagem);
-
-
-        FileOutputStream outputStream;
-
-            if (!imgFile.exists()) {
-                imgFile.createNewFile(); //cria uma pasta com o arquivo a imagem dentro da galeria de fotos
-            }
-
-            try {
-
-                outputStream = new FileOutputStream(imgFile);
-                int quality = 75;
-                imgFoto.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
-                outputStream.flush();
-                outputStream.close();
-                Toast.makeText(getApplicationContext(),"deu certo",Toast.LENGTH_SHORT).show();
-            }catch (Exception e){
-                e.printStackTrace();
-                Toast.makeText(getApplicationContext(),"deu errado",Toast.LENGTH_SHORT).show();
-            }
-            /*
-
-        }
-/*
-    private void captureCameraImage() {
-        Intent chooserIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        chooserIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-        //stored the image and get the URI
-        Uri imageToUploadUri = Uri.fromFiles(salvarImagemDiretorio());
-        startActivityForResult(chooserIntent, SELECAO_CAMERA);
-    }
-     */
 
 
 }
