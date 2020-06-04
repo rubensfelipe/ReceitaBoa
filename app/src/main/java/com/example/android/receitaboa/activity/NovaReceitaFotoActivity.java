@@ -254,7 +254,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     }
 
     public File criarDiretorioImagem() {
-        
+
         File filePath = Environment.getExternalStorageDirectory();
         File imageDir = new File(filePath.getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
         imageDir.mkdir();

@@ -48,6 +48,9 @@ dependencies {
     //Dependência da Lib Universal Image Loader (Carrega as imagens dentro do app)
     implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
+    //Dependência para material search view (aba para pesquisa de usuarios dentro de uma lista)
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

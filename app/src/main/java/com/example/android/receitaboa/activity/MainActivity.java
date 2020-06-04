@@ -19,6 +19,7 @@ import com.example.android.receitaboa.fragment.PesquisaReceitasFragment;
 import com.example.android.receitaboa.fragment.MinhasReceitasFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
@@ -26,6 +27,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
+    private MaterialSearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("Receita Boa");
         setSupportActionBar(toolbar);
 
+        //Configuração do searchView
+        searchView = findViewById(R.id.materialSearchPrincipal);
+
         //Configurar abas com os respectivos fragments
         FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 .add("Buscar Amigos", PesquisaAmigosFragment.class)
                 .create()
         );
+
         ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
@@ -61,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main,menu);
+
+        //Configurar botão de pesquisa
+        MenuItem item = menu.findItem(R.id.menuPesquisa); //configura o icone de pesquisa como um MenuItem
+        searchView.setMenuItem(item); //ao clicar nesse item, transforma a view numa caixa de texto de pesquisa para buscar o usuário na lista
 
         return super.onCreateOptionsMenu(menu);
     }
