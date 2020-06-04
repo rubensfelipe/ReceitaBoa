@@ -157,4 +157,31 @@ public class PesquisaAmigosFragment extends Fragment {
 
     }
 
+    public void pesquisarAmigos(String nomeAmigo) {
+
+        List<Chef> listaChefsBusca = new ArrayList<>();
+
+        for (Chef chefAmigo : listaAmigos){
+
+            String nome = chefAmigo.getNome().toLowerCase(); //recupera os nomes e grava eles em lowerCase
+            if (nome.contains(nomeAmigo)){ //se o começo do nome for correspondente a um amigo da lista
+                listaChefsBusca.add(chefAmigo); //adiciona a lista de busca
+            }
+
+        }
+        configurarAdapter(listaChefsBusca);
+    }
+
+    //Recarrega a lista de amigos completa ao fechar a caixa de pesquisa de usuários
+    public void recarregarAmigos() { configurarAdapter(listaAmigos); }
+
+    //seta a lista em um adapter
+    private void configurarAdapter(List<Chef> listas) {
+
+        adapter = new AmigosAdapter(listas, getActivity());
+        recyclerViewListaAmigos.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
+    }
+
 }

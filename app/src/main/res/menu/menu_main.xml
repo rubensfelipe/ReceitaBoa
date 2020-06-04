@@ -8,12 +8,12 @@
         android:icon="@drawable/ic_pesquisa_branco_24dp"
         />
 
-    <item android:id="@+id/menuEdicao"
+    <item android:id="@+id/menuConfiguracoes"
         android:title="Configurações"
         app:showAsAction="never"
         />
 
-    <item android:id="@+id/menuApagar"
+    <item android:id="@+id/menuDeslogar"
         android:title="Sair"
         app:showAsAction="never"
         />

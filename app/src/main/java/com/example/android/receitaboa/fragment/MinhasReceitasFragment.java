@@ -50,7 +50,7 @@ public class MinhasReceitasFragment extends Fragment {
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Receitas> minhaListaReceitas = new ArrayList<>();
+    private List<Receitas> listaMinhasReceitas = new ArrayList<>();
 
     private ValueEventListener valueEventListenerMinhasReceitas;
 
@@ -89,7 +89,7 @@ public class MinhasReceitasFragment extends Fragment {
         });
 
         //Configura adapter
-        adapterMR = new MinhasReceitasAdapter(minhaListaReceitas, getActivity() );
+        adapterMR = new MinhasReceitasAdapter(listaMinhasReceitas, getActivity() );
 
         //Configura recyclerview
         layoutManager = new LinearLayoutManager(getActivity());
@@ -105,7 +105,7 @@ public class MinhasReceitasFragment extends Fragment {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Receitas receitaSelecionada = minhaListaReceitas.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+                                Receitas receitaSelecionada = listaMinhasReceitas.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
                                 i.putExtra("dadosReceitaClicada", receitaSelecionada);
                                 startActivity(i);
@@ -135,7 +135,7 @@ public class MinhasReceitasFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 //limpa a lista de receitas para evitar que haja repetição ao mudar de tela
-                minhaListaReceitas.clear();
+                listaMinhasReceitas.clear();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Receitas minhasReceitas = ds.getValue(Receitas.class);
@@ -145,7 +145,7 @@ public class MinhasReceitasFragment extends Fragment {
                         emptyFridgeView.setVisibility(View.GONE);
                     }
 
-                    minhaListaReceitas.add(minhasReceitas);
+                    listaMinhasReceitas.add(minhasReceitas);
 
                 }
 
@@ -170,4 +170,28 @@ public class MinhasReceitasFragment extends Fragment {
         super.onStop();
         receitasChefRef.removeEventListener(valueEventListenerMinhasReceitas);
     }
+
+    public void pesquisarMinhasReceitas(String textoMR) {
+
+        List<Receitas> listaMinhasReceitasBusca = new ArrayList<>();
+
+        for (Receitas receita: listaMinhasReceitas){
+
+            String nomeMinhaReceita  = receita.getNome().toLowerCase();
+            if (nomeMinhaReceita.contains(textoMR)){
+                listaMinhasReceitasBusca.add(receita);
+            }
+
+        }
+        configuracoesAdapter(listaMinhasReceitasBusca);
+    }
+
+    public void recarregarMinhasReceitas() { configuracoesAdapter(listaMinhasReceitas); }
+
+    private void configuracoesAdapter(List<Receitas> listas) {
+        adapterMR = new MinhasReceitasAdapter(listas, getActivity());
+        recyclerViewMinhasReceitas.setAdapter(adapterMR);
+        adapterMR.notifyDataSetChanged();
+    }
+
 }

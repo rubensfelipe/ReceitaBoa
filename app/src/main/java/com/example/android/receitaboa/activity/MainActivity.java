@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         searchView = findViewById(R.id.materialSearchPrincipal);
 
         //Configurar abas com os respectivos fragments
-        FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
+        final FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
                 .add("Receitas", MinhasReceitasFragment.class)
@@ -54,11 +54,52 @@ public class MainActivity extends AppCompatActivity {
                 .create()
         );
 
-        ViewPager viewPager = findViewById(R.id.viewPager);
+        final ViewPager viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
 
         SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
         viewPagerTab.setViewPager(viewPager);
+
+        //Listener para caixa de texto de pesquisa
+        searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) { return false; }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                //Verifica se o usuario está pesquisando dentro da fragment d Conversas ou Contatos
+                switch (viewPager.getCurrentItem()){ // viewPager.getCurrentItem(): 0 (fragment MinhasReceitas), 1 (fragment Amigos)
+                    case 0: //MinhasReceitas
+                        MinhasReceitasFragment minhasReceitasFrag = (MinhasReceitasFragment) adapter.getPage(0);
+                        if (newText != null && !newText.isEmpty()){
+                            minhasReceitasFrag.pesquisarMinhasReceitas(newText.toLowerCase());
+                        }else {
+                            minhasReceitasFrag.recarregarMinhasReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                        }
+                        break;
+                        /*
+                    case 2: //Todas Receitas
+                        ReceitasFragment receitasFrag = (ReceitasFragment) adapter.getPage(2);
+                        if (newText != null && !newText.isEmpty()){
+                            receitasFrag.pesquisarReceitas(newText.toLowerCase());
+                        }else {
+                            receitasFrag.recarregarReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                        }
+                        break;
+                        */
+                    case 3: //Amigos
+                        PesquisaAmigosFragment amigosFrag = (PesquisaAmigosFragment) adapter.getPage(3);
+                        if (newText != null && !newText.isEmpty()){
+                            amigosFrag.pesquisarAmigos(newText.toLowerCase());
+                        }else {
+                            amigosFrag.recarregarAmigos(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                        }
+                        break;
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -79,12 +120,13 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.menuApagar:
+            case R.id.menuDeslogar:
                 deslogarChef();
                 finish();
                 break;
-            case R.id.menuEdicao:
+            case R.id.menuConfiguracoes:
                 abrirConfiguracoes();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -94,9 +136,9 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             autenticacao.signOut();
-            Toast.makeText(MainActivity.this,"Deslogado",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,"Chef Deslogado",Toast.LENGTH_SHORT).show();
         }catch (Exception e){
-            Toast.makeText(MainActivity.this,"ERRO",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,"Erro ao deslogar Chef",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 
