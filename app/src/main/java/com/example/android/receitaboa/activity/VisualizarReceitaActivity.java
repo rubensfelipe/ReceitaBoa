@@ -83,13 +83,18 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
 
-            minhaReceitaClicada = (Receitas) bundle.getSerializable("dadosReceitaClicada");
-            minhaReceitaDados(minhaReceitaClicada);
 
-            /*
-            receitaAmigoClicada = (Receitas) bundle.getSerializable("dadosReceitaAmigo");
-            amigoReceitaDados(receitaAmigoClicada);
-             */
+            if (bundle.containsKey("dadosMinhaReceitaClicada")){
+
+                minhaReceitaClicada = (Receitas) bundle.getSerializable("dadosMinhaReceitaClicada");
+                minhaReceitaDados(minhaReceitaClicada);
+
+            } else if(bundle.containsKey("dadosReceitaAmigoClicada")){
+
+                receitaAmigoClicada = (Receitas) bundle.getSerializable("dadosReceitaAmigoClicada");
+                amigoReceitaDados(receitaAmigoClicada);
+
+            }
 
         }
 

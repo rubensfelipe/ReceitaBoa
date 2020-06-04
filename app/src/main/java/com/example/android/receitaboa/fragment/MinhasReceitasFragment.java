@@ -38,7 +38,6 @@ public class MinhasReceitasFragment extends Fragment {
     private RecyclerView recyclerViewMinhasReceitas;
     private MinhasReceitasAdapter adapterMR;
 
-    //public GridView gridViewMinhasReceitas;
     private ImageView fabMiniChef;
 
     private String idChefLogado;
@@ -105,21 +104,19 @@ public class MinhasReceitasFragment extends Fragment {
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
+
                                 Receitas receitaSelecionada = listaMinhasReceitas.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
-                                i.putExtra("dadosReceitaClicada", receitaSelecionada);
+                                i.putExtra("dadosMinhaReceitaClicada", receitaSelecionada);
                                 startActivity(i);
+
                             }
+                            @Override
+                            public void onLongItemClick(View view, int position) { }
 
                             @Override
-                            public void onLongItemClick(View view, int position) {
-
-                            }
-
-                            @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {   }
                         }
                 )
         );

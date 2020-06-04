@@ -48,7 +48,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
     private DatabaseReference seguidoresRef;
     private DatabaseReference receitasChefAmigoRef;
 
-    private List<Receitas> receitasAmigo;
+    private List<Receitas> listaReceitasAmigo = new ArrayList<>();
 
     private PerfilAmigoAdapterGrid perfilAmigoAdapter;
     private Chef chefAmigoSelecionado;
@@ -90,24 +90,19 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
             carregarReceitasAmigo();
 
-
-            /*
-
             //Abre a foto que foi clicada no perfil usuario
             gridViewPerfil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                    Receitas receitaAmigo = receitasAmigo.get(position);
+                    Receitas receitaAmigoSelecionada = listaReceitasAmigo.get(position);
 
                     Intent i = new Intent(getApplicationContext(), VisualizarReceitaActivity.class);
-                    i.putExtra("dadosReceitaAmigo",receitaAmigo); //envia as informações da receita
+                    i.putExtra("dadosReceitaAmigoClicada", receitaAmigoSelecionada); //envia as informações da receita
                     startActivity(i);
 
                 }
             });
-
-             */
 
         }
 
@@ -131,9 +126,6 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
     private void carregarReceitasAmigo() {
 
-        //instanciar uma lista de receitas
-        receitasAmigo = new ArrayList<>();
-
         //Recuperar as receitas criados pelo amigo
         receitasChefAmigoRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -141,25 +133,22 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
                 configurarTamanhoGrid();
 
-                //Cria uma lista de receitas do seu amigo
-                List<Receitas> receitasList = new ArrayList<>();
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Receitas receita = ds.getValue(Receitas.class);
-                    receitasList.add( receita );
+                    listaReceitasAmigo.add( receita );
                 }
-
-                //Configurar adapter
-                perfilAmigoAdapter = new PerfilAmigoAdapterGrid(getApplicationContext(), R.layout.grid_postagem, receitasList);
-                gridViewPerfil.setAdapter(perfilAmigoAdapter);
-
+                configurarAdapter(listaReceitasAmigo);
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {  }
         });
 
+    }
+
+    private void configurarAdapter(List<Receitas> lista) {
+        perfilAmigoAdapter = new PerfilAmigoAdapterGrid(getApplicationContext(), R.layout.grid_postagem, lista);
+        gridViewPerfil.setAdapter(perfilAmigoAdapter);
     }
 
     //configura o tamanho das imagens e das grades
