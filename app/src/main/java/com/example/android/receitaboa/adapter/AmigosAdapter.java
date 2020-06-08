@@ -29,6 +29,10 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHold
         this.context = c;
     }
 
+    public List<Chef> getListAmigos(){ //recupera a lista de amigos atualizada (seja na busca dos amigos ou na lista completa) esse método é importante para que ao pesquisar um amigo, a sua posição na lista não seja alterada
+        return this.amigos;
+    }
+
     @NonNull
     @Override
     //Seta os itens (nome, email, foto, ultima conversa) na lista

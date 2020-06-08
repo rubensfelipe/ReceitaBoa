@@ -19,8 +19,6 @@ public class Receitas implements Serializable {
     private String qtdPessoasServidas;
     private String urlFotoReceita;
 
-    private String urlFotoAlterada;
-
     //Configurações iniciais
     String identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //recupera o chef logado
 

@@ -53,6 +53,8 @@ public class MinhasReceitasFragment extends Fragment {
 
     private ValueEventListener valueEventListenerMinhasReceitas;
 
+    public boolean receitaClicada = false;
+
     public MinhasReceitasFragment() {
         // Required empty public constructor
     }
@@ -105,10 +107,14 @@ public class MinhasReceitasFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                Receitas receitaSelecionada = listaMinhasReceitas.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+                                receitaClicada = true;
+
+                                List<Receitas> listaMinhasReceitasAtualizada = adapterMR.getListaMinhasReceitas(); //permite que a posição na lista da receitas não se altere msm qdo houve uma busca
+
+                                Receitas minhaReceitaSelecionada = listaMinhasReceitasAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
 
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
-                                i.putExtra("dadosMinhaReceitaClicada", receitaSelecionada);
+                                i.putExtra("dadosMinhaReceitaClicada", minhaReceitaSelecionada);
                                 startActivity(i);
 
                             }
@@ -124,8 +130,10 @@ public class MinhasReceitasFragment extends Fragment {
         return view;
     }
 
-    //Recupera as fotos das receitas
-    private void recuperarMinhasReceitasFirebaseDb(){
+    //Recupera os dados das minhas receitas
+    public void recuperarMinhasReceitasFirebaseDb(){
+
+        listaMinhasReceitas.clear();
 
         valueEventListenerMinhasReceitas = receitasChefRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -141,11 +149,8 @@ public class MinhasReceitasFragment extends Fragment {
                     if(minhasReceitas != null){
                         emptyFridgeView.setVisibility(View.GONE);
                     }
-
                     listaMinhasReceitas.add(minhasReceitas);
-
                 }
-
                 adapterMR.notifyDataSetChanged();
             }
 
@@ -168,22 +173,26 @@ public class MinhasReceitasFragment extends Fragment {
         receitasChefRef.removeEventListener(valueEventListenerMinhasReceitas);
     }
 
-    public void pesquisarMinhasReceitas(String textoMR) {
+    public void pesquisarMinhasReceitas(String textoBuscaMR) {
 
         List<Receitas> listaMinhasReceitasBusca = new ArrayList<>();
 
         for (Receitas receita: listaMinhasReceitas){
 
             String nomeMinhaReceita  = receita.getNome().toLowerCase();
-            if (nomeMinhaReceita.contains(textoMR)){
+            if (nomeMinhaReceita.contains(textoBuscaMR)){
                 listaMinhasReceitasBusca.add(receita);
             }
-
         }
         configuracoesAdapter(listaMinhasReceitasBusca);
     }
 
-    public void recarregarMinhasReceitas() { configuracoesAdapter(listaMinhasReceitas); }
+
+    public void recarregarMinhasReceitas() {
+        configuracoesAdapter(listaMinhasReceitas);
+    }
+
+
 
     private void configuracoesAdapter(List<Receitas> listas) {
         adapterMR = new MinhasReceitasAdapter(listas, getActivity());

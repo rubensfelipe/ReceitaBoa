@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
@@ -27,7 +28,9 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
-    private MaterialSearchView searchView;
+    public MaterialSearchView searchView;
+
+    public boolean iconePesquisaClicado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,32 @@ public class MainActivity extends AppCompatActivity {
         SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
         viewPagerTab.setViewPager(viewPager);
 
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+
+                switch (viewPager.getCurrentItem()){
+                    /*
+                    case 0:
+                        MinhasReceitasFragment mrFrag = (MinhasReceitasFragment) adapter.getPage(0);
+                        mrFrag.recarregarMinhasReceitas();
+                        break;
+                     */
+
+                    case  3:
+                        PesquisaAmigosFragment friendsFrag = (PesquisaAmigosFragment) adapter.getPage(3);
+                        friendsFrag.recarregarAmigos();
+                        break;
+
+                }
+            }
+        });
+
         //Listener para caixa de texto de pesquisa
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
@@ -68,18 +97,26 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                //Verifica se o usuario está pesquisando dentro da fragment d Conversas ou Contatos
+                //Verifica se o usuario está pesquisando dentro d qual fragment
                 switch (viewPager.getCurrentItem()){ // viewPager.getCurrentItem(): 0 (fragment MinhasReceitas), 1 (fragment Amigos)
+
+                      /*
                     case 0: //MinhasReceitas
                         MinhasReceitasFragment minhasReceitasFrag = (MinhasReceitasFragment) adapter.getPage(0);
-                        if (newText != null && !newText.isEmpty()){
-                            minhasReceitasFrag.pesquisarMinhasReceitas(newText.toLowerCase());
-                        }else {
-                            minhasReceitasFrag.recarregarMinhasReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
-                        }
+
+                            if (newText != null && !newText.isEmpty()){
+                                minhasReceitasFrag.pesquisarMinhasReceitas(newText.toLowerCase());
+
+                            }else {
+
+                                minhasReceitasFrag.recarregarMinhasReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                            }
+
                         break;
-                        /*
-                    case 2: //Todas Receitas
+
+
+
+                    case 2: //Todas as Receitas
                         ReceitasFragment receitasFrag = (ReceitasFragment) adapter.getPage(2);
                         if (newText != null && !newText.isEmpty()){
                             receitasFrag.pesquisarReceitas(newText.toLowerCase());
@@ -131,6 +168,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 
     public void deslogarChef(){
 

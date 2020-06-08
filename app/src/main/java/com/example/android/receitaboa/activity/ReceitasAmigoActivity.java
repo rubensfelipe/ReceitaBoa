@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.adapter.PerfilAmigoAdapterGrid;
+import com.example.android.receitaboa.helper.Base64Custom;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Chef;
@@ -29,6 +31,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -40,18 +43,24 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
     private TextView textPostagens, textSeguidores, textSeguindo;
     private GridView gridViewPerfil;
 
+    private String idAmigoSelecionado;
     private String idChefLogado;
-    private String idChefAmigoSelecionado;
 
     private DatabaseReference firebaseRef;
     private DatabaseReference chefsRef;
+    private DatabaseReference chefLogadoRef;
+    private DatabaseReference amigoRef;
     private DatabaseReference seguidoresRef;
-    private DatabaseReference receitasChefAmigoRef;
+    private DatabaseReference receitasAmigoRef;
 
     private List<Receitas> listaReceitasAmigo = new ArrayList<>();
 
     private PerfilAmigoAdapterGrid perfilAmigoAdapter;
-    private Chef chefAmigoSelecionado;
+    private Chef amigoSelecionado;
+    private Chef chefLogado;
+    private String emailAmigoSelecionado;
+
+    private ValueEventListener valueEventListenerPerfilAmigo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,52 +69,79 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
         inicializarComponentes();
 
-        //Configuracoes iniciais
-        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
-        chefsRef = firebaseRef.child("chefs"); //cria o nó usuários (se não existir)
-        seguidoresRef = firebaseRef.child("seguidores"); //cria o nó seguidores (se não existir)
-        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //getUid do usuario logado (id do FirebaseUser)
+        configuracoesIniciais();
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
-            chefAmigoSelecionado = (Chef) bundle.getSerializable("chefSelecionado");
-            idChefAmigoSelecionado = bundle.getString("idChefSeleciondado");
 
-            //Configurar referência de receitas do chef selecionado
-            receitasChefAmigoRef = ConfiguracaoFirebase.getFirebaseDatabase()
-                    .child("receitas")
-                    .child(idChefAmigoSelecionado);
+            recuperarIdAmigoSelecionado(bundle);
 
-            //Recuperar a foto do usuário
-            String caminhoFoto = chefAmigoSelecionado.getUrlFotoChef();
-            if(caminhoFoto != null){
-                Uri url = Uri.parse(caminhoFoto); //String->Uri
-                Glide.with(ReceitasAmigoActivity.this)
-                        .load(url) //carrega a foto do FirebaseStorage através do caminho da foto
-                        .into(imagePerfil); //carrega a foto no perfil do usuário no app
-            }
+            configurarReceitasAmigoRef(recuperarIdAmigoSelecionado(bundle));
+
+            recuperarFotoAmigo();
 
             //Carrega as fotos mais rápido
             inicializarImageLoader();
 
             carregarReceitasAmigo();
 
-            //Abre a foto que foi clicada no perfil usuario
-            gridViewPerfil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                    Receitas receitaAmigoSelecionada = listaReceitasAmigo.get(position);
-
-                    Intent i = new Intent(getApplicationContext(), VisualizarReceitaActivity.class);
-                    i.putExtra("dadosReceitaAmigoClicada", receitaAmigoSelecionada); //envia as informações da receita
-                    startActivity(i);
-
-                }
-            });
+            //Abre a foto da receita que foi clicada no perfil usuario
+            eventoClickFotoReceita();
 
         }
 
+    }
+
+    private void eventoClickFotoReceita() {
+
+        gridViewPerfil.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+                Receitas receitaAmigoSelecionada = listaReceitasAmigo.get(position);
+
+                Intent i = new Intent(getApplicationContext(), VisualizarReceitaActivity.class);
+                i.putExtra("dadosReceitaAmigoClicada", receitaAmigoSelecionada); //envia as informações da receita
+                startActivity(i);
+
+            }
+        });
+
+    }
+
+    private String recuperarIdAmigoSelecionado(Bundle bund) {
+        amigoSelecionado = (Chef) bund.getSerializable("chefSelecionado");
+
+        //Recuperar id do Chef Amigo selecionado em pesquisaAmigos
+        emailAmigoSelecionado = amigoSelecionado.getEmail();
+        idAmigoSelecionado = Base64Custom.codificarBase64(emailAmigoSelecionado);
+
+        return idAmigoSelecionado;
+
+    }
+
+    private void configurarReceitasAmigoRef(String idAmigoClicado) {
+        receitasAmigoRef = ConfiguracaoFirebase.getFirebaseDatabase()
+                .child("receitas")
+                .child(idAmigoClicado);
+    }
+
+    private void recuperarFotoAmigo() {
+        String caminhoFoto = amigoSelecionado.getUrlFotoChef();
+        if(caminhoFoto != null){
+            Uri url = Uri.parse(caminhoFoto); //String->Uri
+            Glide.with(ReceitasAmigoActivity.this)
+                    .load(url) //carrega a foto do FirebaseStorage através do caminho da foto
+                    .into(imagePerfil); //carrega a foto no perfil do usuário no app
+        }
+    }
+
+    private void configuracoesIniciais() {
+        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        chefsRef = firebaseRef.child("chefs"); //cria o nó usuários (se não existir)
+        seguidoresRef = firebaseRef.child("seguidores"); //cria o nó seguidores (se não existir)
+        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
+        chefLogadoRef = chefsRef.child(idChefLogado);
     }
 
     //Instancia a UniversalImagemLoader (biblioteca de carregamento de fotos)
@@ -127,15 +163,18 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
     private void carregarReceitasAmigo() {
 
         //Recuperar as receitas criados pelo amigo
-        receitasChefAmigoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        receitasAmigoRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 configurarTamanhoGrid();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
+
+
                     Receitas receita = ds.getValue(Receitas.class);
-                    listaReceitasAmigo.add( receita );
+
+                    listaReceitasAmigo.add(receita);
                 }
                 configurarAdapter(listaReceitasAmigo);
             }
@@ -167,7 +206,153 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
         textPostagens = findViewById(R.id.textPostagens);
         textSeguidores = findViewById(R.id.textSeguidores);
         textSeguindo = findViewById(R.id.textSeguindo);
-        buttonAcaoPerfil.setText("Receitinhas"); //muda o texto do botão que inicialmente era editar perfil no fragment_pesquisa
+        buttonAcaoPerfil.setText("Carregando"); //muda o texto do botão que inicialmente era editar perfil no fragment_pesquisa
     }
 
+    private void recuperarDadosChefLogado() {
+
+        chefLogadoRef = chefsRef.child(idChefLogado);
+        chefLogadoRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        chefLogado = dataSnapshot.getValue(Chef.class);
+
+                        //Verifica se usuário já está seguindo o amigo selecionado
+                        verficaSeSegueAmigo();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );
+    }
+
+    private void verficaSeSegueAmigo() {
+
+        DatabaseReference seguidorRef = seguidoresRef
+                .child(idAmigoSelecionado)
+                .child(idChefLogado);
+
+        seguidorRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){ //se houver dados dentro do nó id do usuárioSelecionado (então quer dizer que o usuário já está seguindo seu amigo)
+                            Log.i("dadosUsuário","Seguindo");
+                            habilitarBotaoSeguir(true);
+                        }else {
+                            Log.i("dadosUsuário","Seguir");
+                            habilitarBotaoSeguir(false);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );
+
+    }
+
+    private void habilitarBotaoSeguir(boolean seguindoAmigo) {
+
+        if (seguindoAmigo){
+            buttonAcaoPerfil.setText("Seguindo");
+        }else {
+            buttonAcaoPerfil.setText("Seguir");
+
+            //Adicionar evento de seguir amigo
+            buttonAcaoPerfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    salvarSeguidor(chefLogado, amigoSelecionado);
+                }
+            });
+        }
+
+    }
+
+    /* Configuração (criação) do nó no FirebaseDatabase
+        seguidores->id_do_usario_qualquer->id_usuario_logado(comecou a seguir um usuario qualquer)->dados do usuario logado (tree que mostra os meus seguidores)
+     */
+    private void salvarSeguidor(Chef chefLogado, Chef amigo) {
+
+        HashMap<String, Object> dadosChefLogado = new HashMap<>();
+        dadosChefLogado.put("nome", chefLogado.getNome());
+        dadosChefLogado.put("caminhoFoto", chefLogado.getUrlFotoChef());
+
+        DatabaseReference seguidorRef = seguidoresRef
+                .child(idAmigoSelecionado)
+                .child(idChefLogado);
+        seguidorRef.setValue(dadosChefLogado);
+
+        //Alterar botão para seguindo
+        buttonAcaoPerfil.setText("Seguindo");
+        buttonAcaoPerfil.setOnClickListener(null); //bloqueia o click no botão acao após o texto do botão setar para seguindo
+
+        //Incrementar o contador Seguindo do chef logado
+        int seguindo = chefLogado.getSeguindo() + 1;
+        HashMap<String, Object> dadosSeguindo = new HashMap<>();
+        dadosSeguindo.put("seguindo", seguindo);
+
+        DatabaseReference chefSeguindo = chefsRef
+                .child(idChefLogado);
+        chefSeguindo.updateChildren(dadosSeguindo);
+
+        //Incrementar o contador Seguidores do seu amigo
+        int seguidores = amigo.getSeguidores() + 1;
+        HashMap<String, Object> dadosSeguidores = new HashMap<>();
+        dadosSeguidores.put("seguidores", seguidores);
+
+        DatabaseReference chefSeguidores = chefsRef
+                .child(idAmigoSelecionado);
+        chefSeguidores.updateChildren(dadosSeguidores);
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarDadosChefLogado();
+
+        recuperarDadosSeguidoresAmigo();
+    }
+
+    private void recuperarDadosSeguidoresAmigo() {
+
+        amigoRef = chefsRef.child(idAmigoSelecionado);
+        valueEventListenerPerfilAmigo = amigoRef.addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        Chef amigo = dataSnapshot.getValue(Chef.class);
+
+                        String postagens = String.valueOf(amigo.getPostagens());
+                        String seguindo = String.valueOf(amigo.getSeguindo());
+                        String seguidores = String.valueOf(amigo.getSeguidores());
+
+                        textPostagens.setText(postagens);
+                        textSeguidores.setText(seguidores);
+                        textSeguindo.setText(seguindo);
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                }
+        );
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        amigoRef.removeEventListener(valueEventListenerPerfilAmigo);
+    }
 }

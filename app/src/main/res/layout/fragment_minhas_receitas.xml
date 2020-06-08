@@ -73,6 +73,15 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A2AAB0" />
 
+        <ProgressBar
+            android:id="@+id/progressBarNR"
+            style="?android:attr/progressBarStyle"
+            android:backgroundTint="@android:color/white"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:background="#f6f6f6" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

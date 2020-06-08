@@ -37,6 +37,11 @@ public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAd
         this.context = c;
     }
 
+    //indentifica se a lista que está sendo utilizada pelo adapter é a lista completa das minhas receitas ou a lista de busca de uma receita especifica da minha lista de receitas (assim as receitas mantem as suas posições da lista completa)
+    public List<Receitas> getListaMinhasReceitas(){
+        return this.listaMinhasReceitas;
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

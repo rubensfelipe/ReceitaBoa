@@ -8,9 +8,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,8 +22,12 @@ import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
+import com.example.android.receitaboa.model.Chef;
 import com.example.android.receitaboa.model.Receitas;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 public class VisualizarReceitaActivity extends AppCompatActivity {
 
@@ -36,6 +43,8 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private String qtdPessoasServidasReceitaClicada;
     private String receitaFoto;
     private String receitaAmigoFoto;
+    private Button buttonAcaoPerfil;
+    private Toolbar toolbar;
 
     private String idChefLogado;
     private String idReceitaClicada;
@@ -46,6 +55,8 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private DatabaseReference receitasChefRef;
 
     public static Activity atividadeAberta;
+
+    private Bundle bundle;
 
     private Receitas minhaReceitaClicada;
     private Receitas receitaAmigoClicada;
@@ -59,30 +70,21 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         inicializarComponentes();
 
         //Configurações iniciais
-        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
         firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         receitasRef = firebaseDbRef.child("receitas");
+        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
 
-        atividadeAberta = this;
+        atividadeAberta = this; //referencia que atividadeAberta = essa Activity
 
         //Configurar referência receitas do chef logado
         receitasChefRef = receitasRef
                 .child(idChefLogado);
 
-
-        //Configura toolbar
-        Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
-        toolbar.setTitle("Visualizar Receita");
-        setSupportActionBar( toolbar );
-        //adiciona o botão voltar (na barra superior) para MainActivity (padrão) (PARTE 1)
-        //OBS: deve-se adicionar android:parentActivityName=".activity.MainActivity" no Android Manifest na parte do EditarPerfilActivity, botão voltar retorna a parentActivity
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp); //customiza o botão voltar para o ícone q vc desejar
+        configurarToolbar();
 
         //Recupera os dados da Receita selecionada
-        Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         if (bundle != null){
-
 
             if (bundle.containsKey("dadosMinhaReceitaClicada")){
 
@@ -95,9 +97,17 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                 amigoReceitaDados(receitaAmigoClicada);
 
             }
-
         }
 
+    }
+
+    private void configurarToolbar() {
+        toolbar.setTitle("Visualizar Receita");
+        setSupportActionBar( toolbar );
+        //adiciona o botão voltar (na barra superior) para MainActivity (padrão) (PARTE 1)
+        //OBS: deve-se adicionar android:parentActivityName=".activity.MainActivity" no Android Manifest na parte do EditarPerfilActivity, botão voltar retorna a parentActivity
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp); //customiza o botão voltar para o ícone q vc desejar
     }
 
     private void amigoReceitaDados(Receitas receitaAmigoClicada) {
@@ -157,24 +167,29 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_view_receita,menu);
+        if (bundle.containsKey("dadosMinhaReceitaClicada")){
 
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.menu_view_receita, menu);
+
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.menuEdicao:
-                abrirEditor();
-                break;
-            case R.id.menuApagar:
-                excluirReceita();
-                break;
-        }
+        if (bundle.containsKey("dadosMinhaReceitaClicada")){
 
+            switch (item.getItemId()){
+                case R.id.menuEdicao:
+                    abrirEditor();
+                    break;
+                case R.id.menuApagar:
+                    excluirReceita();
+                    break;
+            }
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -191,13 +206,14 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         i.putExtra("ingredientes", ingredientesReceitaClicada);
         i.putExtra("modoPreparo", modoPreparoReceitaClicada);
         i.putExtra("qtdPessoasServidas", qtdPessoasServidasReceitaClicada);
-        i.putExtra("urlFoto",receitaFoto);
-        i.putExtra("idR",idReceitaClicada);
+        i.putExtra("urlFoto", receitaFoto);
+        i.putExtra("idR", idReceitaClicada);
         startActivity(i);
 
     }
 
     private void inicializarComponentes() {
+        toolbar = findViewById(R.id.toolbarPrincipal);
         textNomeReceita = findViewById(R.id.textNomeReceita);
         textIngredientes = findViewById(R.id.textIngredientes);
         textModoPreparo = findViewById(R.id.textModoPreparo);
@@ -207,10 +223,9 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() { //ao clicar no botao x da visualizacao da receita, a tela fecha e volta para a tela anterior
+
         finish();
         return false;
     }
-
-
 
 }
