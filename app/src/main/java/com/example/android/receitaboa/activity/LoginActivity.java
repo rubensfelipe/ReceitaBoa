@@ -31,11 +31,19 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        inicializarComponentes();
 
+        configuracoesIniciais();
+
+    }
+
+    private void inicializarComponentes() {
         campoEmail = findViewById(R.id.editLoginEmail);
         campoSenha = findViewById(R.id.editLoginSenha);
+    }
 
+    private void configuracoesIniciais() {
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
     }
 
     public void logarUsuario(Chef chef){
@@ -93,15 +101,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        FirebaseUser usuarioAtual = autenticacao.getCurrentUser();
-        if (usuarioAtual != null){
-            abrirTelaPrincipal();
-        }
-    }
-
     public void abrirCadastro(View view){
         Intent i = new Intent(LoginActivity.this,CadastroActivity.class);
         startActivity(i);
@@ -110,6 +109,15 @@ public class LoginActivity extends AppCompatActivity {
     public void abrirTelaPrincipal(){
         Intent i = new Intent(LoginActivity.this,MainActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser usuarioAtual = autenticacao.getCurrentUser();
+        if (usuarioAtual != null){
+            abrirTelaPrincipal();
+        }
     }
 
 }
