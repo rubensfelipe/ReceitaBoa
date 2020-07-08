@@ -10,13 +10,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.fragment.FeedFragment;
-import com.example.android.receitaboa.fragment.PesquisaAmigosFragment;
-import com.example.android.receitaboa.fragment.PesquisaReceitasFragment;
+import com.example.android.receitaboa.fragment.BuscarAmigosFragment;
+import com.example.android.receitaboa.fragment.ReceitasAmigosFragment;
 import com.example.android.receitaboa.fragment.MinhasReceitasFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
                 FragmentPagerItems.with(this)
                 .add("Receitas", MinhasReceitasFragment.class)
                 .add("Feed", FeedFragment.class)
-                .add("Buscar Receitas", PesquisaReceitasFragment.class)
-                .add("Buscar Amigos", PesquisaAmigosFragment.class)
+                .add("Receitas Amigos", ReceitasAmigosFragment.class)
+                .add("Buscar Amigos", BuscarAmigosFragment.class)
                 .create()
         );
 
@@ -81,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                      */
 
                     case  3:
-                        PesquisaAmigosFragment friendsFrag = (PesquisaAmigosFragment) adapter.getPage(3);
+                        BuscarAmigosFragment friendsFrag = (BuscarAmigosFragment) adapter.getPage(3);
                         friendsFrag.recarregarAmigos();
                         break;
 
@@ -126,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                         */
                     case 3: //Amigos
-                        PesquisaAmigosFragment amigosFrag = (PesquisaAmigosFragment) adapter.getPage(3);
+                        BuscarAmigosFragment amigosFrag = (BuscarAmigosFragment) adapter.getPage(3);
                         if (newText != null && !newText.isEmpty()){
                             amigosFrag.pesquisarAmigos(newText.toLowerCase());
                         }else {

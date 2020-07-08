@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/cloche_tableware" />
+                app:srcCompat="@drawable/avatar" />
 
             <LinearLayout
                 android:layout_width="match_parent"

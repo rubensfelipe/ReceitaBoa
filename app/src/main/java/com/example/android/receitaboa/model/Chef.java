@@ -20,6 +20,8 @@ public class Chef implements Serializable {
     private int seguindo = 0;
     private int postagens = 0;
 
+    private int type;
+
     public Chef() {
     }
 
@@ -121,5 +123,14 @@ public class Chef implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    //determina se o chef é do tipo item de lista ou cabeçalho
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

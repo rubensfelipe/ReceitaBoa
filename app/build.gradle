@@ -33,7 +33,7 @@ dependencies {
     //Dependências firebase
     implementation 'com.google.firebase:firebase-analytics:17.4.3'
     implementation 'com.google.firebase:firebase-core:17.4.3'
-    implementation 'com.google.firebase:firebase-database:19.3.0'
+    implementation 'com.google.firebase:firebase-database:19.3.1'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-auth:19.3.1'
     implementation 'com.firebaseui:firebase-ui-storage:0.6.0'
@@ -50,6 +50,13 @@ dependencies {
 
     //Dependência para material search view (aba para pesquisa de usuarios dentro de uma lista)
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+
+    //Dependência para o recyclerView MultiViewAdapter com Headers (Usuários) e itens da lista (Receitas Amigos)
+    implementation 'dev.ahamed.mva3:adapter:3.0.0'
+    implementation 'dev.ahamed.mva3:ext-decorator:3.0.0' //extensão do MultiViewAdapter
+
+    //teste
+    //implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
 
 }
 

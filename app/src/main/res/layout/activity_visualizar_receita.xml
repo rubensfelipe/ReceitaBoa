@@ -47,7 +47,7 @@
                     android:layout_height="250dp"
                     android:layout_marginTop="5dp"
                     android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/cloche_tableware" />
+                    app:srcCompat="@drawable/avatar" />
 
                 <TextView
                     android:id="@+id/textView4"

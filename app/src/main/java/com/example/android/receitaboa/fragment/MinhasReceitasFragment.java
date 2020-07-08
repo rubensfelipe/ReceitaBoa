@@ -66,8 +66,27 @@ public class MinhasReceitasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_minhas_receitas, container, false);
 
-        //Configurações iniciais
+        inicializarComponentes(view);
+
+        configuracoesIniciais();
+
+        configurarAdapterMaisRecyclerView();
+
+        configurarEventoCliqueMinhaReceita();
+
+        return view;
+    }
+
+    private void inicializarComponentes(View vista) {
+        emptyFridgeView = vista.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
+        recyclerViewMinhasReceitas = vista.findViewById(R.id.recyclerViewMinhasReceitas);
+        fabMiniChef = vista.findViewById(R.id.fab);
+    }
+
+    private void configuracoesIniciais() {
+
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
+
         firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         receitasRef = firebaseDbRef.child("receitas");
 
@@ -75,12 +94,12 @@ public class MinhasReceitasFragment extends Fragment {
         receitasChefRef = receitasRef
                 .child(idChefLogado);
 
-        //Inicializar componentes
-        emptyFridgeView = view.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
-        recyclerViewMinhasReceitas = view.findViewById(R.id.recyclerViewMinhasReceitas);
-        fabMiniChef = view.findViewById(R.id.fab);
+        configurarFloatActionButton();
 
-        //Abre o editor de uma nova receita
+    }
+
+    //Abre o editor de uma nova receita
+    private void configurarFloatActionButton() {
         fabMiniChef.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,17 +107,19 @@ public class MinhasReceitasFragment extends Fragment {
                 startActivity(adicionarReceita);
             }
         });
+    }
 
-        //Configura adapter
+    private void configurarAdapterMaisRecyclerView() {
         adapterMR = new MinhasReceitasAdapter(listaMinhasReceitas, getActivity() );
 
-        //Configura recyclerview
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewMinhasReceitas.setLayoutManager(layoutManager);
         recyclerViewMinhasReceitas.setHasFixedSize(true);
         recyclerViewMinhasReceitas.setAdapter(adapterMR);
+    }
 
-        //Configura evento de click a lista
+    private void configurarEventoCliqueMinhaReceita() {
+
         recyclerViewMinhasReceitas.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getActivity(),
@@ -127,7 +148,6 @@ public class MinhasReceitasFragment extends Fragment {
                 )
         );
 
-        return view;
     }
 
     //Recupera os dados das minhas receitas
@@ -155,9 +175,7 @@ public class MinhasReceitasFragment extends Fragment {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {  }
         });
     }
 
@@ -173,6 +191,10 @@ public class MinhasReceitasFragment extends Fragment {
         receitasChefRef.removeEventListener(valueEventListenerMinhasReceitas);
     }
 
+    /*
+    PESQUISA DE RECEITAS ABAIXO
+     */
+    //ADICIONAR QUANDO RESOLVER O PROBLEMA DA PESQUISA, ERRO AO RECARREGAR A LISTA APÓS FECHAR UMA RECEITA
     public void pesquisarMinhasReceitas(String textoBuscaMR) {
 
         List<Receitas> listaMinhasReceitasBusca = new ArrayList<>();
@@ -187,12 +209,9 @@ public class MinhasReceitasFragment extends Fragment {
         configuracoesAdapter(listaMinhasReceitasBusca);
     }
 
-
     public void recarregarMinhasReceitas() {
         configuracoesAdapter(listaMinhasReceitas);
     }
-
-
 
     private void configuracoesAdapter(List<Receitas> listas) {
         adapterMR = new MinhasReceitasAdapter(listas, getActivity());

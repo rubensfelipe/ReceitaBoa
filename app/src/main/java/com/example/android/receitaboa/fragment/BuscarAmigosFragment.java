@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PesquisaAmigosFragment extends Fragment {
+public class BuscarAmigosFragment extends Fragment {
 
     private RecyclerView recyclerViewListaAmigos;
     private AmigosAdapter adapter;
@@ -44,7 +44,7 @@ public class PesquisaAmigosFragment extends Fragment {
     private ProgressBar progressBar;
 
 
-    public PesquisaAmigosFragment() {
+    public BuscarAmigosFragment() {
         // Required empty public constructor
     }
 
@@ -54,20 +54,18 @@ public class PesquisaAmigosFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pesquisa_amigos, container, false);
 
-        //Configurações iniciais
-        progressBar = view.findViewById(R.id.progressBarAmigos);
-        recyclerViewListaAmigos = view.findViewById(R.id.recyclerViewListaAmigos);
-        chefsRef = ConfiguracaoFirebase.getFirebaseDatabase().child("chefs");
-        chefAtualAuth = UsuarioFirebaseAuth.getChefAtualAuth(); //recupera os dados do chef que está logado
+        inicializarComponentes(view);
 
-        //Configurar adapter
-        adapter = new AmigosAdapter(listaAmigos, getActivity()); //AmigosAdapter(Lista [tipo: ArrayList<>], contexto) //PRIMEIRO: Criar construtor na classe AmigosAdapter, AmigosAdapter(Lista [tipo: List<>], contexto)
+        configuracoesRef();
 
-        //Configurar recyclerView
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewListaAmigos.setLayoutManager(layoutManager);
-        recyclerViewListaAmigos.setHasFixedSize(true);
-        recyclerViewListaAmigos.setAdapter(adapter);
+        configuracoesRecyclerMaisAdapter();
+
+        configuracaoEventoCliqueAmigos();
+
+        return view;
+    }
+
+    private void configuracaoEventoCliqueAmigos() {
 
         //Configurar evento de clique no recyclerView (na lista de contatos)
         recyclerViewListaAmigos.addOnItemTouchListener(
@@ -90,19 +88,35 @@ public class PesquisaAmigosFragment extends Fragment {
                             }
 
                             @Override
-                            public void onLongItemClick(View view, int position) {
-
-                            }
+                            public void onLongItemClick(View view, int position) {  }
 
                             @Override
-                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                            }
+                            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {    }
                         }
                 )
         );
 
-        return view;
+    }
+
+    private void configuracoesRecyclerMaisAdapter() {
+        //Configurar adapter
+        adapter = new AmigosAdapter(listaAmigos, getActivity()); //AmigosAdapter(Lista [tipo: ArrayList<>], contexto) //PRIMEIRO: Criar construtor na classe AmigosAdapter, AmigosAdapter(Lista [tipo: List<>], contexto)
+
+        //Configurar recyclerView
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerViewListaAmigos.setLayoutManager(layoutManager);
+        recyclerViewListaAmigos.setHasFixedSize(true);
+        recyclerViewListaAmigos.setAdapter(adapter);
+    }
+
+    private void configuracoesRef() {
+        chefsRef = ConfiguracaoFirebase.getFirebaseDatabase().child("chefs");
+        chefAtualAuth = UsuarioFirebaseAuth.getChefAtualAuth(); //recupera os dados do chef que está logado
+    }
+
+    private void inicializarComponentes(View vista) {
+        progressBar = vista.findViewById(R.id.progressBarAmigos);
+        recyclerViewListaAmigos = vista.findViewById(R.id.recyclerViewListaAmigos);
     }
 
     @Override

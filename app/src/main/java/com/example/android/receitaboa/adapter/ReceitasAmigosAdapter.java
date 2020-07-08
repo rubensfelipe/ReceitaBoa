@@ -17,28 +17,29 @@ import com.example.android.receitaboa.model.Receitas;
 
 import java.util.List;
 
-public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAdapter.MyViewHolder> {
+public class ReceitasAmigosAdapter extends RecyclerView.Adapter<ReceitasAmigosAdapter.MyViewHolder> {
 
     private Context context;
-    private List<Receitas> listaMinhasReceitas;
+    private List<Receitas> listaReceitasAmigos;
     private MyViewHolder holder;
     private int position;
 
-    public MinhasReceitasAdapter(List<Receitas> list, Context c) {
-        this.listaMinhasReceitas = list;
+    public ReceitasAmigosAdapter(List<Receitas> list, Context c) {
+        this.listaReceitasAmigos = list;
         this.context = c;
     }
 
+    //ADICIONAR QUANDO FOR ARRUMAR A PESQUISA DE RECEITAS
     //indentifica se a lista que está sendo utilizada pelo adapter é a lista completa das minhas receitas ou a lista de busca de uma receita especifica da minha lista de receitas (assim as receitas mantem as suas posições da lista completa)
-    public List<Receitas> getListaMinhasReceitas(){
-        return this.listaMinhasReceitas;
+    public List<Receitas> getListaReceitasAmigos(){
+        return this.listaReceitasAmigos;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_minha_receita, parent,false);
-        return new MinhasReceitasAdapter.MyViewHolder(itemLista);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receitas_amigos, parent,false);
+        return new ReceitasAmigosAdapter.MyViewHolder(itemLista);
     }
 
     @Override
@@ -46,41 +47,40 @@ public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAd
         this.holder = holder;
         this.position = position;
 
-        final Receitas receita = listaMinhasReceitas.get(position);
+        //Dados Receitas Amigo
+        final Receitas receita = listaReceitasAmigos.get(position);
+
+        //Carrega os dados de texto da receita
+        holder.nomeReceitaAmigo.setText(receita.getNome());
 
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
             Uri uriFotoReceita = Uri.parse(receita.getUrlFotoReceita());
 
             //Carrega foto da receita na lista
-            Glide.with(context).load(uriFotoReceita).into(holder.fotoReceita);
+            Glide.with(context).load(uriFotoReceita).into(holder.fotoReceitaAmigo);
         }else {
-            holder.fotoReceita.setImageResource(R.drawable.avatar);
+            holder.fotoReceitaAmigo.setImageResource(R.drawable.avatar);
         }
 
-        //Carrega os dados de texto da receita
-        holder.nomeReceita.setText(receita.getNome());
-        holder.qtdPessoasServidas.setText(receita.getQtdPessoasServidas());
     }
 
 
     @Override
     public int getItemCount() {
-        return listaMinhasReceitas.size();
+        return listaReceitasAmigos.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView fotoReceita;
-        TextView nomeReceita;
-        TextView qtdPessoasServidas;
+        ImageView fotoReceitaAmigo;
+        TextView nomeReceitaAmigo;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            fotoReceita = itemView.findViewById(R.id.imageListaFotoReceita);
-            nomeReceita = itemView.findViewById(R.id.textNomeReceitaPerfil);
-            qtdPessoasServidas = itemView.findViewById(R.id.textQtdPessoasServidas);
+            fotoReceitaAmigo = itemView.findViewById(R.id.fotoReceitaAmigo);
+            nomeReceitaAmigo = itemView.findViewById(R.id.textNomeReceitaAmigo);
 
         }
     }

@@ -51,6 +51,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
     private DatabaseReference chefLogadoRef;
     private DatabaseReference amigoRef;
     private DatabaseReference seguidoresRef;
+    private DatabaseReference amigosRef;
     private DatabaseReference receitasAmigoRef;
 
     private List<Receitas> listaReceitasAmigo = new ArrayList<>();
@@ -71,6 +72,11 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
         configuracoesIniciais();
 
+        recuperarExtras();
+
+    }
+
+    private void recuperarExtras() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
 
@@ -89,7 +95,6 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
             eventoClickFotoReceita();
 
         }
-
     }
 
     private void eventoClickFotoReceita() {
@@ -140,6 +145,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
         firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         chefsRef = firebaseRef.child("chefs"); //cria o nó usuários (se não existir)
         seguidoresRef = firebaseRef.child("seguidores"); //cria o nó seguidores (se não existir)
+        amigosRef = firebaseRef.child("amigos");
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
         chefLogadoRef = chefsRef.child(idChefLogado);
     }
@@ -270,6 +276,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     salvarSeguidor(chefLogado, amigoSelecionado);
+                    salvarAmigo();
                 }
             });
         }
@@ -288,7 +295,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
         DatabaseReference seguidorRef = seguidoresRef
                 .child(idAmigoSelecionado)
                 .child(idChefLogado);
-        seguidorRef.setValue(dadosChefLogado);
+        seguidorRef.setValue(dadosChefLogado); //atualiza a contagem de seguidores do usuário logado
 
         //Alterar botão para seguindo
         buttonAcaoPerfil.setText("Seguindo");
@@ -301,16 +308,30 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
         DatabaseReference chefSeguindo = chefsRef
                 .child(idChefLogado);
-        chefSeguindo.updateChildren(dadosSeguindo);
+        chefSeguindo.updateChildren(dadosSeguindo); //atualiza a contagem de seguindo do usuário logado
 
         //Incrementar o contador Seguidores do seu amigo
         int seguidores = amigo.getSeguidores() + 1;
         HashMap<String, Object> dadosSeguidores = new HashMap<>();
-        dadosSeguidores.put("seguidores", seguidores);
+        dadosSeguidores.put("seguidores", seguidores); //atualiza a contagem de seguidores do perfil do amigo
+
 
         DatabaseReference chefSeguidores = chefsRef
                 .child(idAmigoSelecionado);
-        chefSeguidores.updateChildren(dadosSeguidores);
+        chefSeguidores.updateChildren(dadosSeguidores); //atualiza a contagem de seguindo no perfil do amigo
+
+    }
+
+    private void salvarAmigo(){
+
+        HashMap<String, Object> dadosAmigoLogado = new HashMap<>();
+        dadosAmigoLogado.put("nome", amigoSelecionado.getNome());
+        dadosAmigoLogado.put("caminhoFoto", amigoSelecionado.getUrlFotoChef());
+
+        DatabaseReference amigoRef = amigosRef
+                .child(idChefLogado)
+                .child(idAmigoSelecionado);
+        amigoRef.setValue(dadosAmigoLogado);
 
     }
 

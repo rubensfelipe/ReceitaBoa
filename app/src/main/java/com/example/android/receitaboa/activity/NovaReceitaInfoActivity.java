@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
+import com.example.android.receitaboa.model.Chef;
 import com.example.android.receitaboa.model.Receitas;
 
 /**
@@ -52,6 +53,8 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
             Manifest.permission.CAMERA
     };
 
+    private Chef dadosChef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
         //Configurações iniciais
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        dadosChef = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
 
         //inicializar componentes
         editNomeReceita = findViewById(R.id.editNomeReceita);
@@ -83,6 +87,10 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         fecharTeclado();
 
         minhasReceitas.setIdChef(identificadorChef); //setando o id do Chef na Classe Receitas
+
+        //setar os dados do chef logado
+        //minhasReceitas.setNomeChef(dadosChef.getNome());
+        //minhasReceitas.setUrlFotoChef(dadosChef.getUrlFotoChef());
 
         //salvar os dados da Receita no FirebaseDatabase
         minhasReceitas.salvarMinhaReceitaFirebaseDb();

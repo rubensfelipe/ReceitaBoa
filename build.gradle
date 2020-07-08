@@ -20,6 +20,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+
+        maven{
+            url 'http://dl.bintry.com/amulyakhare/maven'
+        }
+
     }
 }
 

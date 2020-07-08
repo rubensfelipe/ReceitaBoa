@@ -70,18 +70,18 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         inicializarComponentes();
 
         //Configurações iniciais
-        firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
-        receitasRef = firebaseDbRef.child("receitas");
-        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
+        configuracoesRef();
 
-        atividadeAberta = this; //referencia que atividadeAberta = essa Activity
-
-        //Configurar referência receitas do chef logado
-        receitasChefRef = receitasRef
-                .child(idChefLogado);
+        //referencia que atividadeAberta = essa Activity
+        atividadeAberta = this;
 
         configurarToolbar();
 
+        recuperarExtras();
+
+    }
+
+    private void recuperarExtras() {
         //Recupera os dados da Receita selecionada
         bundle = getIntent().getExtras();
         if (bundle != null){
@@ -98,7 +98,16 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
             }
         }
+    }
 
+    private void configuracoesRef() {
+        firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        receitasRef = firebaseDbRef.child("receitas");
+        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
+
+        //Configurar referência receitas do chef logado
+        receitasChefRef = receitasRef
+                .child(idChefLogado);
     }
 
     private void configurarToolbar() {
@@ -131,7 +140,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                     .load(url)
                     .into(displayImageReceitaFinal);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.cloche_tableware);
+            displayImageReceitaFinal.setImageResource(R.drawable.avatar);
         }
 
     }
