@@ -17,14 +17,14 @@ import com.example.android.receitaboa.model.Receitas;
 
 import java.util.List;
 
-public class ReceitasAmigosAdapter extends RecyclerView.Adapter<ReceitasAmigosAdapter.MyViewHolder> {
+public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
 
     private Context context;
     private List<Receitas> listaReceitasAmigos;
     private MyViewHolder holder;
     private int position;
 
-    public ReceitasAmigosAdapter(List<Receitas> list, Context c) {
+    public RA_Adapter(List<Receitas> list, Context c) {
         this.listaReceitasAmigos = list;
         this.context = c;
     }
@@ -39,7 +39,7 @@ public class ReceitasAmigosAdapter extends RecyclerView.Adapter<ReceitasAmigosAd
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receitas_amigos, parent,false);
-        return new ReceitasAmigosAdapter.MyViewHolder(itemLista);
+        return new RA_Adapter.MyViewHolder(itemLista);
     }
 
     @Override

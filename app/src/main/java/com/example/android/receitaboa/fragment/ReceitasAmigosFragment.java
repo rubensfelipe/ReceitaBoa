@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
-import com.example.android.receitaboa.adapter.MinhasReceitasAdapter;
+import com.example.android.receitaboa.adapter.ReceitasAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
@@ -40,16 +40,22 @@ public class ReceitasAmigosFragment extends Fragment {
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Receitas> listaReceitasAmigos = new ArrayList<>();
+    private List<Receitas> listaRA = new ArrayList<>();
     private List<String> listaIdAmigos = new ArrayList<>();
     private List<Chef> listaAmigos = new ArrayList<>();
 
-    private MinhasReceitasAdapter adapterReceitasAmigos;
+    private ReceitasAdapter adapterRA;
 
     private DatabaseReference firebaseDbRef;
     private DatabaseReference amigosRef;
     private DatabaseReference receitasRef;
+    private DatabaseReference receitasAmigoRef;
     private String idChefLogado;
+
+    private ValueEventListener valueEventListenerRA;
+    private ValueEventListener valueEventListenerAmigos;
+
+    public boolean receitaClicada = false;
 
     public ReceitasAmigosFragment() {
         // Required empty public constructor
@@ -70,6 +76,12 @@ public class ReceitasAmigosFragment extends Fragment {
         configurarEventoCliqueReceita();
 
         return view;
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        recuperarReceitasAmigos();
     }
 
     private void inicializarComponentes(View vista) {
@@ -93,12 +105,12 @@ public class ReceitasAmigosFragment extends Fragment {
     }
 
     private void configurarAdapterMaisRecyclerView() {
-        adapterReceitasAmigos = new MinhasReceitasAdapter(listaReceitasAmigos, getActivity() );
+        adapterRA = new ReceitasAdapter(listaRA, getActivity() );
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerReceitasAmigos.setLayoutManager(layoutManager);
         recyclerReceitasAmigos.setHasFixedSize(true);
-        recyclerReceitasAmigos.setAdapter(adapterReceitasAmigos);
+        recyclerReceitasAmigos.setAdapter(adapterRA);
     }
 
     private void configurarEventoCliqueReceita() {
@@ -111,11 +123,10 @@ public class ReceitasAmigosFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                //ADICIONAR APÓS RESOLVER O PROBLEMA DA BUSCA DE RECEITAS
-                                //receitaClicada = true;
-                                //List<Receitas> listaMinhasReceitasAtualizada = adapterReceitasAmigos.getListaMinhasReceitas(); //permite que a posição na lista da receitas não se altere msm qdo houve uma busca
+                                receitaClicada = true;
+                                List<Receitas> listaRAAtualizada = adapterRA.getListaReceitas(); //permite que a posição na lista da receitas não se altere msm qdo houver uma busca
 
-                                Receitas receitaAmigoSelecionada = listaReceitasAmigos.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+                                Receitas receitaAmigoSelecionada = listaRAAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
 
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
                                 i.putExtra("dadosReceitaAmigoClicada", receitaAmigoSelecionada);
@@ -135,10 +146,7 @@ public class ReceitasAmigosFragment extends Fragment {
 
     private void recuperarAmigos(){
 
-        //listaAmigos.clear();
-        //listaIdAmigos.clear();
-
-        amigosRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerAmigos = amigosRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -150,10 +158,8 @@ public class ReceitasAmigosFragment extends Fragment {
                     String idAmigos = ds.getKey();
 
                     listaIdAmigos.add(idAmigos);
-
-                    listaAmigos.add(ds.getValue(Chef.class));
                 }
-                adapterReceitasAmigos.notifyDataSetChanged();
+                adapterRA.notifyDataSetChanged();
             }
 
             @Override
@@ -162,31 +168,26 @@ public class ReceitasAmigosFragment extends Fragment {
 
     }
 
-    private void listarReceitasAmigos() {
+    private void recuperarReceitasAmigos() {
 
         recuperarAmigos();
 
-       listaReceitasAmigos.clear(); //nenhuma alteração
+       listaRA.clear(); //nenhuma alteração
 
         for (String idAmigo : listaIdAmigos) { //percorrendo id Amigo do chef logado dentro da lista
 
-            //listaReceitasAmigos.clear(); //nenhuma alteração
-
             //Percorrer apenas as receitas dos Amigos do Chef logado
-            DatabaseReference receitasAmigoRef = receitasRef.child(idAmigo);
+            receitasAmigoRef = receitasRef.child(idAmigo);
 
-            receitasAmigoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            //receitasAmigoRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            valueEventListenerRA = receitasAmigoRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                    //listaReceitasAmigos.clear(); //some a primeira receita da lista
-
                     for (DataSnapshot ds: dataSnapshot.getChildren()){
 
-                        //listaReceitasAmigos.clear(); //deixa apenas o último item da lista
-
                         Receitas receitaAmigo = ds.getValue(Receitas.class);
-                        listaReceitasAmigos.add(receitaAmigo);
+                        listaRA.add(receitaAmigo);
 
                         //se o amigo já tiver adicionado ao menos uma receita no app, a progressBar desaparece
                         if(receitaAmigo != null){
@@ -194,7 +195,7 @@ public class ReceitasAmigosFragment extends Fragment {
                         }
 
                     }
-                    adapterReceitasAmigos.notifyDataSetChanged();
+                    adapterRA.notifyDataSetChanged();
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {   }
@@ -203,15 +204,35 @@ public class ReceitasAmigosFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onStart(){
-        listarReceitasAmigos();
-        super.onStart();
+    public void pesquisarReceitasAmigos(String receitaNaPesquisa){
+
+        List<Receitas> listaRABusca = new ArrayList<>();
+
+        for (Receitas receita: listaRA){
+
+            String nomeReceita = receita.getNome().toLowerCase(); //pega o nome da receita na listaReceitasAmigos e deixa tudo em minúsculo
+            if (nomeReceita.contains(receitaNaPesquisa)){
+                listaRABusca.add(receita);
+            }
+        }
+        configuracaoAdaptador(listaRABusca);
+    }
+
+    public void recarregarReceitasAmigos(){
+        recuperarReceitasAmigos();
+        configuracaoAdaptador(listaRA);
+    }
+
+    private void configuracaoAdaptador(List<Receitas> listaEscolhida) {
+        adapterRA = new ReceitasAdapter(listaEscolhida, getActivity());
+        recyclerReceitasAmigos.setAdapter(adapterRA);
+        adapterRA.notifyDataSetChanged();
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        //amigosRef.removeEventListener(valueEventListenerAmigos);
+        //receitasAmigoRef.removeEventListener(valueEventListenerRA);
     }
-
 }

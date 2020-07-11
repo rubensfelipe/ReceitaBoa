@@ -17,28 +17,28 @@ import com.example.android.receitaboa.model.Receitas;
 
 import java.util.List;
 
-public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAdapter.MyViewHolder> {
+public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyViewHolder> {
 
     private Context context;
-    private List<Receitas> listaMinhasReceitas;
+    private List<Receitas> listaReceitas;
     private MyViewHolder holder;
     private int position;
 
-    public MinhasReceitasAdapter(List<Receitas> list, Context c) {
-        this.listaMinhasReceitas = list;
+    public ReceitasAdapter(List<Receitas> list, Context c) {
+        this.listaReceitas = list;
         this.context = c;
     }
 
     //indentifica se a lista que está sendo utilizada pelo adapter é a lista completa das minhas receitas ou a lista de busca de uma receita especifica da minha lista de receitas (assim as receitas mantem as suas posições da lista completa)
-    public List<Receitas> getListaMinhasReceitas(){
-        return this.listaMinhasReceitas;
+    public List<Receitas> getListaReceitas(){
+        return this.listaReceitas;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_minha_receita, parent,false);
-        return new MinhasReceitasAdapter.MyViewHolder(itemLista);
+        return new ReceitasAdapter.MyViewHolder(itemLista);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAd
         this.holder = holder;
         this.position = position;
 
-        final Receitas receita = listaMinhasReceitas.get(position);
+        final Receitas receita = listaReceitas.get(position);
 
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
@@ -66,7 +66,7 @@ public class MinhasReceitasAdapter extends RecyclerView.Adapter<MinhasReceitasAd
 
     @Override
     public int getItemCount() {
-        return listaMinhasReceitas.size();
+        return listaReceitas.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

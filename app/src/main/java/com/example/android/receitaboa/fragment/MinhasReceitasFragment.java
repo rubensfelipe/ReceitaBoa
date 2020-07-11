@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.NovaReceitaInfoActivity;
 import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
-import com.example.android.receitaboa.adapter.MinhasReceitasAdapter;
+import com.example.android.receitaboa.adapter.ReceitasAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
@@ -36,22 +36,21 @@ import java.util.List;
 public class MinhasReceitasFragment extends Fragment {
 
     private RecyclerView recyclerViewMinhasReceitas;
-    private MinhasReceitasAdapter adapterMR;
+    private ReceitasAdapter adapterMR;
 
     private ImageView fabMiniChef;
-
-    private String idChefLogado;
     private View emptyFridgeView;
 
+    private String idChefLogado;
     private DatabaseReference firebaseDbRef;
     private DatabaseReference receitasRef;
     private DatabaseReference receitasChefRef;
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Receitas> listaMinhasReceitas = new ArrayList<>();
+    private List<Receitas> listaMR = new ArrayList<>();
 
-    private ValueEventListener valueEventListenerMinhasReceitas;
+    private ValueEventListener valueEventListenerMR;
 
     public boolean receitaClicada = false;
 
@@ -75,6 +74,12 @@ public class MinhasReceitasFragment extends Fragment {
         configurarEventoCliqueMinhaReceita();
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        recuperarMinhasReceitasFirebaseDb();
+        super.onStart();
     }
 
     private void inicializarComponentes(View vista) {
@@ -110,7 +115,7 @@ public class MinhasReceitasFragment extends Fragment {
     }
 
     private void configurarAdapterMaisRecyclerView() {
-        adapterMR = new MinhasReceitasAdapter(listaMinhasReceitas, getActivity() );
+        adapterMR = new ReceitasAdapter(listaMR, getActivity() );
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewMinhasReceitas.setLayoutManager(layoutManager);
@@ -130,9 +135,9 @@ public class MinhasReceitasFragment extends Fragment {
 
                                 receitaClicada = true;
 
-                                List<Receitas> listaMinhasReceitasAtualizada = adapterMR.getListaMinhasReceitas(); //permite que a posição na lista da receitas não se altere msm qdo houve uma busca
+                                List<Receitas> listaMRAtualizada = adapterMR.getListaReceitas(); //permite que a posição na lista da receitas não se altere msm qdo houve uma busca
 
-                                Receitas minhaReceitaSelecionada = listaMinhasReceitasAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+                                Receitas minhaReceitaSelecionada = listaMRAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
 
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
                                 i.putExtra("dadosMinhaReceitaClicada", minhaReceitaSelecionada);
@@ -153,14 +158,14 @@ public class MinhasReceitasFragment extends Fragment {
     //Recupera os dados das minhas receitas
     public void recuperarMinhasReceitasFirebaseDb(){
 
-        listaMinhasReceitas.clear();
+        listaMR.clear();
 
-        valueEventListenerMinhasReceitas = receitasChefRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerMR = receitasChefRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 //limpa a lista de receitas para evitar que haja repetição ao mudar de tela
-                listaMinhasReceitas.clear();
+                listaMR.clear();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Receitas minhasReceitas = ds.getValue(Receitas.class);
@@ -169,7 +174,7 @@ public class MinhasReceitasFragment extends Fragment {
                     if(minhasReceitas != null){
                         emptyFridgeView.setVisibility(View.GONE);
                     }
-                    listaMinhasReceitas.add(minhasReceitas);
+                    listaMR.add(minhasReceitas);
                 }
                 adapterMR.notifyDataSetChanged();
             }
@@ -179,44 +184,37 @@ public class MinhasReceitasFragment extends Fragment {
         });
     }
 
-    @Override
-    public void onStart() {
-        recuperarMinhasReceitasFirebaseDb();
-        super.onStart();
+    /*
+    PESQUISA DE RECEITAS ABAIXO
+     */
+    public void pesquisarMinhasReceitas(String receitaNaPesquisa) { //chamada na MainActivity
+
+        List<Receitas> listaMRBusca = new ArrayList<>();
+
+        for (Receitas receita: listaMR){
+
+            String nomeReceita  = receita.getNome().toLowerCase(); //recupera o nome das minhas receitas na minha lista de receitas
+            if (nomeReceita.contains(receitaNaPesquisa)){
+                listaMRBusca.add(receita);
+            }
+        }
+        configuracoesAdaptador(listaMRBusca);
+    }
+
+    public void recarregarMinhasReceitas() {
+        configuracoesAdaptador(listaMR);
+    }
+
+    private void configuracoesAdaptador(List<Receitas> listaEscolhida) {
+        adapterMR = new ReceitasAdapter(listaEscolhida, getActivity());
+        recyclerViewMinhasReceitas.setAdapter(adapterMR);
+        adapterMR.notifyDataSetChanged();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        receitasChefRef.removeEventListener(valueEventListenerMinhasReceitas);
-    }
-
-    /*
-    PESQUISA DE RECEITAS ABAIXO
-     */
-    //ADICIONAR QUANDO RESOLVER O PROBLEMA DA PESQUISA, ERRO AO RECARREGAR A LISTA APÓS FECHAR UMA RECEITA
-    public void pesquisarMinhasReceitas(String textoBuscaMR) {
-
-        List<Receitas> listaMinhasReceitasBusca = new ArrayList<>();
-
-        for (Receitas receita: listaMinhasReceitas){
-
-            String nomeMinhaReceita  = receita.getNome().toLowerCase();
-            if (nomeMinhaReceita.contains(textoBuscaMR)){
-                listaMinhasReceitasBusca.add(receita);
-            }
-        }
-        configuracoesAdapter(listaMinhasReceitasBusca);
-    }
-
-    public void recarregarMinhasReceitas() {
-        configuracoesAdapter(listaMinhasReceitas);
-    }
-
-    private void configuracoesAdapter(List<Receitas> listas) {
-        adapterMR = new MinhasReceitasAdapter(listas, getActivity());
-        recyclerViewMinhasReceitas.setAdapter(adapterMR);
-        adapterMR.notifyDataSetChanged();
+        receitasChefRef.removeEventListener(valueEventListenerMR);
     }
 
 }

@@ -35,9 +35,9 @@ import java.util.List;
  */
 public class BuscarAmigosFragment extends Fragment {
 
-    private RecyclerView recyclerViewListaAmigos;
+    private RecyclerView recyclerListaUsuarios;
     private AmigosAdapter adapter;
-    private ArrayList<Chef> listaAmigos = new ArrayList<>(); //instanciando a Lista de Amigos que serão recuperados pela Classe Chef
+    private ArrayList<Chef> listaUsuarios = new ArrayList<>(); //instanciando a Lista de Amigos que serão recuperados pela Classe Chef
     private DatabaseReference chefsRef;
     private ValueEventListener valueEventListenerAmigos;
     private FirebaseUser chefAtualAuth;
@@ -56,7 +56,7 @@ public class BuscarAmigosFragment extends Fragment {
 
         inicializarComponentes(view);
 
-        configuracoesRef();
+        configuracoesIniciais();
 
         configuracoesRecyclerMaisAdapter();
 
@@ -65,13 +65,40 @@ public class BuscarAmigosFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        recuperarAmigosFirebaseDb();
+    }
+
+    private void inicializarComponentes(View vista) {
+        progressBar = vista.findViewById(R.id.progressBarAmigos);
+        recyclerListaUsuarios = vista.findViewById(R.id.recyclerViewListaAmigos);
+    }
+
+    private void configuracoesIniciais() {
+        chefsRef = ConfiguracaoFirebase.getFirebaseDatabase().child("chefs");
+        chefAtualAuth = UsuarioFirebaseAuth.getChefAtualAuth(); //recupera os dados do chef que está logado
+    }
+
+    private void configuracoesRecyclerMaisAdapter() {
+        //Configurar adapter
+        adapter = new AmigosAdapter(listaUsuarios, getActivity()); //AmigosAdapter(Lista [tipo: ArrayList<>], contexto) //PRIMEIRO: Criar construtor na classe AmigosAdapter, AmigosAdapter(Lista [tipo: List<>], contexto)
+
+        //Configurar recyclerView
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        recyclerListaUsuarios.setLayoutManager(layoutManager);
+        recyclerListaUsuarios.setHasFixedSize(true);
+        recyclerListaUsuarios.setAdapter(adapter);
+    }
+
     private void configuracaoEventoCliqueAmigos() {
 
         //Configurar evento de clique no recyclerView (na lista de contatos)
-        recyclerViewListaAmigos.addOnItemTouchListener(
+        recyclerListaUsuarios.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getActivity(),
-                        recyclerViewListaAmigos,
+                        recyclerListaUsuarios,
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -98,39 +125,6 @@ public class BuscarAmigosFragment extends Fragment {
 
     }
 
-    private void configuracoesRecyclerMaisAdapter() {
-        //Configurar adapter
-        adapter = new AmigosAdapter(listaAmigos, getActivity()); //AmigosAdapter(Lista [tipo: ArrayList<>], contexto) //PRIMEIRO: Criar construtor na classe AmigosAdapter, AmigosAdapter(Lista [tipo: List<>], contexto)
-
-        //Configurar recyclerView
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewListaAmigos.setLayoutManager(layoutManager);
-        recyclerViewListaAmigos.setHasFixedSize(true);
-        recyclerViewListaAmigos.setAdapter(adapter);
-    }
-
-    private void configuracoesRef() {
-        chefsRef = ConfiguracaoFirebase.getFirebaseDatabase().child("chefs");
-        chefAtualAuth = UsuarioFirebaseAuth.getChefAtualAuth(); //recupera os dados do chef que está logado
-    }
-
-    private void inicializarComponentes(View vista) {
-        progressBar = vista.findViewById(R.id.progressBarAmigos);
-        recyclerViewListaAmigos = vista.findViewById(R.id.recyclerViewListaAmigos);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        recuperarAmigosFirebaseDb();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        chefsRef.removeEventListener(valueEventListenerAmigos); //fecha o listener quando fechar a activity de contatos
-    }
-
     //recupera os dados dos amigos a partir do FirebaseDatabase e adiciona a lista de Amigos
     public void recuperarAmigosFirebaseDb(){
 
@@ -145,9 +139,6 @@ public class BuscarAmigosFragment extends Fragment {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
 
-                    //recupera a chave de cada chef
-                    //String idKey = dados.getKey();
-
                     Chef amigo = dados.getValue(Chef.class); //recupera os dados salvo nos nós do FirebaseDatabase
 
                     if (amigo != null){
@@ -156,50 +147,56 @@ public class BuscarAmigosFragment extends Fragment {
 
                     String emailChefLogado = chefAtualAuth.getEmail();
                     if ( !emailChefLogado.equals( amigo.getEmail() ) ){ //verifica se o amigo adicionado na lista não é o próprio usuario logado
-                        listaAmigos.add(amigo); //adiciona um novo amigo (os dados dos amigos do chef) a lista de amigos
+                        listaUsuarios.add(amigo); //adiciona um novo amigo (os dados dos amigos do chef) a lista de amigos
                     }
                 }
                 adapter.notifyDataSetChanged(); //a lista de amigos só é atualizada quando há uma alteração na lista de amigos (só adicionaremos mais amigos a listaDeAmigos, quando houverem novos amigos)
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) {    }
         });
 
     }
 
-    //evitar repetir chefs na lista
     private void limparListaAmigos() {
-        listaAmigos.clear();
-    }
+        listaUsuarios.clear();
+    } //evitar repetir chefs na lista
 
+
+    /*
+    TRECHO DE PESQUISA DE AMIGOS (utilizado na MainActivity)
+     */
     public void pesquisarAmigos(String nomeAmigo) {
 
         List<Chef> listaChefsBusca = new ArrayList<>();
 
-        for (Chef chefAmigo : listaAmigos){
+        for (Chef chefAmigo : listaUsuarios){
 
             String nome = chefAmigo.getNome().toLowerCase(); //recupera os nomes e grava eles em lowerCase
             if (nome.contains(nomeAmigo)){ //se o começo do nome for correspondente a um amigo da lista
                 listaChefsBusca.add(chefAmigo); //adiciona a lista de busca
             }
-
         }
         configuracoesAdapter(listaChefsBusca);
     }
 
     //Recarrega a lista de amigos completa ao fechar a caixa de pesquisa de usuários
-    public void recarregarAmigos() { configuracoesAdapter(listaAmigos); }
+    public void recarregarListaUsuarios() { //(localizado no MainActivity)
+        configuracoesAdapter(listaUsuarios);
+    }
 
     //seta a lista em um adapter
-    private void configuracoesAdapter(List<Chef> listas) {
-
-        adapter = new AmigosAdapter(listas, getActivity());
-        recyclerViewListaAmigos.setAdapter(adapter);
+    private void configuracoesAdapter(List<Chef> listaEscolhida) {
+        adapter = new AmigosAdapter(listaEscolhida, getActivity());
+        recyclerListaUsuarios.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        chefsRef.removeEventListener(valueEventListenerAmigos); //fecha o listener quando fechar a activity de contatos
     }
 
 }

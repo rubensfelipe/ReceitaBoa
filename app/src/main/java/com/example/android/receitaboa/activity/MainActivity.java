@@ -36,107 +36,141 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+        configurarToolbar();
 
+        configuracaoInicial();
+
+        inicializarSearchView();
+
+        //Configurar abas com os respectivos fragments e seus nomes
+        FragmentPagerItemAdapter adapter = criarAbas();
+
+        //Configura as páginas de visualização nas fragments
+        ViewPager viewPager = configuracaVisualPagina(adapter);
+
+        //Configura as abas dos fragments
+        configuracaoVisualAba(viewPager);
+
+        fazerPesquisa(viewPager, adapter);
+
+        eventoFecharPesquisa(viewPager, adapter);
+
+    }
+
+    private void configurarToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("Receita Boa");
         setSupportActionBar(toolbar);
+    }
 
-        //Configuração do searchView
+    private void configuracaoInicial() {
+        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
+    }
+
+    private void inicializarSearchView() {
         searchView = findViewById(R.id.materialSearchPrincipal);
+    }
 
-        //Configurar abas com os respectivos fragments
+    public ViewPager configuracaVisualPagina(FragmentPagerItemAdapter adaptador) {
+        final ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(adaptador);
+
+        return viewPager;
+    }
+
+    public FragmentPagerItemAdapter criarAbas() {
         final FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
-                .add("Receitas", MinhasReceitasFragment.class)
-                .add("Feed", FeedFragment.class)
-                .add("Receitas Amigos", ReceitasAmigosFragment.class)
-                .add("Buscar Amigos", BuscarAmigosFragment.class)
-                .create()
+                        .add("Receitas", MinhasReceitasFragment.class)
+                        .add("Feed", FeedFragment.class)
+                        .add("Receitas Amigos", ReceitasAmigosFragment.class)
+                        .add("Buscar Amigos", BuscarAmigosFragment.class)
+                        .create()
         );
+        return adapter;
+    }
 
-        final ViewPager viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(adapter);
-
+    private void configuracaoVisualAba(ViewPager visualPagina) {
         SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
-        viewPagerTab.setViewPager(viewPager);
+        viewPagerTab.setViewPager(visualPagina);
 
-        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
+    }
 
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-
-                switch (viewPager.getCurrentItem()){
-                    /*
-                    case 0:
-                        MinhasReceitasFragment mrFrag = (MinhasReceitasFragment) adapter.getPage(0);
-                        mrFrag.recarregarMinhasReceitas();
-                        break;
-                     */
-
-                    case  3:
-                        BuscarAmigosFragment friendsFrag = (BuscarAmigosFragment) adapter.getPage(3);
-                        friendsFrag.recarregarAmigos();
-                        break;
-
-                }
-            }
-        });
-
-        //Listener para caixa de texto de pesquisa
+    private void fazerPesquisa(final ViewPager paginaVisualizada, final FragmentPagerItemAdapter adaptador) {
         searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) { return false; }
+            public boolean onQueryTextSubmit(String query) { return false; } //ao pressionar enter ou clicar no botão para fazer a pesquisa -> execute a ação nenhuma
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String newText) { //ao apenas digitar algum texto na caixa de pesquisa, esse método já é chamado
 
-                //Verifica se o usuario está pesquisando dentro d qual fragment
-                switch (viewPager.getCurrentItem()){ // viewPager.getCurrentItem(): 0 (fragment MinhasReceitas), 1 (fragment Amigos)
+                //Verifica em qual tela (fragment) o usuario está pesquisando
+                switch (paginaVisualizada.getCurrentItem()){ // viewPager.getCurrentItem(): 0 (fragment MinhasReceitas), 1 (fragment Amigos)
 
-                      /*
+
                     case 0: //MinhasReceitas
-                        MinhasReceitasFragment minhasReceitasFrag = (MinhasReceitasFragment) adapter.getPage(0);
+                        MinhasReceitasFragment minhasReceitasFrag = (MinhasReceitasFragment) adaptador.getPage(0);
 
                             if (newText != null && !newText.isEmpty()){
                                 minhasReceitasFrag.pesquisarMinhasReceitas(newText.toLowerCase());
-
                             }else {
-
                                 minhasReceitasFrag.recarregarMinhasReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
                             }
 
                         break;
 
-
-
-                    case 2: //Todas as Receitas
-                        ReceitasFragment receitasFrag = (ReceitasFragment) adapter.getPage(2);
+                    case 2: //Todas Receitas (Amigos)
+                        ReceitasAmigosFragment receitasFrag = (ReceitasAmigosFragment) adaptador.getPage(2);
                         if (newText != null && !newText.isEmpty()){
-                            receitasFrag.pesquisarReceitas(newText.toLowerCase());
+                            receitasFrag.pesquisarReceitasAmigos(newText.toLowerCase());
                         }else {
-                            receitasFrag.recarregarReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                            receitasFrag.recarregarReceitasAmigos(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
                         }
                         break;
-                        */
+
                     case 3: //Amigos
-                        BuscarAmigosFragment amigosFrag = (BuscarAmigosFragment) adapter.getPage(3);
-                        if (newText != null && !newText.isEmpty()){
+                        BuscarAmigosFragment amigosFrag = (BuscarAmigosFragment) adaptador.getPage(3);
+                        if (newText != null && !newText.isEmpty()){ //se houver texto na caixa de pesquisa, (executar ação da pesquisa)
                             amigosFrag.pesquisarAmigos(newText.toLowerCase());
-                        }else {
-                            amigosFrag.recarregarAmigos(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                        }else { //se não houver texto na caixa de pesquisa, recarrega a lista de amigos completa
+                            amigosFrag.recarregarListaUsuarios(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
                         }
                         break;
                 }
                 return true;
             }
         });
+    }
 
+    private void eventoFecharPesquisa(final ViewPager paginaVisualizada, final FragmentPagerItemAdapter adaptador) {
+        searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {     }
+
+            @Override
+            public void onSearchViewClosed() { //ao fechar a caixa de pesquisa recarregar lista completa
+
+                switch (paginaVisualizada.getCurrentItem()){
+
+                    case 0:
+                        MinhasReceitasFragment mrFrag = (MinhasReceitasFragment) adaptador.getPage(0);
+                        mrFrag.recarregarMinhasReceitas();
+                        break;
+
+                    case 2:
+                        ReceitasAmigosFragment raFrag = (ReceitasAmigosFragment) adaptador.getPage(2);
+                        raFrag.recarregarReceitasAmigos();
+                        break;
+
+                    case 3:
+                        BuscarAmigosFragment friendsFrag = (BuscarAmigosFragment) adaptador.getPage(3);
+                        friendsFrag.recarregarListaUsuarios();
+                        break;
+
+                }
+            }
+        });
     }
 
     @Override
@@ -168,8 +202,6 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     public void deslogarChef(){
 
         try {
@@ -187,4 +219,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        searchView.closeSearch();
+    }
 }
