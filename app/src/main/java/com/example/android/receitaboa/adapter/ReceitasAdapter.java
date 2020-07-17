@@ -24,8 +24,8 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
     private MyViewHolder holder;
     private int position;
 
-    public ReceitasAdapter(List<Receitas> list, Context c) {
-        this.listaReceitas = list;
+    public ReceitasAdapter(List<Receitas> listaSelecionada, Context c) {
+        this.listaReceitas = listaSelecionada;
         this.context = c;
     }
 

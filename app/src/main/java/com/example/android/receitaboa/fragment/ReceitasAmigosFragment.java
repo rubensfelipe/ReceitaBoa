@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
+import com.example.android.receitaboa.adapter.RA_Adapter;
 import com.example.android.receitaboa.adapter.ReceitasAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
@@ -25,6 +26,7 @@ import com.example.android.receitaboa.model.Receitas;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -36,13 +38,12 @@ import java.util.List;
 public class ReceitasAmigosFragment extends Fragment {
 
     private ProgressBar progressBarReceitas;
-    private RecyclerView recyclerReceitasAmigos;
+    private RecyclerView recyclerReceitas;
 
     private RecyclerView.LayoutManager layoutManager;
 
-    private List<Receitas> listaRA = new ArrayList<>();
     private List<String> listaIdAmigos = new ArrayList<>();
-    private List<Chef> listaAmigos = new ArrayList<>();
+    private List<Receitas> listaRA = new ArrayList<>();
 
     private ReceitasAdapter adapterRA;
 
@@ -64,7 +65,7 @@ public class ReceitasAmigosFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_amigos_receitas, container, false);
 
         inicializarComponentes(view);
@@ -80,13 +81,13 @@ public class ReceitasAmigosFragment extends Fragment {
 
     @Override
     public void onStart(){
-        super.onStart();
         recuperarReceitasAmigos();
+        super.onStart();
     }
 
     private void inicializarComponentes(View vista) {
-        recyclerReceitasAmigos = vista.findViewById(R.id.recyclerReceitasAmigos);
-        progressBarReceitas = vista.findViewById(R.id.progressBarReceitas);
+        recyclerReceitas = vista.findViewById(R.id.recyclerReceitasAmigos);
+        progressBarReceitas = vista.findViewById(R.id.progressBarRA);
     }
 
     private void configuracoesIniciais() {
@@ -108,17 +109,17 @@ public class ReceitasAmigosFragment extends Fragment {
         adapterRA = new ReceitasAdapter(listaRA, getActivity() );
 
         layoutManager = new LinearLayoutManager(getActivity());
-        recyclerReceitasAmigos.setLayoutManager(layoutManager);
-        recyclerReceitasAmigos.setHasFixedSize(true);
-        recyclerReceitasAmigos.setAdapter(adapterRA);
+        recyclerReceitas.setLayoutManager(layoutManager);
+        recyclerReceitas.setHasFixedSize(true);
+        recyclerReceitas.setAdapter(adapterRA);
     }
 
     private void configurarEventoCliqueReceita() {
 
-        recyclerReceitasAmigos.addOnItemTouchListener(
+        recyclerReceitas.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getActivity(),
-                        recyclerReceitasAmigos,
+                        recyclerReceitas,
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -150,7 +151,6 @@ public class ReceitasAmigosFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                listaAmigos.clear();
                 listaIdAmigos.clear();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
@@ -168,39 +168,43 @@ public class ReceitasAmigosFragment extends Fragment {
 
     }
 
-    private void recuperarReceitasAmigos() {
+    public void recuperarReceitasAmigos() {
 
         recuperarAmigos();
 
-       listaRA.clear(); //nenhuma alteração
+        listaRA.clear(); //nenhuma alteração
 
-        for (String idAmigo : listaIdAmigos) { //percorrendo id Amigo do chef logado dentro da lista
+        for (final String idAmigo : listaIdAmigos) { //percorrendo id Amigo do chef logado dentro da lista
 
             //Percorrer apenas as receitas dos Amigos do Chef logado
-            receitasAmigoRef = receitasRef.child(idAmigo);
+            DatabaseReference filtroReceitasAmigo = receitasRef.child(idAmigo);
 
-            //receitasAmigoRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            valueEventListenerRA = receitasAmigoRef.addValueEventListener(new ValueEventListener() {
+            valueEventListenerRA = filtroReceitasAmigo.addValueEventListener(new ValueEventListener() {
+
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()){
 
-                        Receitas receitaAmigo = ds.getValue(Receitas.class);
-                        listaRA.add(receitaAmigo);
+                        Receitas receitasAmigo = ds.getValue(Receitas.class);
+                        listaRA.add(receitasAmigo);
 
-                        //se o amigo já tiver adicionado ao menos uma receita no app, a progressBar desaparece
-                        if(receitaAmigo != null){
-                            progressBarReceitas.setVisibility(View.GONE);
-                        }
-
+                        sumirProgressBar(receitasAmigo);
                     }
                     adapterRA.notifyDataSetChanged();
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {   }
             });
 
+        }//
+    }
+
+    private void sumirProgressBar(Receitas rAmigo) {
+        //se o amigo já tiver adicionado ao menos uma receita no app, a progressBar desaparece
+        if(rAmigo != null){
+            progressBarReceitas.setVisibility(View.GONE);
         }
     }
 
@@ -219,20 +223,19 @@ public class ReceitasAmigosFragment extends Fragment {
     }
 
     public void recarregarReceitasAmigos(){
-        recuperarReceitasAmigos();
         configuracaoAdaptador(listaRA);
     }
 
     private void configuracaoAdaptador(List<Receitas> listaEscolhida) {
         adapterRA = new ReceitasAdapter(listaEscolhida, getActivity());
-        recyclerReceitasAmigos.setAdapter(adapterRA);
+        recyclerReceitas.setAdapter(adapterRA);
         adapterRA.notifyDataSetChanged();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //amigosRef.removeEventListener(valueEventListenerAmigos);
-        //receitasAmigoRef.removeEventListener(valueEventListenerRA);
+//        amigosRef.removeEventListener(valueEventListenerAmigos);
+//        receitasAmigoRef.removeEventListener(valueEventListenerRA);
     }
 }

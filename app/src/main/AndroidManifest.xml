@@ -31,7 +31,7 @@
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ReceitasAmigoActivity"
+            android:name=".activity.PerfilAmigoActivity"
             android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity

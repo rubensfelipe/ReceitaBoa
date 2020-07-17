@@ -62,16 +62,6 @@ public class Receitas implements Serializable {
         //seta todos os dados [idchef, idReceita, nomeReceita, ingredientes, preparo e serveXpessoas], setados nessa classe, dentro do nó idReceita no FirebaseDatabase
         receitaRef.setValue(dadosReceita);
 
-        /*
-        //armazenar os dados do chef
-        HashMap<String, Object> dadosChef = new HashMap<>();
-        dadosChef.put("nomeChef", getNomeChef());
-        dadosChef.put("urlFotoChef", getUrlFotoChef());
-
-        //salvar os dados do chef no id do chef logado no firebaDb
-        chefRef.setValue(dadosChef);
-         */
-
     }
 
     //Adiciona novos dados (url) a um nó (nó idReceita) já criado anteriormente no FirebaseDatabase
@@ -195,15 +185,6 @@ public class Receitas implements Serializable {
 
     public void setQtdPessoasServidas(String qtdPessoasServidas) {
         this.qtdPessoasServidas = qtdPessoasServidas;
-    }
-
-    //determina se a receita é do tipo item de lista ou cabeçalho
-    public int getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
     }
 
 }

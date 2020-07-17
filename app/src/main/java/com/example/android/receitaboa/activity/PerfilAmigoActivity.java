@@ -36,7 +36,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ReceitasAmigoActivity extends AppCompatActivity {
+public class PerfilAmigoActivity extends AppCompatActivity {
 
     private Button buttonAcaoPerfil;
     private CircleImageView imagePerfil;
@@ -72,11 +72,12 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
         configuracoesIniciais();
 
-        recuperarExtras();
+        regastarReceitasAmigoSelecionado();
 
     }
 
-    private void recuperarExtras() {
+    private void regastarReceitasAmigoSelecionado() {
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null){
 
@@ -93,7 +94,6 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
 
             //Abre a foto da receita que foi clicada no perfil usuario
             eventoClickFotoReceita();
-
         }
     }
 
@@ -115,6 +115,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
     }
 
     private String recuperarIdAmigoSelecionado(Bundle bund) {
+
         amigoSelecionado = (Chef) bund.getSerializable("chefSelecionado");
 
         //Recuperar id do Chef Amigo selecionado em pesquisaAmigos
@@ -135,7 +136,7 @@ public class ReceitasAmigoActivity extends AppCompatActivity {
         String caminhoFoto = amigoSelecionado.getUrlFotoChef();
         if(caminhoFoto != null){
             Uri url = Uri.parse(caminhoFoto); //String->Uri
-            Glide.with(ReceitasAmigoActivity.this)
+            Glide.with(PerfilAmigoActivity.this)
                     .load(url) //carrega a foto do FirebaseStorage através do caminho da foto
                     .into(imagePerfil); //carrega a foto no perfil do usuário no app
         }

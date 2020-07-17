@@ -2,17 +2,13 @@ package com.example.android.receitaboa.activity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,21 +17,21 @@ import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
-import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
+import com.example.android.receitaboa.model.Chef;
+import com.example.android.receitaboa.model.Postagem;
 import com.example.android.receitaboa.model.Receitas;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class NovaReceitaFotoActivity extends AppCompatActivity {
 
@@ -50,6 +46,14 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     private StorageReference storageRef;
     private String identificadorChef;
     private String idReceita;
+    private String nomeReceita;
+
+    private String idChefLogado;
+    private DatabaseReference firebaseRef;
+    private DatabaseReference chefsRef;
+    private DatabaseReference chefLogadoRef;
+    private DataSnapshot seguidoresSnapshot;
+    private Chef chefLogado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +61,45 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nova_receita_foto);
 
         //Recupera o id da receita gerada na tela anterior
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) { idReceita = (String) bundle.getSerializable("idReceita");    }
+        regastarIdReceita();
 
-        //Inicializar componentes
+        inicializarComponentes();
+
+        configuracoesIniciais();
+
+        recuperarDadosSeguidores();
+
+        abrirCamera();
+
+        abrirGaleriaFotos();
+
+    }
+
+    private void regastarIdReceita() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            idReceita = (String) bundle.getSerializable("idReceita");
+            nomeReceita = (String) bundle.getSerializable("nomeReceita");
+        }
+    }
+
+    private void inicializarComponentes() {
         displayFotoReceita = findViewById(R.id.displayFotoReceita);
         cameraMinhaReceita = findViewById(R.id.cameraMinhaReceita);
         galeriaMinhaReceita = findViewById(R.id.galeriaMinhaReceita);
         progressBarFotoReceita = findViewById(R.id.progressBarNR);
-        progressBarFotoReceita.setVisibility(View.GONE);
+    }
 
-        //Configurações iniciais
+    private void configuracoesIniciais() {
+        progressBarFotoReceita.setVisibility(View.GONE);
+        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        chefsRef = firebaseRef.child("chefs");
+    }
+
+    private void abrirCamera() {
 
         cameraMinhaReceita.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +114,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void abrirGaleriaFotos() {
+
         galeriaMinhaReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,11 +131,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     public void carregarProgressBar(){
@@ -170,7 +199,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-
                             recuperarUrlFirebaseStorage(taskSnapshot);
 
                         }
@@ -199,6 +227,8 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                         Uri urlImageReceita = uri;
 
                         adicionarFotoReceitaFirebaseDb(urlImageReceita);
+
+                        publicarPostagem(urlImageReceita);
 
                         finish();
 
@@ -242,6 +272,56 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
     }
 
+    private void recuperarDadosSeguidores(){
+
+        chefLogadoRef = chefsRef.child(idChefLogado);
+        chefLogadoRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+
+                        chefLogado = dataSnapshot.getValue(Chef.class); //recupera os dados do usuario logado
+
+                        final DatabaseReference seguidoresRef = firebaseRef
+                                .child("seguidores")
+                                .child(idChefLogado);
+                        seguidoresRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                seguidoresSnapshot = dataSnapshot;
+
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {              }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {          }
+                }
+        );
+    }
+
+    private void publicarPostagem(Uri caminhoReceita){
+        final Postagem postagem = new Postagem();
+        postagem.setIdChef(idChefLogado);
+        postagem.setNomeReceita(nomeReceita);
+        postagem.setUrlPostagem(caminhoReceita.toString());
+
+        //Salvar postagem
+        if (postagem.salvar(seguidoresSnapshot)) {
+
+            Toast.makeText(NovaReceitaFotoActivity.this,
+                    "Sucesso ao salvar postagem!",
+                    Toast.LENGTH_SHORT).show();
+            finish(); //após publicar a foto, a activity filtro é encerrada
+        }
+    }
+
+
+    /*
 
     private void salvarImagemDirCelular(Bitmap imgFoto) throws IOException {
 
@@ -290,6 +370,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         }
 
     }
-
+    */
 
 }

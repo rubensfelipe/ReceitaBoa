@@ -24,10 +24,16 @@ import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
+import com.example.android.receitaboa.model.Chef;
+import com.example.android.receitaboa.model.Postagem;
 import com.example.android.receitaboa.model.Receitas;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -62,8 +68,15 @@ public class EditarReceitaActivity extends AppCompatActivity {
     private String receitaFoto;
     private String receitaId;
 
-    private StorageReference storageRef;
     private String identificadorChef;
+    private String idChefLogado;
+    private StorageReference storageRef;
+    private DataSnapshot seguidoresSnapshot;
+    private DatabaseReference chefsRef;
+    private DatabaseReference chefLogadoRef;
+    private DatabaseReference firebaseRef;
+
+    private Chef chefLogado;
 
     private Receitas receitaAtual;
 
@@ -72,16 +85,41 @@ public class EditarReceitaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_receita);
 
+        //Validar permissões de Câmera e Galeria de Imagens
+        validarPermissoesCamera();
+
         inicializarComponentes();
 
-        //Configurações iniciais
+        configuracoesIniciais();
+
+        abrirCamera();
+
+        abrirGaleriaFotos();
+
+        recuperarDadosSeguidores();
+
+        //Recupera os dados da Receita visualizada
+        resgatarDadosReceita();
+
+        //Atualiza os dados da receita no FirebaseDb
+        configuracaoEventoBotaoAtualizar();
+
+    }
+
+    private void validarPermissoesCamera() {
+        Permissao.validarPermissoes(permissoesNecessarias, this, 1);
+    }
+
+    private void configuracoesIniciais() {
+        firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
         storageRef = ConfiguracaoFirebase.getFirebaseStorage();
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
         receitaAtual = new Receitas(); //ao iniciar essa tela, a classe Receitas será instanciada para uso
+        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        chefsRef = ConfiguracaoFirebase.getFirebaseDatabase().child("usuarios");
+    }
 
-        //Validar permissões de Câmera e Galeria de Imagens
-        Permissao.validarPermissoes(permissoesNecessarias, this, 1);
-
+    private void abrirCamera() {
         botaoAtualizarCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +132,9 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void abrirGaleriaFotos() {
         botaoAtualizarGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,8 +147,10 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-        //Recupera os dados da Receita visualizada
+    private void resgatarDadosReceita() {
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
 
@@ -135,11 +177,13 @@ public class EditarReceitaActivity extends AppCompatActivity {
                         .load(url)
                         .into(displayAtualizarFotoReceita);
             }else{
-                displayAtualizarFotoReceita.setImageResource(R.drawable.cloche_tableware);
+                displayAtualizarFotoReceita.setImageResource(R.drawable.avatar);
             }
         }
 
-        //Atualiza os dados da receita no FirebaseDb
+    }
+
+    private void configuracaoEventoBotaoAtualizar() {
         botaoAtualizarReceita.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,16 +201,24 @@ public class EditarReceitaActivity extends AppCompatActivity {
                 receitaAtual.setQtdPessoasServidas(qtdPessoasServidas);
 
                 receitaAtual.atualizarReceitaFirebaseDb(receitaId);
+
+                //a receita com a foto só será postada no feed na primeira vez que o usuário adicionar uma foto a receita. Se o usuário quiser trocar a foto da receita, a receita não será postada novamente no feed.
+                if (receitaFoto == null){ //verificar se já existe uma foto da receita
+                    if (receitaAtual.getUrlFotoReceita() != null){ //Verificar se o chef já adicionou uma nova foto
+                        publicarPostagem(receitaAtual.getUrlFotoReceita());
+                    }
+                }
+
+
                 Toast.makeText(EditarReceitaActivity.this,
                         "Receita " + nome +
-                                " atualizada!",Toast.LENGTH_SHORT).show();
+                                " atualizada!", Toast.LENGTH_SHORT).show();
 
                 fecharAtividadeAtualAnterior(VisualizarReceitaActivity.atividadeAberta);
 
             }
 
         });
-
     }
 
     private void fecharTeclado() {
@@ -319,4 +371,56 @@ public class EditarReceitaActivity extends AppCompatActivity {
         botaoAtualizarGaleria = findViewById(R.id.galeriaAtualizarReceita);
         displayAtualizarFotoReceita = findViewById(R.id.displayAtualizarFoto);
     }
+
+    private void recuperarDadosSeguidores(){
+
+        chefLogadoRef = chefsRef.child(idChefLogado);
+        chefLogadoRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        chefLogado = dataSnapshot.getValue(Chef.class); //recupera os dados do usuario logado
+
+                        //Recuperar os seguidores do usuario logado (para poder postar as fotos no feed dos seus seguidores)
+                        final DatabaseReference seguidoresRef = firebaseRef
+                                .child("seguidores")
+                                .child(idChefLogado);
+                        seguidoresRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                seguidoresSnapshot = dataSnapshot; //recupera os dados dos seguidores
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {          }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {         }
+                }
+        );
+
+    }
+
+    private void publicarPostagem(String caminhoReceita){
+        final Postagem postagem = new Postagem();
+        postagem.setIdChef(idChefLogado);
+        postagem.setNomeReceita(receitaNome);
+        postagem.setUrlPostagem(caminhoReceita);
+
+        //Salvar postagem
+        if (postagem.salvar(seguidoresSnapshot)) {
+
+            Toast.makeText(EditarReceitaActivity.this,
+                    "Sucesso ao salvar postagem!",
+                    Toast.LENGTH_SHORT).show();
+            finish(); //após publicar a foto, a activity filtro é encerrada
+        }
+    }
+
 }

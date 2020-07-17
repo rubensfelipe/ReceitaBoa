@@ -31,7 +31,7 @@ public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
 
     //ADICIONAR QUANDO FOR ARRUMAR A PESQUISA DE RECEITAS
     //indentifica se a lista que está sendo utilizada pelo adapter é a lista completa das minhas receitas ou a lista de busca de uma receita especifica da minha lista de receitas (assim as receitas mantem as suas posições da lista completa)
-    public List<Receitas> getListaReceitasAmigos(){
+    public List<Receitas> getListaReceitas(){
         return this.listaReceitasAmigos;
     }
 

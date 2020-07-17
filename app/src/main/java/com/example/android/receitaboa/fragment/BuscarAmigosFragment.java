@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ProgressBar;
 
 import com.example.android.receitaboa.R;
-import com.example.android.receitaboa.activity.ReceitasAmigoActivity;
+import com.example.android.receitaboa.activity.PerfilAmigoActivity;
 import com.example.android.receitaboa.adapter.AmigosAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
@@ -68,7 +68,7 @@ public class BuscarAmigosFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        recuperarAmigosFirebaseDb();
+        recuperarUsuariosFirebaseDb();
     }
 
     private void inicializarComponentes(View vista) {
@@ -108,7 +108,7 @@ public class BuscarAmigosFragment extends Fragment {
 
                                 Chef chefAmigoSelecionado = listaAmigosAtualizada.get(position);
 
-                                Intent i = new Intent(getActivity(), ReceitasAmigoActivity.class);
+                                Intent i = new Intent(getActivity(), PerfilAmigoActivity.class);
                                 i.putExtra("chefSelecionado", chefAmigoSelecionado);
                                 startActivity(i);
 
@@ -126,7 +126,7 @@ public class BuscarAmigosFragment extends Fragment {
     }
 
     //recupera os dados dos amigos a partir do FirebaseDatabase e adiciona a lista de Amigos
-    public void recuperarAmigosFirebaseDb(){
+    public void recuperarUsuariosFirebaseDb(){
 
         limparListaAmigos();
 

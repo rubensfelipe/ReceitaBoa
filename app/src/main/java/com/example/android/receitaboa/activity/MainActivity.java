@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                             if (newText != null && !newText.isEmpty()){
                                 minhasReceitasFrag.pesquisarMinhasReceitas(newText.toLowerCase());
                             }else {
-                                minhasReceitasFrag.recarregarMinhasReceitas(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                                //Aparente esse campo fica vazio (vamos ver)
                             }
 
                         break;
@@ -125,7 +125,10 @@ public class MainActivity extends AppCompatActivity {
                         if (newText != null && !newText.isEmpty()){
                             receitasFrag.pesquisarReceitasAmigos(newText.toLowerCase());
                         }else {
-                            receitasFrag.recarregarReceitasAmigos(); //recupera a lista completa se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                            /*Aparente esse campo fica vazio (vamos ver)
+                            receitasFrag.recuperarReceitasAmigos(); //1o cria uma lista atualizada a partir dos dados firebase (caso haja alterações)
+                            receitasFrag.recarregarReceitasAmigos(); //2o recupera a lista criada acima se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                             */
                         }
                         break;
 

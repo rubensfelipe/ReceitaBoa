@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class MinhasReceitasFragment extends Fragment {
 
-    private RecyclerView recyclerViewMinhasReceitas;
+    private RecyclerView recyclerReceitas;
     private ReceitasAdapter adapterMR;
 
     private ImageView fabMiniChef;
@@ -62,8 +62,8 @@ public class MinhasReceitasFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_minhas_receitas, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_receitas, container, false);
 
         inicializarComponentes(view);
 
@@ -84,7 +84,7 @@ public class MinhasReceitasFragment extends Fragment {
 
     private void inicializarComponentes(View vista) {
         emptyFridgeView = vista.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
-        recyclerViewMinhasReceitas = vista.findViewById(R.id.recyclerViewMinhasReceitas);
+        recyclerReceitas = vista.findViewById(R.id.recyclerViewReceitas);
         fabMiniChef = vista.findViewById(R.id.fab);
     }
 
@@ -118,17 +118,17 @@ public class MinhasReceitasFragment extends Fragment {
         adapterMR = new ReceitasAdapter(listaMR, getActivity() );
 
         layoutManager = new LinearLayoutManager(getActivity());
-        recyclerViewMinhasReceitas.setLayoutManager(layoutManager);
-        recyclerViewMinhasReceitas.setHasFixedSize(true);
-        recyclerViewMinhasReceitas.setAdapter(adapterMR);
+        recyclerReceitas.setLayoutManager(layoutManager);
+        recyclerReceitas.setHasFixedSize(true);
+        recyclerReceitas.setAdapter(adapterMR);
     }
 
     private void configurarEventoCliqueMinhaReceita() {
 
-        recyclerViewMinhasReceitas.addOnItemTouchListener(
+        recyclerReceitas.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getActivity(),
-                        recyclerViewMinhasReceitas,
+                        recyclerReceitas,
                         new RecyclerItemClickListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
@@ -207,7 +207,7 @@ public class MinhasReceitasFragment extends Fragment {
 
     private void configuracoesAdaptador(List<Receitas> listaEscolhida) {
         adapterMR = new ReceitasAdapter(listaEscolhida, getActivity());
-        recyclerViewMinhasReceitas.setAdapter(adapterMR);
+        recyclerReceitas.setAdapter(adapterMR);
         adapterMR.notifyDataSetChanged();
     }
 
@@ -216,5 +216,16 @@ public class MinhasReceitasFragment extends Fragment {
         super.onStop();
         receitasChefRef.removeEventListener(valueEventListenerMR);
     }
+
+    //elimina a lista e o adapter de MR ao mudar de tela (para que o adapter possa ser usado pela lista receitas amigos)
+    /*
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        recyclerReceitas.setAdapter(null);
+        adapterMR = null;
+        recyclerReceitas = null;
+    }
+     */
 
 }

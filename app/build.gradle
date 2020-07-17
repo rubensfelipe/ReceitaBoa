@@ -55,8 +55,8 @@ dependencies {
     implementation 'dev.ahamed.mva3:adapter:3.0.0'
     implementation 'dev.ahamed.mva3:ext-decorator:3.0.0' //extensão do MultiViewAdapter
 
-    //teste
-    //implementation 'com.amulyakhare:com.amulyakhare.textdrawable:1.0.1'
+    //Dependencia Lib icones de Like
+    //implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
 }
 

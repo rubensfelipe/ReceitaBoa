@@ -64,16 +64,22 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         //referenciando a Activity
         atividadeAberta = this;
 
-        //Configurações iniciais
+        configuracoesIniciais();
+
+        inicializarComponentes();
+
+    }
+
+    private void configuracoesIniciais() {
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
         dadosChef = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
+    }
 
-        //inicializar componentes
+    private void inicializarComponentes() {
         editNomeReceita = findViewById(R.id.editNomeReceita);
         editIngredientesReceita = findViewById(R.id.editReceitaIngredientes);
         editModoPreparo = findViewById(R.id.editModoPreparo);
         qtdPessoasServidas = findViewById(R.id.editQtdPessoasServidas);
-
     }
 
     @Override
@@ -87,10 +93,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         fecharTeclado();
 
         minhasReceitas.setIdChef(identificadorChef); //setando o id do Chef na Classe Receitas
-
-        //setar os dados do chef logado
-        //minhasReceitas.setNomeChef(dadosChef.getNome());
-        //minhasReceitas.setUrlFotoChef(dadosChef.getUrlFotoChef());
 
         //salvar os dados da Receita no FirebaseDatabase
         minhasReceitas.salvarMinhaReceitaFirebaseDb();
@@ -187,6 +189,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
                 Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
                 i.putExtra("idReceita",minhasReceitas.getIdReceita());
+                i.putExtra("nomeReceita",minhasReceitas.getNome());
                 startActivity(i);
 
             }
