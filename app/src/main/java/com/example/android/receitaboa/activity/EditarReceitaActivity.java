@@ -410,8 +410,12 @@ public class EditarReceitaActivity extends AppCompatActivity {
     private void publicarPostagem(String caminhoReceita){
         final Postagem postagem = new Postagem();
         postagem.setIdChef(idChefLogado);
-        postagem.setNomeReceita(receitaNome);
         postagem.setUrlPostagem(caminhoReceita);
+
+        postagem.setNomeReceita(receitaNome);
+        postagem.setIngredientes(receitaIngredientes);
+        postagem.setModoPreparo(receitaModoPreparo);
+        postagem.setQtdPessoasServidas(receitaQtdPessoasServidas);
 
         //Salvar postagem
         if (postagem.salvar(seguidoresSnapshot)) {

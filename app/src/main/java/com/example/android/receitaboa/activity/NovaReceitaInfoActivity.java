@@ -190,6 +190,10 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                 Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
                 i.putExtra("idReceita",minhasReceitas.getIdReceita());
                 i.putExtra("nomeReceita",minhasReceitas.getNome());
+
+                i.putExtra("ingredientes",minhasReceitas.getIngredientes());
+                i.putExtra("modoPreparo",minhasReceitas.getModoPreparo());
+                i.putExtra("qtdPessoasServidas",minhasReceitas.getQtdPessoasServidas());
                 startActivity(i);
 
             }

@@ -53,7 +53,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     private DatabaseReference chefsRef;
     private DatabaseReference chefLogadoRef;
     private DataSnapshot seguidoresSnapshot;
-    private Chef chefLogado;
+
+    private String ingredientes;
+    private String modoPreparo;
+    private String qtdPessoasServidas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,10 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         if (bundle != null) {
             idReceita = (String) bundle.getSerializable("idReceita");
             nomeReceita = (String) bundle.getSerializable("nomeReceita");
+
+            ingredientes = (String) bundle.getSerializable("ingredientes");
+            modoPreparo = (String) bundle.getSerializable("modoPreparo");
+            qtdPessoasServidas = (String) bundle.getSerializable("qtdPessoasServidas");
         }
     }
 
@@ -280,8 +287,6 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
-                        chefLogado = dataSnapshot.getValue(Chef.class); //recupera os dados do usuario logado
-
                         final DatabaseReference seguidoresRef = firebaseRef
                                 .child("seguidores")
                                 .child(idChefLogado);
@@ -307,8 +312,12 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     private void publicarPostagem(Uri caminhoReceita){
         final Postagem postagem = new Postagem();
         postagem.setIdChef(idChefLogado);
-        postagem.setNomeReceita(nomeReceita);
         postagem.setUrlPostagem(caminhoReceita.toString());
+
+        postagem.setNomeReceita(nomeReceita);
+        postagem.setIngredientes(ingredientes);
+        postagem.setModoPreparo(modoPreparo);
+        postagem.setQtdPessoasServidas(qtdPessoasServidas);
 
         //Salvar postagem
         if (postagem.salvar(seguidoresSnapshot)) {

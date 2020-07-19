@@ -8,11 +8,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,12 +20,9 @@ import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
-import com.example.android.receitaboa.model.Chef;
+import com.example.android.receitaboa.model.Feed;
 import com.example.android.receitaboa.model.Receitas;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
 public class VisualizarReceitaActivity extends AppCompatActivity {
 
@@ -48,7 +43,9 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private String idChefLogado;
     private String idReceitaClicada;
+    private String idPostagem;
     private String idReceitaAmigoClicada;
+    private String idReceitaFeedClicada;
 
     private DatabaseReference firebaseDbRef;
     private DatabaseReference receitasRef;
@@ -60,6 +57,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private Receitas minhaReceitaClicada;
     private Receitas receitaAmigoClicada;
+    private Feed receitaFeedClicada;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +94,11 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                 receitaAmigoClicada = (Receitas) bundle.getSerializable("dadosReceitaAmigoClicada");
                 amigoReceitaDados(receitaAmigoClicada);
 
+            }else if (bundle.containsKey("dadosReceitaFeedClicada")){
+
+                receitaFeedClicada = (Feed) bundle.getSerializable("dadosReceitaFeedClicada");
+                feedReceitaDados(receitaFeedClicada);
+
             }
         }
     }
@@ -117,6 +120,34 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         //OBS: deve-se adicionar android:parentActivityName=".activity.MainActivity" no Android Manifest na parte do EditarPerfilActivity, botão voltar retorna a parentActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp); //customiza o botão voltar para o ícone q vc desejar
+    }
+
+    private void minhaReceitaDados(Receitas receitaClicada) {
+
+        nomeReceitaClicada = receitaClicada.getNome();
+        textNomeReceita.setText(nomeReceitaClicada);
+
+        ingredientesReceitaClicada = receitaClicada.getIngredientes();
+        textIngredientes.setText(ingredientesReceitaClicada);
+
+        modoPreparoReceitaClicada = receitaClicada.getModoPreparo();
+        textModoPreparo.setText(modoPreparoReceitaClicada);
+
+        qtdPessoasServidasReceitaClicada = receitaClicada.getQtdPessoasServidas();
+
+        //recupera a idReceita que foi selecionada na lista
+        idReceitaClicada = receitaClicada.getIdReceita();
+
+        receitaFoto = receitaClicada.getUrlFotoReceita();
+        if (receitaFoto != null){
+            Uri url = Uri.parse(receitaFoto);
+            Glide.with(VisualizarReceitaActivity.this)
+                    .load(url)
+                    .into(displayImageReceitaFinal);
+        }else{
+            displayImageReceitaFinal.setImageResource(R.drawable.avatar);
+        }
+
     }
 
     private void amigoReceitaDados(Receitas receitaAmigoClicada) {
@@ -145,33 +176,34 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     }
 
-    private void minhaReceitaDados(Receitas receitaClicada) {
+    private void feedReceitaDados(Feed receitaFeedClicada) {
 
-        nomeReceitaClicada = receitaClicada.getNome();
+        idPostagem = receitaFeedClicada.getId();
+
+        nomeReceitaClicada = receitaFeedClicada.getNomeReceita();
         textNomeReceita.setText(nomeReceitaClicada);
 
-        ingredientesReceitaClicada = receitaClicada.getIngredientes();
+        ingredientesReceitaClicada = receitaFeedClicada.getIngredientes();
         textIngredientes.setText(ingredientesReceitaClicada);
 
-        modoPreparoReceitaClicada = receitaClicada.getModoPreparo();
+        modoPreparoReceitaClicada = receitaFeedClicada.getModoPreparo();
         textModoPreparo.setText(modoPreparoReceitaClicada);
 
-        qtdPessoasServidasReceitaClicada = receitaClicada.getQtdPessoasServidas();
+        qtdPessoasServidasReceitaClicada = receitaFeedClicada.getQtdPessoasServidas();
 
-        //recupera a idReceita que foi selecionada na lista
-        idReceitaClicada = receitaClicada.getIdReceita();
-
-        receitaFoto = receitaClicada.getUrlFotoReceita();
-        if (receitaFoto != null){
-            Uri url = Uri.parse(receitaFoto);
+        String postagemFotoFeed = receitaFeedClicada.getFotoPostagem();
+        if (postagemFotoFeed != null){
+            Uri url = Uri.parse(postagemFotoFeed);
             Glide.with(VisualizarReceitaActivity.this)
                     .load(url)
                     .into(displayImageReceitaFinal);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.cloche_tableware);
+            displayImageReceitaFinal.setImageResource(R.drawable.avatar);
         }
 
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -204,6 +236,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private void excluirReceita() {
         receitasChefRef.child(idReceitaClicada).removeValue();
+        //receitaFeedRef.child(idPostagem).removeValue();
         Toast.makeText(VisualizarReceitaActivity.this,"A receita " + nomeReceitaClicada + " foi excluída com sucesso", Toast.LENGTH_SHORT).show();
         finish();
     }

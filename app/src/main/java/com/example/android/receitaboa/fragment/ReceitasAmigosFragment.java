@@ -45,7 +45,8 @@ public class ReceitasAmigosFragment extends Fragment {
     private List<String> listaIdAmigos = new ArrayList<>();
     private List<Receitas> listaRA = new ArrayList<>();
 
-    private ReceitasAdapter adapterRA;
+    //private ReceitasAdapter adapterRA;
+    private RA_Adapter adapterRA;
 
     private DatabaseReference firebaseDbRef;
     private DatabaseReference amigosRef;
@@ -106,7 +107,8 @@ public class ReceitasAmigosFragment extends Fragment {
     }
 
     private void configurarAdapterMaisRecyclerView() {
-        adapterRA = new ReceitasAdapter(listaRA, getActivity() );
+        //adapterRA = new ReceitasAdapter(listaRA, getActivity() );
+        adapterRA = new RA_Adapter(listaRA, getActivity() );
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerReceitas.setLayoutManager(layoutManager);
@@ -198,7 +200,7 @@ public class ReceitasAmigosFragment extends Fragment {
                 public void onCancelled(@NonNull DatabaseError databaseError) {   }
             });
 
-        }//
+        }
     }
 
     private void sumirProgressBar(Receitas rAmigo) {
@@ -227,7 +229,8 @@ public class ReceitasAmigosFragment extends Fragment {
     }
 
     private void configuracaoAdaptador(List<Receitas> listaEscolhida) {
-        adapterRA = new ReceitasAdapter(listaEscolhida, getActivity());
+        //adapterRA = new ReceitasAdapter(listaEscolhida, getActivity());
+        adapterRA = new RA_Adapter(listaEscolhida, getActivity());
         recyclerReceitas.setAdapter(adapterRA);
         adapterRA.notifyDataSetChanged();
     }

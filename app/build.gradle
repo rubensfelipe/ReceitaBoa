@@ -56,7 +56,11 @@ dependencies {
     implementation 'dev.ahamed.mva3:ext-decorator:3.0.0' //extensão do MultiViewAdapter
 
     //Dependencia Lib icones de Like
-    //implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+    //implementation 'com.jackandphantom.android:androidlikebutton:1.2.0'
+    //implementation 'com.github.ivbaranov:materialfavoritebutton:0.1.5'
+
+    //Expandable TextView
+    //implementation 'com.ms-square:expandableTextView:0.1.4'
 
 }
 

@@ -1,5 +1,6 @@
 package com.example.android.receitaboa.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,12 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import com.example.android.receitaboa.R;
+import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.example.android.receitaboa.adapter.AdapterFeed;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Feed;
+import com.example.android.receitaboa.model.Receitas;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -55,6 +60,8 @@ public class FeedFragment extends Fragment {
 
         configurarAdapterMaisRecyclerView();
 
+        configurarEventoCliqueReceita();
+
         return view;
     }
 
@@ -80,6 +87,33 @@ public class FeedFragment extends Fragment {
         recyclerFeed.setHasFixedSize(true);
         recyclerFeed.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerFeed.setAdapter(adapterFeed);
+    }
+
+    private void configurarEventoCliqueReceita() {
+
+        recyclerFeed.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getActivity(),
+                        recyclerFeed,
+                        new RecyclerItemClickListener.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+
+                                Feed receitaSelecionadaFeed = listaFeed.get(position);
+
+                                Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
+                                i.putExtra("dadosReceitaFeedClicada", receitaSelecionadaFeed);
+                                startActivity(i);
+                            }
+
+                            @Override
+                            public void onLongItemClick(View view, int position) {        }
+
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {        }
+                        }
+                )
+        );
     }
 
     private void listandoFeed() {

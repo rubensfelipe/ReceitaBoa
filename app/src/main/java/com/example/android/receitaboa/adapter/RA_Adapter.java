@@ -1,17 +1,14 @@
 package com.example.android.receitaboa.adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.model.Receitas;
 
@@ -38,7 +35,8 @@ public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receitas_amigos, parent,false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_ra, parent,false);
+        //View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receitas_amigos, parent,false);
         return new RA_Adapter.MyViewHolder(itemLista);
     }
 
@@ -52,7 +50,9 @@ public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
 
         //Carrega os dados de texto da receita
         holder.nomeReceitaAmigo.setText(receita.getNome());
+        holder.nomeAmigo.setText(receita.getNomeChef());
 
+        /*
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
             Uri uriFotoReceita = Uri.parse(receita.getUrlFotoReceita());
@@ -62,6 +62,8 @@ public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
         }else {
             holder.fotoReceitaAmigo.setImageResource(R.drawable.avatar);
         }
+         */
+
 
     }
 
@@ -73,14 +75,16 @@ public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView fotoReceitaAmigo;
+        //ImageView fotoReceitaAmigo;
         TextView nomeReceitaAmigo;
+        TextView nomeAmigo;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            fotoReceitaAmigo = itemView.findViewById(R.id.fotoReceitaAmigo);
-            nomeReceitaAmigo = itemView.findViewById(R.id.textNomeReceitaAmigo);
+            //fotoReceitaAmigo = itemView.findViewById(R.id.fotoReceitaAmigo);
+            nomeReceitaAmigo = itemView.findViewById(R.id.tvNomeReceitaAmigo);
+            nomeAmigo = itemView.findViewById(R.id.tvNomeAmigo);
 
         }
     }

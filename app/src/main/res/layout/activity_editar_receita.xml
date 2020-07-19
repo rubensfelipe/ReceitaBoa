@@ -119,7 +119,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_camera_cinza_24dp"
+                    android:src="@drawable/ic_camera_azul_24dp"
                     android:contentDescription="TODO" />
 
                 <ImageView
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_foto_cinza_24dp" />
+                    android:src="@drawable/ic_foto_azul_24dp" />
             </LinearLayout>
 
             <EditText

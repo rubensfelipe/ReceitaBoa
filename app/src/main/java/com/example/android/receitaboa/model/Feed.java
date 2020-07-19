@@ -1,14 +1,44 @@
 package com.example.android.receitaboa.model;
 
-public class Feed {
+import java.io.Serializable;
+
+public class Feed implements Serializable  {
 
     private String id;
     private String fotoPostagem;
-    private String nomeReceita;
     private String nomeChef;
     private String fotoUsuario;
 
+    private String nomeReceita;
+    private String ingredientes;
+    private String modoPreparo;
+    private String qtdPessoasServidas;
+
     public Feed() {
+    }
+
+    public String getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(String ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public String getModoPreparo() {
+        return modoPreparo;
+    }
+
+    public void setModoPreparo(String modoPreparo) {
+        this.modoPreparo = modoPreparo;
+    }
+
+    public String getQtdPessoasServidas() {
+        return qtdPessoasServidas;
+    }
+
+    public void setQtdPessoasServidas(String qtdPessoasServidas) {
+        this.qtdPessoasServidas = qtdPessoasServidas;
     }
 
     public String getId() { //pega o id da postagem no Feed

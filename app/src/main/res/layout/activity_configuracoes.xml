@@ -94,7 +94,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageButtonCamera"
         app:layout_constraintTop_toTopOf="@+id/circleImageViewFotoPerfil"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_foto_cinza_24dp" />
+        app:srcCompat="@drawable/ic_foto_azul_24dp" />
 
     <ImageButton
         android:id="@+id/imageButtonCamera"
@@ -107,6 +107,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/circleImageViewFotoPerfil"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_camera_cinza_24dp" />
+        app:srcCompat="@drawable/ic_camera_azul_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

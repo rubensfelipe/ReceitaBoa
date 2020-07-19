@@ -24,8 +24,12 @@ public class Postagem implements Serializable { //Serializable passar dados entr
 
     private String id;
     private String idUsuario;
-    private String descricao;
     private String urlPostagem;
+
+    private String nomeReceita;
+    private String ingredientes;
+    private String modoPreparo;
+    private String qtdPessoasServidas;
 
     public Postagem() { //iniciado quando se é instanciado a postagem ( new Postagem() )
 
@@ -55,10 +59,14 @@ public class Postagem implements Serializable { //Serializable passar dados entr
             //Monta objeto para salvar
             HashMap<String, Object> dadosSeguidor = new HashMap<>();
             dadosSeguidor.put("fotoPostagem", getUrlPostagem());
-            dadosSeguidor.put("nomeReceita", getNomeReceita());
             dadosSeguidor.put("idPostagem", getId()); //idPostagem
             dadosSeguidor.put("nomeChef", chefLogado.getNome()); //dados do nome do usuario que postou a foto
             dadosSeguidor.put("fotoUsuario", chefLogado.getUrlFotoChef()); //foto de perfil do usuario que postou a foto no seu feed
+
+            dadosSeguidor.put("nomeReceita", getNomeReceita());
+            dadosSeguidor.put("ingredientes", getIngredientes());
+            dadosSeguidor.put("modoPreparo", getModoPreparo());
+            dadosSeguidor.put("qtdPessoasServidas", getQtdPessoasServidas());
 
             String idsAtualizacao = "/" + idSeguidor + "/" + getId(); //idMeuSeguidor + idPostagem
             objeto.put("/feed" + idsAtualizacao, dadosSeguidor); //local onde eu quero salvar as postagens será salva nessa variável dadosSeguidor
@@ -87,11 +95,35 @@ public class Postagem implements Serializable { //Serializable passar dados entr
     }
 
     public String getNomeReceita() {
-        return descricao;
+        return nomeReceita;
     }
 
     public void setNomeReceita(String descricao) {
-        this.descricao = descricao;
+        this.nomeReceita = descricao;
+    }
+
+    public String getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(String ingredientes) {
+        this.ingredientes = ingredientes;
+    }
+
+    public String getModoPreparo() {
+        return modoPreparo;
+    }
+
+    public void setModoPreparo(String modoPreparo) {
+        this.modoPreparo = modoPreparo;
+    }
+
+    public String getQtdPessoasServidas() {
+        return qtdPessoasServidas;
+    }
+
+    public void setQtdPessoasServidas(String qtdPessoasServidas) {
+        this.qtdPessoasServidas = qtdPessoasServidas;
     }
 
     public String getUrlPostagem() {
