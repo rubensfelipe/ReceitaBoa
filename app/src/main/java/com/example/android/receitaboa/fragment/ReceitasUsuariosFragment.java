@@ -35,7 +35,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ReceitasAmigosFragment extends Fragment {
+public class ReceitasUsuariosFragment extends Fragment {
 
     private ProgressBar progressBarReceitas;
     private RecyclerView recyclerReceitas;
@@ -59,7 +59,7 @@ public class ReceitasAmigosFragment extends Fragment {
 
     public boolean receitaClicada = false;
 
-    public ReceitasAmigosFragment() {
+    public ReceitasUsuariosFragment() {
         // Required empty public constructor
     }
 

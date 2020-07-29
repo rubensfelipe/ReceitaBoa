@@ -13,9 +13,10 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
+import com.example.android.receitaboa.fragment.AmigosFragment;
 import com.example.android.receitaboa.fragment.FeedFragment;
 import com.example.android.receitaboa.fragment.BuscarAmigosFragment;
-import com.example.android.receitaboa.fragment.ReceitasAmigosFragment;
+import com.example.android.receitaboa.fragment.ReceitasUsuariosFragment;
 import com.example.android.receitaboa.fragment.MinhasReceitasFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -82,9 +83,10 @@ public class MainActivity extends AppCompatActivity {
         final FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
-                        .add("Receitas", MinhasReceitasFragment.class)
+                        .add("Meu Cardápio", MinhasReceitasFragment.class)
                         .add("Feed", FeedFragment.class)
-                        .add("Receitas Amigos", ReceitasAmigosFragment.class)
+                        .add("Meus Amigos", AmigosFragment.class)
+                        .add("Receitas", ReceitasUsuariosFragment.class)
                         .add("Buscar Amigos", BuscarAmigosFragment.class)
                         .create()
         );
@@ -121,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 2: //Todas Receitas (Amigos)
-                        ReceitasAmigosFragment receitasFrag = (ReceitasAmigosFragment) adaptador.getPage(2);
+                        ReceitasUsuariosFragment receitasFrag = (ReceitasUsuariosFragment) adaptador.getPage(2);
                         if (newText != null && !newText.isEmpty()){
                             receitasFrag.pesquisarReceitasAmigos(newText.toLowerCase());
                         }else {
@@ -162,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 2:
-                        ReceitasAmigosFragment raFrag = (ReceitasAmigosFragment) adaptador.getPage(2);
+                        ReceitasUsuariosFragment raFrag = (ReceitasUsuariosFragment) adaptador.getPage(2);
                         raFrag.recarregarReceitasAmigos();
                         break;
 

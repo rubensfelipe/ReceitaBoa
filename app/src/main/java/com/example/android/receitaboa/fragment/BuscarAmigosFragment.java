@@ -16,7 +16,7 @@ import android.widget.ProgressBar;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.PerfilAmigoActivity;
-import com.example.android.receitaboa.adapter.AmigosAdapter;
+import com.example.android.receitaboa.adapter.BuscaAmigosAdapter;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
@@ -36,7 +36,7 @@ import java.util.List;
 public class BuscarAmigosFragment extends Fragment {
 
     private RecyclerView recyclerListaUsuarios;
-    private AmigosAdapter adapter;
+    private BuscaAmigosAdapter adapter;
     private ArrayList<Chef> listaUsuarios = new ArrayList<>(); //instanciando a Lista de Amigos que serão recuperados pela Classe Chef
     private DatabaseReference chefsRef;
     private ValueEventListener valueEventListenerAmigos;
@@ -83,7 +83,7 @@ public class BuscarAmigosFragment extends Fragment {
 
     private void configuracoesRecyclerMaisAdapter() {
         //Configurar adapter
-        adapter = new AmigosAdapter(listaUsuarios, getActivity()); //AmigosAdapter(Lista [tipo: ArrayList<>], contexto) //PRIMEIRO: Criar construtor na classe AmigosAdapter, AmigosAdapter(Lista [tipo: List<>], contexto)
+        adapter = new BuscaAmigosAdapter(listaUsuarios, getActivity()); //AmigosAdapter(Lista [tipo: ArrayList<>], contexto) //PRIMEIRO: Criar construtor na classe AmigosAdapter, AmigosAdapter(Lista [tipo: List<>], contexto)
 
         //Configurar recyclerView
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -188,7 +188,7 @@ public class BuscarAmigosFragment extends Fragment {
 
     //seta a lista em um adapter
     private void configuracoesAdapter(List<Chef> listaEscolhida) {
-        adapter = new AmigosAdapter(listaEscolhida, getActivity());
+        adapter = new BuscaAmigosAdapter(listaEscolhida, getActivity());
         recyclerListaUsuarios.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

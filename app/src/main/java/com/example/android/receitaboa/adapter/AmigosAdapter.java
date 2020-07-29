@@ -1,84 +1,108 @@
 package com.example.android.receitaboa.adapter;
-
+;
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.model.Chef;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+public class AmigosAdapter extends ArrayAdapter<Chef>  {
 
-//Inicia o layout da lista adaptada (adaptador) [Isso que será mostrado na tela do usuario, o design de cada item (foto a esquerda, nome a direita canto superior e logo abaixo a ultima msg enviada) da lista]
-public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.MyViewHolder> {
-
-    private List<Chef> amigos;
     private Context context;
+    private int layoutResource;
+    private List<Chef> listaAmigos;
 
-    public AmigosAdapter(List<Chef> listaAmigos, Context c) {
-        this.amigos =  listaAmigos;
-        this.context = c;
+    public AmigosAdapter(Context context, int resource, List<Chef> objects){
+        super(context, resource, objects);
+        this.context = context;
+        this.layoutResource = resource;
+        this.listaAmigos = objects;
     }
 
-    public List<Chef> getListAmigos(){ //recupera a lista de amigos atualizada (seja na busca dos amigos ou na lista completa) esse método é importante para que ao pesquisar um amigo, a sua posição na lista não seja alterada
-        return this.amigos;
+    public class ViewHolder{
+        ImageView fotoAmigo;
+        TextView nomeAmigo;
+        ProgressBar progressBar;
     }
 
-    @NonNull
-    @Override
-    //Seta os itens (nome, email, foto, ultima conversa) na lista
-    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_amigos, parent, false);
-        return new MyViewHolder(itemLista);  //MyViewHolder: método do construtor
-    }
+    public View getView(int position, View convertView, ViewGroup parent){
 
-    @Override
-    public void onBindViewHolder(@NonNull AmigosAdapter.MyViewHolder holder, int position) {
+        final ViewHolder viewHolder;
 
-        Chef chef = amigos.get(position);
+        if (convertView == null){
 
-        holder.nomeAmigo.setText(chef.getNome());
-        holder.emailAmigo.setText(chef.getEmail());
+            viewHolder = new ViewHolder();
+            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = layoutInflater.inflate(layoutResource, parent,false);
 
-        if(chef.getUrlFotoChef() != null){
-            Uri uriFotoChef = Uri.parse(chef.getUrlFotoChef()); //String -> Uri
-            Glide.with(context).load(uriFotoChef).into(holder.fotoAmigo);
+            viewHolder.nomeAmigo = convertView.findViewById(R.id.textNomeReceitaPerfil);
+            viewHolder.fotoAmigo = convertView.findViewById(R.id.fotoReceitaPerfil);
+            viewHolder.progressBar = convertView.findViewById(R.id.progressGridPerfil);
+
+            convertView.setTag(viewHolder);
+
         }else {
-            holder.fotoAmigo.setImageResource(R.drawable.avatar);
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        final Chef amigo = listaAmigos.get(position);
 
-    }
+        viewHolder.nomeAmigo.setText(amigo.getNome());
 
-    @Override
-    public int getItemCount() {
-        return amigos.size();
-    }
+        //verica se o usuário já colocou uma foto
+        if (amigo.getUrlFotoChef() != null){
 
-    //inicializa os componentes
-    public  class MyViewHolder extends RecyclerView.ViewHolder{
+            mostrarImagem(amigo.getUrlFotoChef(), viewHolder);
 
-        CircleImageView fotoAmigo;
-        TextView nomeAmigo, emailAmigo;
+        }else {
 
-        //Construtor
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
+            String imgPadrao = "android.resource://com.example.android.receitaboa/drawable/avatar";
 
-            fotoAmigo = itemView.findViewById(R.id.imageViewFotoAmigo);
-            nomeAmigo = itemView.findViewById(R.id.textNomeAmigo);
-            emailAmigo = itemView.findViewById(R.id.textEmailAmigo);
-
+            mostrarImagem(imgPadrao, viewHolder);
         }
+        return convertView;
     }
+
+    private void mostrarImagem(String caminhoFoto, final ViewHolder vHolder) {
+
+        //Recuperar as fotos da lista de receitas do amigo de acordo com a posição e seta elas na GridView
+        ImageLoader imageLoader = ImageLoader.getInstance();
+
+        imageLoader.displayImage(caminhoFoto, vHolder.fotoAmigo,
+                new ImageLoadingListener() {
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+                        vHolder.progressBar.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+                        vHolder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+                        vHolder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+                        vHolder.progressBar.setVisibility(View.GONE);
+                    }
+                });
+    }
+
 
 }

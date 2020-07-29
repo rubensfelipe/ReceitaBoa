@@ -66,7 +66,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receitas_amigo);
+        setContentView(R.layout.activity_perfil_amigo);
 
         inicializarComponentes();
 
@@ -327,7 +327,8 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
         HashMap<String, Object> dadosAmigoLogado = new HashMap<>();
         dadosAmigoLogado.put("nome", amigoSelecionado.getNome());
-        dadosAmigoLogado.put("caminhoFoto", amigoSelecionado.getUrlFotoChef());
+        dadosAmigoLogado.put("email", amigoSelecionado.getEmail());
+        dadosAmigoLogado.put("urlFotoChef", amigoSelecionado.getUrlFotoChef());
 
         DatabaseReference amigoRef = amigosRef
                 .child(idChefLogado)
