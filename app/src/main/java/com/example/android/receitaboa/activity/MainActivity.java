@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (paginaVisualizada.getCurrentItem()){ // viewPager.getCurrentItem(): 0 (fragment MinhasReceitas), 1 (fragment Amigos)
 
 
-                    case 0: //MinhasReceitas
+                    case 0: //Meu Cardápio
                         MinhasReceitasFragment minhasReceitasFrag = (MinhasReceitasFragment) adaptador.getPage(0);
 
                             if (newText != null && !newText.isEmpty()){
@@ -122,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
 
-                    case 2: //Todas Receitas (Amigos)
-                        ReceitasUsuariosFragment receitasFrag = (ReceitasUsuariosFragment) adaptador.getPage(2);
+                    case 2: //Meus Amigos
+                        AmigosFragment meusAmigosFrag = (AmigosFragment) adaptador.getPage(2);
                         if (newText != null && !newText.isEmpty()){
-                            receitasFrag.pesquisarReceitasAmigos(newText.toLowerCase());
+                            meusAmigosFrag.pesquisarAmigos(newText.toLowerCase());
                         }else {
                             /*Aparente esse campo fica vazio (vamos ver)
                             receitasFrag.recuperarReceitasAmigos(); //1o cria uma lista atualizada a partir dos dados firebase (caso haja alterações)
@@ -134,8 +134,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                         break;
 
-                    case 3: //Amigos
-                        BuscarAmigosFragment amigosFrag = (BuscarAmigosFragment) adaptador.getPage(3);
+                        case 3: //Receitas do App
+                        ReceitasUsuariosFragment receitasFrag = (ReceitasUsuariosFragment) adaptador.getPage(3);
+                        if (newText != null && !newText.isEmpty()){
+                            receitasFrag.pesquisarReceitas(newText.toLowerCase());
+                        }else {
+                            /*Aparente esse campo fica vazio (vamos ver)
+                            receitasFrag.recuperarReceitasAmigos(); //1o cria uma lista atualizada a partir dos dados firebase (caso haja alterações)
+                            receitasFrag.recarregarReceitasAmigos(); //2o recupera a lista criada acima se a pesquisa estiver vazia ou o chef tenha saido da aba pesquisa
+                             */
+                        }
+                        break;
+
+                    case 4: //Buscar Amigos
+                        BuscarAmigosFragment amigosFrag = (BuscarAmigosFragment) adaptador.getPage(4);
                         if (newText != null && !newText.isEmpty()){ //se houver texto na caixa de pesquisa, (executar ação da pesquisa)
                             amigosFrag.pesquisarAmigos(newText.toLowerCase());
                         }else { //se não houver texto na caixa de pesquisa, recarrega a lista de amigos completa
@@ -164,12 +176,17 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case 2:
-                        ReceitasUsuariosFragment raFrag = (ReceitasUsuariosFragment) adaptador.getPage(2);
-                        raFrag.recarregarReceitasAmigos();
-                        break;
+                        AmigosFragment amigosFrag = (AmigosFragment) adaptador.getPage(2);
+                        amigosFrag.recarregarAmigos();
+                     break;
 
                     case 3:
-                        BuscarAmigosFragment friendsFrag = (BuscarAmigosFragment) adaptador.getPage(3);
+                        ReceitasUsuariosFragment ruFrag = (ReceitasUsuariosFragment) adaptador.getPage(3);
+                        ruFrag.recarregarReceitasUsuarios();
+                        break;
+
+                    case 4:
+                        BuscarAmigosFragment friendsFrag = (BuscarAmigosFragment) adaptador.getPage(4);
                         friendsFrag.recarregarListaUsuarios();
                         break;
 

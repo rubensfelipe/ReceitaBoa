@@ -6,8 +6,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <ImageView
-        android:id="@+id/imageListaFotoReceita"
+        android:id="@+id/ivFotoReceitaUsuario"
         android:layout_width="match_parent"
         android:layout_height="230dp"
         android:scaleType="centerCrop"
@@ -20,7 +21,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textNomeReceitaPerfil"
+            android:id="@+id/tvNomeReceitaUsuario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
@@ -35,7 +36,7 @@
             android:textSize="14sp" />
 
         <TextView
-            android:id="@+id/textQtdPessoasServidas"
+            android:id="@+id/tvQtdPessoasServidasUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="4dp"

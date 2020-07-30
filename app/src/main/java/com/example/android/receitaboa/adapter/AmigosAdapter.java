@@ -31,6 +31,10 @@ public class AmigosAdapter extends ArrayAdapter<Chef>  {
         this.listaAmigos = objects;
     }
 
+    public List<Chef> getListaAmigos(){ //recupera a lista de amigos atualizada (seja na busca dos amigos ou na lista completa) esse método é importante para que ao pesquisar um amigo, a sua posição na lista não seja alterada
+        return this.listaAmigos;
+    }
+
     public class ViewHolder{
         ImageView fotoAmigo;
         TextView nomeAmigo;

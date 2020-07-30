@@ -104,12 +104,12 @@ public class BuscarAmigosFragment extends Fragment {
                             public void onItemClick(View view, int position) {
 
                                 //recupera a lista que está sendo utilizada pelo adapter, assim quando um amigo é pesquisado, esse amigo não mudará a sua posição na lista completa
-                                List<Chef> listaAmigosAtualizada = adapter.getListAmigos();
+                                List<Chef> listaUsersAtualizada = adapter.getListUsers();
 
-                                Chef chefAmigoSelecionado = listaAmigosAtualizada.get(position);
+                                Chef chefSelecionado = listaUsersAtualizada.get(position);
 
                                 Intent i = new Intent(getActivity(), PerfilAmigoActivity.class);
-                                i.putExtra("chefSelecionado", chefAmigoSelecionado);
+                                i.putExtra("chefSelecionado", chefSelecionado);
                                 startActivity(i);
 
                             }

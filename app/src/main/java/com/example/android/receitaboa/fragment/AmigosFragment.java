@@ -93,7 +93,9 @@ public class AmigosFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                Chef amigoSelecionado = listaAmigos.get(position);
+                List<Chef> listaAmigosAtualizada = amigosAdapter.getListaAmigos();
+
+                Chef amigoSelecionado = listaAmigosAtualizada.get(position);
 
                 Intent i = new Intent(getActivity(), PerfilAmigoActivity.class);
                 i.putExtra("chefSelecionado", amigoSelecionado); //envia as informações da receita
@@ -154,7 +156,7 @@ public class AmigosFragment extends Fragment {
     TRECHO DE PESQUISA DE AMIGOS (utilizado na MainActivity)
      */
 
-    /*
+
     public void pesquisarAmigos(String nomeAmigo) {
 
         List<Chef> listaChefsBusca = new ArrayList<>();
@@ -170,18 +172,18 @@ public class AmigosFragment extends Fragment {
     }
 
     //Recarrega a lista de amigos completa ao fechar a caixa de pesquisa de usuários
-    public void recarregarListaUsuarios() { //(localizado no MainActivity)
+    public void recarregarAmigos() { //(localizado no MainActivity)
         configuracoesAdapter(listaAmigos);
     }
 
     //seta a lista em um adapter
     private void configuracoesAdapter(List<Chef> listaEscolhida) {
-        amigosAdapter = new AmigosAdapter(listaEscolhida, ,getActivity());
-        recyclerListaAmigos.setAdapter(amigosAdapter);
+        amigosAdapter = new AmigosAdapter(getActivity(), R.layout.grid_postagem, listaEscolhida);
+        gridViewAmigos.setAdapter(amigosAdapter);
         amigosAdapter.notifyDataSetChanged();
     }
 
-     */
+
 
     @Override
     public void onStop() {

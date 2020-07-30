@@ -1,43 +1,48 @@
 package com.example.android.receitaboa.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.model.Receitas;
 
 import java.util.List;
 
-public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
+import de.hdodenhof.circleimageview.CircleImageView;
+
+public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuariosAdapter.MyViewHolder> {
 
     private Context context;
-    private List<Receitas> listaReceitasAmigos;
+    private List<Receitas> listaReceitasUsuarios;
     private MyViewHolder holder;
     private int position;
 
-    public RA_Adapter(List<Receitas> list, Context c) {
-        this.listaReceitasAmigos = list;
+    public ReceitasUsuariosAdapter(List<Receitas> list, Context c) {
+        this.listaReceitasUsuarios = list;
         this.context = c;
     }
 
     //ADICIONAR QUANDO FOR ARRUMAR A PESQUISA DE RECEITAS
     //indentifica se a lista que está sendo utilizada pelo adapter é a lista completa das minhas receitas ou a lista de busca de uma receita especifica da minha lista de receitas (assim as receitas mantem as suas posições da lista completa)
-    public List<Receitas> getListaReceitas(){
-        return this.listaReceitasAmigos;
+    public List<Receitas> getListaReceitasUsuarios(){
+        return this.listaReceitasUsuarios;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_ra, parent,false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receita, parent,false);
         //View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receitas_amigos, parent,false);
-        return new RA_Adapter.MyViewHolder(itemLista);
+        return new ReceitasUsuariosAdapter.MyViewHolder(itemLista);
     }
 
     @Override
@@ -46,45 +51,44 @@ public class RA_Adapter extends RecyclerView.Adapter<RA_Adapter.MyViewHolder> {
         this.position = position;
 
         //Dados Receitas Amigo
-        final Receitas receita = listaReceitasAmigos.get(position);
+        final Receitas receita = listaReceitasUsuarios.get(position);
 
         //Carrega os dados de texto da receita
-        holder.nomeReceitaAmigo.setText(receita.getNome());
-        holder.nomeAmigo.setText(receita.getNomeChef());
+        holder.nomeReceitaUsuario.setText(receita.getNome());
+        holder.qtdPessoasServidasUser.setText(receita.getQtdPessoasServidas());
 
-        /*
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
             Uri uriFotoReceita = Uri.parse(receita.getUrlFotoReceita());
 
             //Carrega foto da receita na lista
-            Glide.with(context).load(uriFotoReceita).into(holder.fotoReceitaAmigo);
+            Glide.with(context).load(uriFotoReceita).into(holder.fotoReceitaUsuario);
         }else {
-            holder.fotoReceitaAmigo.setImageResource(R.drawable.avatar);
+            holder.fotoReceitaUsuario.setImageResource(R.drawable.avatar);
         }
-         */
-
 
     }
 
 
     @Override
     public int getItemCount() {
-        return listaReceitasAmigos.size();
+        return listaReceitasUsuarios.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        //ImageView fotoReceitaAmigo;
-        TextView nomeReceitaAmigo;
-        TextView nomeAmigo;
+        ImageView fotoReceitaUsuario;
+        //CircleImageView fotoUsuario;
+        TextView nomeReceitaUsuario;
+        TextView qtdPessoasServidasUser;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            //fotoReceitaAmigo = itemView.findViewById(R.id.fotoReceitaAmigo);
-            nomeReceitaAmigo = itemView.findViewById(R.id.tvNomeReceitaAmigo);
-            nomeAmigo = itemView.findViewById(R.id.tvNomeAmigo);
+            fotoReceitaUsuario = itemView.findViewById(R.id.ivFotoReceitaUsuario);
+            nomeReceitaUsuario = itemView.findViewById(R.id.tvNomeReceitaUsuario);
+            qtdPessoasServidasUser = itemView.findViewById(R.id.tvQtdPessoasServidasUser);
+            //fotoUsuario = itemView.findViewById(R.id.ciFotoUsuario);
 
         }
     }
