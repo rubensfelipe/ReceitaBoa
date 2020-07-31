@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -176,11 +178,23 @@ public class MinhasReceitasFragment extends Fragment {
                     }
                     listaMR.add(minhasReceitas);
                 }
+                listaEmOrdemAlfabetica();
                 adapterMR.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {  }
+        });
+    }
+
+    private void listaEmOrdemAlfabetica() {
+        Collections.sort(listaMR, new Comparator<Receitas>() {
+            @Override
+            public int compare(Receitas rec1, Receitas rec2) {
+                return rec1.getNome().compareToIgnoreCase(rec2.getNome()); //ordem crescente por nome da receita
+                //return rec2.getNome().compareToIgnoreCase(rec1.getNome()); //ordem descrescente
+                //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
+            }
         });
     }
 

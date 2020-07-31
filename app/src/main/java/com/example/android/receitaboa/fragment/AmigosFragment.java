@@ -32,6 +32,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AmigosFragment extends Fragment {
@@ -122,12 +124,25 @@ public class AmigosFragment extends Fragment {
                     listaAmigos.add(amigo);
 
                 }
+                listaEmOrdemAlfabetica();
                 configurarAdapter(listaAmigos);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
+    }
+
+
+    private void listaEmOrdemAlfabetica() {
+        Collections.sort(listaAmigos, new Comparator<Chef>() {
+            @Override
+            public int compare(Chef c1, Chef c2) {
+                return c1.getNome().compareToIgnoreCase(c2.getNome()); //ordem crescente por nome da receita
+                //return rec2.getNome().compareToIgnoreCase(rec1.getNome()); //ordem descrescente
+                //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
             }
         });
     }

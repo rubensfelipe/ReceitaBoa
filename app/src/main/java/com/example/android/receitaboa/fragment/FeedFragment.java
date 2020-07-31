@@ -127,7 +127,7 @@ public class FeedFragment extends Fragment {
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     listaFeed.add(ds.getValue(Feed.class)); //recuperado os dados de publicacao dos nossos seguidores que estão gravados na tree do feed no FirebaseDatabase
                 }
-                Collections.reverse(listaFeed); //reverte a ordem da lista (para que q sempre apareça primeiro a ultima postagem
+                Collections.reverse(listaFeed); //reverte a ordem da lista (para que q sempre apareça primeiro a ultima postagem)
                 adapterFeed.notifyDataSetChanged();
             }
 
