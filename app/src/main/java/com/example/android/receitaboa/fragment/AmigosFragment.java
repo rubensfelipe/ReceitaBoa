@@ -135,7 +135,6 @@ public class AmigosFragment extends Fragment {
         });
     }
 
-
     private void listaEmOrdemAlfabetica() {
         Collections.sort(listaAmigos, new Comparator<Chef>() {
             @Override

@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -139,24 +141,36 @@ public class BuscarAmigosFragment extends Fragment {
 
                 for (DataSnapshot dados : dataSnapshot.getChildren()){
 
-                    Chef amigo = dados.getValue(Chef.class); //recupera os dados salvo nos nós do FirebaseDatabase
+                    Chef usuario = dados.getValue(Chef.class); //recupera os dados salvo nos nós do FirebaseDatabase
 
-                    if (amigo != null){
+                    if (usuario != null){
                         progressBar.setVisibility(View.GONE);
                     }
 
                     String emailChefLogado = chefAtualAuth.getEmail();
-                    if ( !emailChefLogado.equals( amigo.getEmail() ) ){ //verifica se o amigo adicionado na lista não é o próprio usuario logado
-                        listaUsuarios.add(amigo); //adiciona um novo amigo (os dados dos amigos do chef) a lista de amigos
+                    if ( !emailChefLogado.equals( usuario.getEmail() ) ){ //verifica se o usuario adicionado na lista não é o próprio usuario logado
+                        listaUsuarios.add(usuario); //adiciona um novo usuario (os dados dos amigos do chef) a lista de amigos
                     }
                 }
-                adapter.notifyDataSetChanged(); //a lista de amigos só é atualizada quando há uma alteração na lista de amigos (só adicionaremos mais amigos a listaDeAmigos, quando houverem novos amigos)
+                listaEmOrdemAlfabetica();
+                adapter.notifyDataSetChanged(); //a lista de usuarios só é atualizada quando há uma alteração na lista de usuarios (só adicionaremos mais usuarios a lista de usuarios se houverem novos usuarios cadastrados no app)
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {    }
         });
 
+    }
+
+    private void listaEmOrdemAlfabetica() {
+        Collections.sort(listaUsuarios, new Comparator<Chef>() {
+            @Override
+            public int compare(Chef u1, Chef u2) {
+                return u1.getNome().compareToIgnoreCase(u2.getNome()); //ordem crescente por nome da receita
+                //return rec2.getNome().compareToIgnoreCase(rec1.getNome()); //ordem descrescente
+                //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
+            }
+        });
     }
 
     private void limparListaAmigos() {
