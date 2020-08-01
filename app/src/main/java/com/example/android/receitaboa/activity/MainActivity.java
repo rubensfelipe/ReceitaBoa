@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
@@ -19,6 +20,7 @@ import com.example.android.receitaboa.fragment.BuscarAmigosFragment;
 import com.example.android.receitaboa.fragment.ReceitasUsuariosFragment;
 import com.example.android.receitaboa.fragment.MinhasReceitasFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -29,25 +31,28 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
     public MaterialSearchView searchView;
+    private ViewPager viewPager;
+    private FragmentPagerItemAdapter adapter;
 
-    public boolean iconePesquisaClicado = false;
+    //public boolean iconePesquisaClicado = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        configurarToolbar();
-
         configuracaoInicial();
+
+        configurarToolbar();
 
         inicializarSearchView();
 
         //Configurar abas com os respectivos fragments e seus nomes
-        FragmentPagerItemAdapter adapter = criarAbas();
+        //FragmentPagerItemAdapter adapter = criarAbas();
+        adapter = criarAbas();
 
         //Configura as páginas de visualização nas fragments
-        ViewPager viewPager = configuracaVisualPagina(adapter);
+        viewPager = configuracaVisualPagina(adapter);
 
         //Configura as abas dos fragments
         configuracaoVisualAba(viewPager);
@@ -58,25 +63,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void configurarToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
-        toolbar.setTitle("Receita Boa");
-        setSupportActionBar(toolbar);
-    }
-
     private void configuracaoInicial() {
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
     }
 
-    private void inicializarSearchView() {
-        searchView = findViewById(R.id.materialSearchPrincipal);
+    private void configurarToolbar() {
+
+        Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
+        toolbar.setTitle("Receita Boa");
+        setSupportActionBar(toolbar);
+
     }
 
-    public ViewPager configuracaVisualPagina(FragmentPagerItemAdapter adaptador) {
-        final ViewPager viewPager = findViewById(R.id.viewPager);
-        viewPager.setAdapter(adaptador);
-
-        return viewPager;
+    private void inicializarSearchView() {
+        searchView = findViewById(R.id.materialSearchPrincipal);
     }
 
     public FragmentPagerItemAdapter criarAbas() {
@@ -93,9 +93,17 @@ public class MainActivity extends AppCompatActivity {
         return adapter;
     }
 
+    public ViewPager configuracaVisualPagina(FragmentPagerItemAdapter adaptador) {
+        final ViewPager viewPager = findViewById(R.id.viewPager);
+        viewPager.setAdapter(adaptador);
+
+        return viewPager;
+    }
+
     private void configuracaoVisualAba(ViewPager visualPagina) {
         SmartTabLayout viewPagerTab = findViewById(R.id.viewPagerTab);
         viewPagerTab.setViewPager(visualPagina);
+
 
     }
 
