@@ -162,7 +162,7 @@ public class AmigosFragment extends Fragment {
     }
 
     private void configurarAdapter(List<Chef> lista) {
-        amigosAdapter = new AmigosAdapter(getContext(), R.layout.grid_postagem, lista);
+        amigosAdapter = new AmigosAdapter(getContext(), R.layout.grid_meus_amigos, lista);
         gridViewAmigos.setAdapter(amigosAdapter);
     }
 
@@ -192,7 +192,7 @@ public class AmigosFragment extends Fragment {
 
     //seta a lista em um adapter
     private void configuracoesAdapter(List<Chef> listaEscolhida) {
-        amigosAdapter = new AmigosAdapter(getActivity(), R.layout.grid_postagem, listaEscolhida);
+        amigosAdapter = new AmigosAdapter(getActivity(), R.layout.grid_meus_amigos, listaEscolhida);
         gridViewAmigos.setAdapter(amigosAdapter);
         amigosAdapter.notifyDataSetChanged();
     }

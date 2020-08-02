@@ -69,7 +69,7 @@ public class PerfilAmigoAdapterGrid extends ArrayAdapter<Receitas> {
         //verica se o usuário já colocou uma foto na receita
         if (receitasAmigo.getUrlFotoReceita()==null){
 
-            String imgPadrao = "android.resource://com.example.android.receitaboa/drawable/avatar";
+            String imgPadrao = "android.resource://com.example.android.receitaboa/drawable/turkey_roast_2";
 
             mostrarImagem(imgPadrao, viewHolder);
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,7 +19,11 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
+public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> implements View.OnClickListener {
+
+    private CircleImageView fotoPerfil;
+    private TextView nomeChef, nomeReceita;
+    private ImageView fotoPostagem;
 
     private List<Feed> listaFeed;
     private Context context;
@@ -54,6 +59,19 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     @Override
     public int getItemCount() {
         return listaFeed.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        if (view.getId() == nomeReceita.getId()) {
+            Toast.makeText(context, "Receita Clicked!", Toast.LENGTH_LONG).show();
+        } else if (view.getId() == fotoPostagem.getId()) {
+            Toast.makeText(context, "Postagem Clicked!", Toast.LENGTH_LONG).show();
+        } else if (view.getId() == fotoPerfil.getId()) {
+            Toast.makeText(context, "Foto Perfil Clicked!", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

@@ -193,7 +193,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     }
 
     private void configurarAdapter(List<Receitas> lista) {
-        perfilAmigoAdapter = new PerfilAmigoAdapterGrid(getApplicationContext(), R.layout.grid_postagem, lista);
+        perfilAmigoAdapter = new PerfilAmigoAdapterGrid(getApplicationContext(), R.layout.grid_receitas_perfil, lista);
         gridViewPerfil.setAdapter(perfilAmigoAdapter);
     }
 

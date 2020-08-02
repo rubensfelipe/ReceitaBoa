@@ -37,7 +37,7 @@ public class BuscaAmigosAdapter extends RecyclerView.Adapter<BuscaAmigosAdapter.
     @Override
     //Seta os itens (nome, email, foto, ultima conversa) na lista
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_amigos, parent, false);
+        View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_usuarios, parent, false);
         return new MyViewHolder(itemLista);  //MyViewHolder: método do construtor
     }
 

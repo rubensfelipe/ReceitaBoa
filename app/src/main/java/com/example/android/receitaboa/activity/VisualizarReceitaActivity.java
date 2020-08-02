@@ -145,7 +145,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                     .load(url)
                     .into(displayImageReceitaFinal);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.avatar);
+            displayImageReceitaFinal.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }
@@ -171,7 +171,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                     .load(url)
                     .into(displayImageReceitaFinal);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.avatar);
+            displayImageReceitaFinal.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }
@@ -198,7 +198,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                     .load(url)
                     .into(displayImageReceitaFinal);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.avatar);
+            displayImageReceitaFinal.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }

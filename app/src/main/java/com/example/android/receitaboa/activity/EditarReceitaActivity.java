@@ -177,7 +177,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
                         .load(url)
                         .into(displayAtualizarFotoReceita);
             }else{
-                displayAtualizarFotoReceita.setImageResource(R.drawable.avatar);
+                displayAtualizarFotoReceita.setImageResource(R.drawable.turkey_roast_2);
             }
         }
 

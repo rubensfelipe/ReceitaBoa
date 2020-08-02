@@ -64,7 +64,7 @@ public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuari
             //Carrega foto da receita na lista
             Glide.with(context).load(uriFotoReceita).into(holder.fotoReceitaUsuario);
         }else {
-            holder.fotoReceitaUsuario.setImageResource(R.drawable.avatar);
+            holder.fotoReceitaUsuario.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }

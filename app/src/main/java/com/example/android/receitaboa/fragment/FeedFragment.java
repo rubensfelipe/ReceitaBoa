@@ -93,6 +93,7 @@ public class FeedFragment extends Fragment {
 
     private void configurarEventoCliqueReceita() {
 
+        /*
         recyclerFeed.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         getActivity(),
@@ -116,6 +117,9 @@ public class FeedFragment extends Fragment {
                         }
                 )
         );
+         */
+
+
     }
 
     private void listandoFeed() {
