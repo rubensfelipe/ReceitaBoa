@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.DateCustom;
 import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Chef;
@@ -177,7 +178,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
                         .load(url)
                         .into(displayAtualizarFotoReceita);
             }else{
-                displayAtualizarFotoReceita.setImageResource(R.drawable.turkey_roast_2);
+                displayAtualizarFotoReceita.setImageResource(R.drawable.turkey_roast_3);
             }
         }
 
@@ -411,6 +412,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
         final Postagem postagem = new Postagem();
         postagem.setIdChef(idChefLogado);
         postagem.setUrlPostagem(caminhoReceita);
+        postagem.setDataPostagem(DateCustom.dataAtual());
 
         postagem.setNomeReceita(receitaNome);
         postagem.setIngredientes(receitaIngredientes);

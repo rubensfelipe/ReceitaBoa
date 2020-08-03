@@ -27,7 +27,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/background_botao2"
         android:scaleType="fitXY"
-        android:src="@drawable/just_the_blue_board_final_copia" />
+        android:src="@drawable/just_the_blue_board_final_copia2" />
 
     <LinearLayout
         android:id="@+id/container_people_quantity"

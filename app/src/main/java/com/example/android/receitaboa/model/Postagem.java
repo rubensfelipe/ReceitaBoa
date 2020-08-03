@@ -25,6 +25,7 @@ public class Postagem implements Serializable { //Serializable passar dados entr
     private String id;
     private String idUsuario;
     private String urlPostagem;
+    private String dataPostagem;
 
     private String nomeReceita;
     private String ingredientes;
@@ -59,6 +60,7 @@ public class Postagem implements Serializable { //Serializable passar dados entr
             //Monta objeto para salvar
             HashMap<String, Object> dadosSeguidor = new HashMap<>();
             dadosSeguidor.put("fotoPostagem", getUrlPostagem());
+            dadosSeguidor.put("dataPostagem", getDataPostagem());
             dadosSeguidor.put("idPostagem", getId()); //idPostagem
             dadosSeguidor.put("nomeChef", chefLogado.getNome()); //dados do nome do usuario que postou a foto
             dadosSeguidor.put("fotoUsuario", chefLogado.getUrlFotoChef()); //foto de perfil do usuario que postou a foto no seu feed
@@ -76,6 +78,14 @@ public class Postagem implements Serializable { //Serializable passar dados entr
         firebaseRef.updateChildren(objeto);
         return true;
 
+    }
+
+    public String getDataPostagem() {
+        return dataPostagem;
+    }
+
+    public void setDataPostagem(String dataPostagem) {
+        this.dataPostagem = dataPostagem;
     }
 
     public String getId() {

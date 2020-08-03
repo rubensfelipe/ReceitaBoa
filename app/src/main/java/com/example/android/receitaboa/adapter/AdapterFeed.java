@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,7 +18,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> implements View.OnClickListener {
+public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
+//public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
 
     private CircleImageView fotoPerfil;
     private TextView nomeChef, nomeReceita;
@@ -54,6 +54,8 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         holder.nomeReceita.setText(feed.getNomeReceita());
         holder.nomeChef.setText(feed.getNomeChef());
 
+        holder.dataPostagem.setText(feed.getDataPostagem());
+
     }
 
     @Override
@@ -61,34 +63,43 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         return listaFeed.size();
     }
 
-    @Override
-    public void onClick(View view) {
 
-        if (view.getId() == nomeReceita.getId()) {
-            Toast.makeText(context, "Receita Clicked!", Toast.LENGTH_LONG).show();
-        } else if (view.getId() == fotoPostagem.getId()) {
-            Toast.makeText(context, "Postagem Clicked!", Toast.LENGTH_LONG).show();
-        } else if (view.getId() == fotoPerfil.getId()) {
-            Toast.makeText(context, "Foto Perfil Clicked!", Toast.LENGTH_LONG).show();
-        }
-
-    }
-
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    //public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
      CircleImageView fotoPerfil;
-     TextView nomeChef, nomeReceita;
+     TextView nomeChef, nomeReceita, dataPostagem;
      ImageView fotoPostagem;
 
      public MyViewHolder(View itemView){
          super(itemView);
 
+         dataPostagem = itemView.findViewById(R.id.dataPostagem);
          fotoPerfil = itemView.findViewById(R.id.ciFotoPerfilFeed);
          fotoPostagem = itemView.findViewById(R.id.ivPostagem);
          nomeChef = itemView.findViewById(R.id.tvNomeChefFeed);
          nomeReceita = itemView.findViewById(R.id.tvNomeReceitaFeed);
 
+         //fotoPostagem.setOnClickListener(this);
+         //nomeReceita.setOnClickListener(this);
+
      }
- }
+
+     /*
+     @Override
+        public void onClick(View view) {
+
+            if (view.getId() == nomeReceita.getId()) {
+                Toast.makeText(context, "Receita Clicked!", Toast.LENGTH_LONG).show();
+            } else if (view.getId() == fotoPostagem.getId()) {
+                Toast.makeText(context, "Postagem Clicked!", Toast.LENGTH_LONG).show();
+            } else if (view.getId() == fotoPerfil.getId()) {
+                Toast.makeText(context, "Foto Perfil Clicked!", Toast.LENGTH_LONG).show();
+            }
+
+        }
+      */
+
+    }
 
 }

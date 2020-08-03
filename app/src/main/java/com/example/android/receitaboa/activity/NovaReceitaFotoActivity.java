@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.DateCustom;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Chef;
 import com.example.android.receitaboa.model.Postagem;
@@ -313,6 +314,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         final Postagem postagem = new Postagem();
         postagem.setIdChef(idChefLogado);
         postagem.setUrlPostagem(caminhoReceita.toString());
+        postagem.setDataPostagem(DateCustom.dataAtual());
 
         postagem.setNomeReceita(nomeReceita);
         postagem.setIngredientes(ingredientes);
@@ -328,57 +330,5 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
             finish(); //após publicar a foto, a activity filtro é encerrada
         }
     }
-
-
-    /*
-
-    private void salvarImagemDirCelular(Bitmap imgFoto) throws IOException {
-
-        criarDiretorioImagem();
-
-        criarArquivoImagem();
-
-        salvarArquivoImagem(imgFoto);
-
-    }
-
-    public File criarDiretorioImagem() {
-
-        File filePath = Environment.getExternalStorageDirectory();
-        File imageDir = new File(filePath.getAbsolutePath() + "/Receita Boa/" + idReceita); //caminho onde será salva a imagem na memoria interna do celular
-        imageDir.mkdir();
-
-        return imageDir;
-    }
-
-    public File criarArquivoImagem() throws IOException {
-        String nomeImagem = idReceita + ".jpg";
-
-        File imgFile = new File(criarDiretorioImagem(), nomeImagem);
-
-        if (!imgFile.exists()) {
-            imgFile.createNewFile(); //cria uma pasta com o arquivo a imagem dentro da galeria de fotos
-        }
-        return imgFile;
-    }
-
-    private void salvarArquivoImagem(Bitmap imgFoto) {
-
-        try {
-            FileOutputStream outputStream = new FileOutputStream(criarArquivoImagem());
-            imgFoto.compress(Bitmap.CompressFormat.JPEG, 75, outputStream);
-            Toast.makeText(getApplicationContext(), "Image save in internal storage", Toast.LENGTH_SHORT).show();
-
-            outputStream.flush();
-            outputStream.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-    */
 
 }

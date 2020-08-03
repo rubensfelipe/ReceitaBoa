@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="5dp"
@@ -23,21 +24,19 @@
 
     <TextView
         android:id="@+id/tvNomeChefFeed"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
         android:text="Rubens Felipe"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/ciFotoPerfilFeed"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ciFotoPerfilFeed"
-        app:layout_constraintTop_toTopOf="@+id/ciFotoPerfilFeed" />
+        app:layout_constraintTop_toTopOf="@+id/ciFotoPerfilFeed"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageView
         android:id="@+id/ivPostagem"
@@ -48,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ciFotoPerfilFeed"
-        app:srcCompat="@drawable/turkey_roast_2" />
+        app:srcCompat="@drawable/turkey_roast_3" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -77,5 +76,16 @@
             android:textSize="16sp"
             android:textStyle="bold" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/dataPostagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20/02/2021 12h54"
+        app:layout_constraintBottom_toBottomOf="@+id/tvNomeChefFeed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.744"
+        app:layout_constraintStart_toEndOf="@+id/tvNomeChefFeed"
+        app:layout_constraintTop_toTopOf="@+id/tvNomeChefFeed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

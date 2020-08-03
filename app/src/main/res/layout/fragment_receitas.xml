@@ -28,7 +28,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:baselineAlignBottom="false"
-        android:src="@drawable/black_hat_chef_icon_transparent_adicionar_botao"
+        android:src="@drawable/fab_chef"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

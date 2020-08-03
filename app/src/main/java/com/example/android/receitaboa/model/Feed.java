@@ -5,8 +5,11 @@ import java.io.Serializable;
 public class Feed implements Serializable  {
 
     private String id;
+
     private String fotoPostagem;
+    private String dataPostagem;
     private String nomeChef;
+
     private String fotoUsuario;
 
     private String nomeReceita;
@@ -15,6 +18,14 @@ public class Feed implements Serializable  {
     private String qtdPessoasServidas;
 
     public Feed() {
+    }
+
+    public String getDataPostagem() {
+        return dataPostagem;
+    }
+
+    public void setDataPostagem(String dataPostagem) {
+        this.dataPostagem = dataPostagem;
     }
 
     public String getIngredientes() {
