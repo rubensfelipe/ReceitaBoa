@@ -18,5 +18,25 @@
         <item name="android:fontFamily">sans-serif-light</item>
         <item name="android:textAppearance">?android:textAppearanceMedium</item>
     </style>
+    
+    <style name="ShowCaseViewStyle" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">@android:color/holo_blue_light</item>
+        <item name="sv_showcaseColor">@color/colorBlueDark</item>
+        <item name="sv_buttonText">Entendi</item>
+        <item name="sv_tintButtonColor">true</item>
+        <item name="sv_titleTextAppearance">@style/ShowCaseTitleStyle</item>
+        <item name="buttonGravity">top</item>
+    </style>
+
+    <style name="ShowCaseTitleStyle" parent="TextAppearance.ShowcaseView.Title.Light">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#ffff</item>
+        <item name="sv_buttonText">Entendi</item>
+    </style>
+
+    <style name="ListItemSubtext">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
+    </style>
 
 </resources>

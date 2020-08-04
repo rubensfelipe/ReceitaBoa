@@ -22,6 +22,8 @@ import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.RecyclerItemClickListener;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Receitas;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +39,7 @@ import java.util.List;
  */
 public class MinhasReceitasFragment extends Fragment {
 
+    private static final long CODIGO_ONE_TIME = 101;
     private RecyclerView recyclerReceitas;
     private ReceitasAdapter adapterMR;
 
@@ -55,6 +58,8 @@ public class MinhasReceitasFragment extends Fragment {
     private ValueEventListener valueEventListenerMR;
 
     public boolean receitaClicada = false;
+
+    ShowcaseView.Builder showCaseView;
 
     public MinhasReceitasFragment() {
         // Required empty public constructor
@@ -75,6 +80,8 @@ public class MinhasReceitasFragment extends Fragment {
 
         configurarEventoCliqueMinhaReceita();
 
+        mostrarHolofoteFAB(view);
+
         return view;
     }
 
@@ -82,6 +89,19 @@ public class MinhasReceitasFragment extends Fragment {
     public void onStart() {
         recuperarMinhasReceitasFirebaseDb();
         super.onStart();
+    }
+
+    //realça o botão de adicionar uma receita para que o usuário saiba onde clicar ao entrar pela primeira vez no app
+    public void mostrarHolofoteFAB(View vista){
+        showCaseView = new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setTarget(new ViewTarget(vista.findViewById(R.id.fab)))
+                .setContentTitle("Adicionando uma receita")
+                .setContentText("Clique no chef de cozinha para começar adicionando a sua receita")
+                .singleShot(CODIGO_ONE_TIME)
+                .setStyle(R.style.ShowCaseTitleStyle);
+
+        showCaseView.build();
     }
 
     private void inicializarComponentes(View vista) {

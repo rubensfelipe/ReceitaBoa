@@ -20,6 +20,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+
         <!-- Configurar como vertical a cada nova atividade criada -->
         <activity android:name=".activity.EditarReceitaActivity"
             android:screenOrientation="portrait" />
