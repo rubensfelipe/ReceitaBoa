@@ -30,11 +30,14 @@ public class CadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        inicializarComponentes();
+
+    }
+
+    private void inicializarComponentes() {
         campoNome = findViewById(R.id.editCadastroNome);
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoSenha = findViewById(R.id.editCadastroSenha);
-
-
     }
 
     public void cadastrarChefDbAuth(final Chef chef){
@@ -47,8 +50,10 @@ public class CadastroActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()){ //conseguiu cadastrar no FirebaseAuth
-                    Toast.makeText(CadastroActivity.this,"Bem-vindo, Chef. Cadastro feito com sucesso!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastroActivity.this,"Bem-vindo, Chef. " + chef.getNome() + " Cadastro feito com sucesso!",Toast.LENGTH_LONG).show();
                     UsuarioFirebaseAuth.atualizarNomeChefAuth(chef.getNome()); //atualiza o nome no FirebaseAuth
+
+
                     finish();
 
                     try {
@@ -77,7 +82,7 @@ public class CadastroActivity extends AppCompatActivity {
                         excecao ="Erro ao fazer o cadastro no sistema!" + e.getMessage();
                         e.printStackTrace();
                     }
-                    Toast.makeText(CadastroActivity.this,excecao,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastroActivity.this,excecao, Toast.LENGTH_SHORT).show();
                 }
 
             }

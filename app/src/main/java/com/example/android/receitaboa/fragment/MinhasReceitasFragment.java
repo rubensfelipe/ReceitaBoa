@@ -40,6 +40,8 @@ import java.util.List;
 public class MinhasReceitasFragment extends Fragment {
 
     private static final long CODIGO_ONE_TIME = 101;
+    private boolean botaoApertado = false;
+
     private RecyclerView recyclerReceitas;
     private ReceitasAdapter adapterMR;
 
@@ -93,13 +95,14 @@ public class MinhasReceitasFragment extends Fragment {
 
     //realça o botão de adicionar uma receita para que o usuário saiba onde clicar ao entrar pela primeira vez no app
     public void mostrarHolofoteFAB(View vista){
+
         showCaseView = new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setTarget(new ViewTarget(vista.findViewById(R.id.fab)))
                 .setContentTitle("Adicionando uma receita")
                 .setContentText("Clique no chef de cozinha para começar adicionando a sua receita")
-                .singleShot(CODIGO_ONE_TIME)
-                .setStyle(R.style.ShowCaseTitleStyle);
+                .singleShot(CODIGO_ONE_TIME) //só aparece quando o usuario instala o app e loga na conta (pelo primeiro cadastro ou login)
+                .setStyle(R.style.ShowCaseViewStyle);
 
         showCaseView.build();
     }

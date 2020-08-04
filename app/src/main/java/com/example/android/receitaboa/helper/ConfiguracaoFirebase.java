@@ -8,8 +8,8 @@ import com.google.firebase.storage.StorageReference;
 
 public class ConfiguracaoFirebase {
 
-    private static DatabaseReference database;
     private static FirebaseAuth auth;
+    private static DatabaseReference database;
     private static StorageReference storage;
 
     //retorna a instancia do FirebaseDatabase
