@@ -4,20 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_receitas"
     android:orientation="vertical">
-
-
-    <ImageView
-        android:id="@+id/ivFotoReceitaUsuario"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/turkey_roast_2" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_caixa_texto2"
+        android:paddingTop="4dp"
         android:orientation="horizontal">
 
         <TextView
@@ -28,12 +22,11 @@
             android:layout_marginRight="4dp"
             android:layout_marginTop="2dp"
             android:layout_weight="8"
-            android:background="@drawable/background_botao2"
+            android:textColor="@android:color/holo_blue_light"
             android:fontFamily="@font/alegreya"
             android:gravity="center"
-            android:text="Nome"
-            android:textColor="#000000"
-            android:textSize="14sp" />
+            android:text="Frango Assado"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvQtdPessoasServidasUser"
@@ -43,12 +36,31 @@
             android:layout_marginTop="2dp"
             android:layout_marginBottom="3dp"
             android:layout_weight="1"
-            android:background="@drawable/background_botao2"
+            android:textColor="@android:color/holo_blue_light"
             android:fontFamily="@font/alegreya"
             android:gravity="center"
-            android:text="100"
-            android:textSize="14sp" />
+            android:text="10"
+            android:textSize="18sp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivFotoReceitaUsuario"
+        android:layout_width="match_parent"
+        android:layout_height="230dp"
+        android:paddingTop="2dp"
+        android:scaleType="centerCrop"
+        app:srcCompat="@drawable/turkey_roast_4" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="5dp"
+        android:text="Chef Pernalonga"
+        android:fontFamily="@font/alegreya"
+        android:textColor="@android:color/holo_blue_light"
+        android:textSize="18sp"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

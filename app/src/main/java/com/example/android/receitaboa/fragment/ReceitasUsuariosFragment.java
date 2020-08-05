@@ -24,7 +24,6 @@ import com.example.android.receitaboa.model.Receitas;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -64,7 +63,7 @@ public class ReceitasUsuariosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_amigos_receitas, container, false);
+        View view = inflater.inflate(R.layout.fragment_receitas_usuarios, container, false);
 
         inicializarComponentes(view);
 
