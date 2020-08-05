@@ -1,13 +1,17 @@
 package com.example.android.receitaboa.model;
 
+import com.example.android.receitaboa.fragment.BuscarAmigosFragment;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.example.android.receitaboa.helper.UsuarioFirebaseAuth.getChefAtualAuth;
 
 public class Receitas implements Serializable {
 
@@ -20,12 +24,10 @@ public class Receitas implements Serializable {
     private String urlFotoReceita;
 
     private String nomeChef;
-    private String urlFotoChef;
-
-    private int type;
 
     //Configurações iniciais
     String identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //recupera o chef logado
+    //FirebaseUser chefAuth = getChefAtualAuth();
 
     public Receitas() { //esse método é inicializado quando ele é instanciado em outras classes (Receitas minhasReceitas = new Receitas())
     }
@@ -48,12 +50,16 @@ public class Receitas implements Serializable {
 
         //Objeto dados Receita
         HashMap<String, Object> dadosReceita = new HashMap<>();
+
         dadosReceita.put("nome", getNome());
         dadosReceita.put("ingredientes", getIngredientes());
         dadosReceita.put("modoPreparo", getModoPreparo());
         dadosReceita.put("qtdPessoasServidas", getQtdPessoasServidas());
         dadosReceita.put("idReceita", getIdReceita());
+
         dadosReceita.put("idChef", identificadorChef);
+        //dadosReceita.put("nomeChef", chefAuth.getDisplayName());
+        dadosReceita.put("nomeChef", getNomeChef());
 
         DatabaseReference firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference chefRef = firebaseDbRef.child("receitas").child(identificadorChef);
@@ -121,14 +127,6 @@ public class Receitas implements Serializable {
 
     public void setNomeChef(String nomeChef) {
         this.nomeChef = nomeChef;
-    }
-
-    public String getUrlFotoChef() {
-        return urlFotoChef;
-    }
-
-    public void setUrlFotoChef(String urlFotoChef) {
-        this.urlFotoChef = urlFotoChef;
     }
 
     public String getUrlFotoReceita() {

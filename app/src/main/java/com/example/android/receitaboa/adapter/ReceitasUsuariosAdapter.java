@@ -57,6 +57,8 @@ public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuari
         holder.nomeReceitaUsuario.setText(receita.getNome());
         holder.qtdPessoasServidasUser.setText(receita.getQtdPessoasServidas());
 
+        holder.nomeUsuario.setText("Chef " + receita.getNomeChef());
+
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
             Uri uriFotoReceita = Uri.parse(receita.getUrlFotoReceita());
@@ -82,13 +84,19 @@ public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuari
         TextView nomeReceitaUsuario;
         TextView qtdPessoasServidasUser;
 
+        TextView nomeUsuario;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             fotoReceitaUsuario = itemView.findViewById(R.id.ivFotoReceitaUsuario);
             nomeReceitaUsuario = itemView.findViewById(R.id.tvNomeReceitaUsuario);
             qtdPessoasServidasUser = itemView.findViewById(R.id.tvQtdPessoasServidasUser);
+
+            nomeUsuario = itemView.findViewById(R.id.tvNomeUser);
+
             //fotoUsuario = itemView.findViewById(R.id.ciFotoUsuario);
+
 
         }
     }

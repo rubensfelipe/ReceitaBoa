@@ -126,10 +126,9 @@ public class ReceitasUsuariosFragment extends Fragment {
                                 List<Receitas> listaReceitasAtualizada = adapterReceitas.getListaReceitasUsuarios(); //permite que a posição na lista da receitas não se altere msm qdo houver uma busca
 
                                 Receitas receitaSelecionada = listaReceitasAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
-                                //Receitas receitaSelecionada = listaReceitas.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
 
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
-                                i.putExtra("dadosReceitaAmigoClicada", receitaSelecionada);
+                                i.putExtra("dadosReceitaClicada", receitaSelecionada);
                                 startActivity(i);
 
                             }

@@ -19,7 +19,6 @@ import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.DateCustom;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
-import com.example.android.receitaboa.model.Chef;
 import com.example.android.receitaboa.model.Postagem;
 import com.example.android.receitaboa.model.Receitas;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -65,7 +64,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nova_receita_foto);
 
         //Recupera o id da receita gerada na tela anterior
-        regastarIdReceita();
+        regastarDadosReceita();
 
         inicializarComponentes();
 
@@ -79,11 +78,11 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
     }
 
-    private void regastarIdReceita() {
+    private void regastarDadosReceita() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             idReceita = (String) bundle.getSerializable("idReceita");
-            nomeReceita = (String) bundle.getSerializable("nomeReceita");
+            nomeReceita = (String) bundle.getSerializable("nome");
 
             ingredientes = (String) bundle.getSerializable("ingredientes");
             modoPreparo = (String) bundle.getSerializable("modoPreparo");

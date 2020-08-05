@@ -165,7 +165,7 @@ public class MinhasReceitasFragment extends Fragment {
                                 Receitas minhaReceitaSelecionada = listaMRAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
 
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
-                                i.putExtra("dadosMinhaReceitaClicada", minhaReceitaSelecionada);
+                                 i.putExtra("dadosMinhaReceitaClicada", minhaReceitaSelecionada);
                                 startActivity(i);
 
                             }
@@ -253,16 +253,5 @@ public class MinhasReceitasFragment extends Fragment {
         super.onStop();
         receitasChefRef.removeEventListener(valueEventListenerMR);
     }
-
-    //elimina a lista e o adapter de MR ao mudar de tela (para que o adapter possa ser usado pela lista receitas amigos)
-    /*
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        recyclerReceitas.setAdapter(null);
-        adapterMR = null;
-        recyclerReceitas = null;
-    }
-     */
 
 }

@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+import java.io.Serializable;
+
 //Classe para recuperar os dados do usuário salvos no FirebaseAuth
 public class UsuarioFirebaseAuth {
 

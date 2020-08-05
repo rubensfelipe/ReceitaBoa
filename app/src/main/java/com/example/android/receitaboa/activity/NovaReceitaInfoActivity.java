@@ -33,6 +33,9 @@ import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Chef;
 import com.example.android.receitaboa.model.Receitas;
+import com.google.firebase.auth.FirebaseUser;
+
+import static com.example.android.receitaboa.helper.UsuarioFirebaseAuth.getChefAtualAuth;
 
 /**
  * Allows user to create a new recipe or edit an existing one.
@@ -54,6 +57,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     };
 
     private Chef dadosChef;
+    private FirebaseUser chefAuth;
 
 
     @Override
@@ -73,6 +77,8 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     private void configuracoesIniciais() {
         identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
         dadosChef = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
+
+        chefAuth = getChefAtualAuth();
     }
 
     private void inicializarComponentes() {
@@ -80,11 +86,6 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         editIngredientesReceita = findViewById(R.id.editReceitaIngredientes);
         editModoPreparo = findViewById(R.id.editModoPreparo);
         qtdPessoasServidas = findViewById(R.id.editQtdPessoasServidas);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
     }
 
     public void cadastrarMinhaReceita(final Receitas minhasReceitas){
@@ -126,6 +127,8 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                     minhasReceitas.setIngredientes(campoIngredientes);
                     minhasReceitas.setModoPreparo(campoModoPreparo);
                     minhasReceitas.setQtdPessoasServidas(campoQtdPessoasServidas);
+
+                    minhasReceitas.setNomeChef(chefAuth.getDisplayName());
 
                     cadastrarMinhaReceita(minhasReceitas);
 
@@ -188,12 +191,12 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                 Permissao.validarPermissoes(permissoesNecessarias,NovaReceitaInfoActivity.this,1);
 
                 Intent i = new Intent(NovaReceitaInfoActivity.this, NovaReceitaFotoActivity.class);
-                i.putExtra("idReceita",minhasReceitas.getIdReceita());
-                i.putExtra("nomeReceita",minhasReceitas.getNome());
+                i.putExtra("idReceita", minhasReceitas.getIdReceita());
+                i.putExtra("nome", minhasReceitas.getNome());
 
-                i.putExtra("ingredientes",minhasReceitas.getIngredientes());
-                i.putExtra("modoPreparo",minhasReceitas.getModoPreparo());
-                i.putExtra("qtdPessoasServidas",minhasReceitas.getQtdPessoasServidas());
+                i.putExtra("ingredientes", minhasReceitas.getIngredientes());
+                i.putExtra("modoPreparo", minhasReceitas.getModoPreparo());
+                i.putExtra("qtdPessoasServidas", minhasReceitas.getQtdPessoasServidas());
                 startActivity(i);
 
             }

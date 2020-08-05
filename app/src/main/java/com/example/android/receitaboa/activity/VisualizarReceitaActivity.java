@@ -27,24 +27,24 @@ import com.google.firebase.database.DatabaseReference;
 public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private TextView textNomeReceita, textIngredientes, textModoPreparo;
-    private ImageView displayImageReceitaFinal;
+    private ImageView quadroFotoReceita;
 
     private String nomeReceitaClicada;
-    private String nomeReceitaAmigoClicada;
+    private String nomeReceitaUserClicada;
     private String ingredientesReceitaClicada;
-    private String ingredientesReceitaAmigoClicada;
+    private String ingredientesReceitaUserClicada;
     private String modoPreparoReceitaClicada;
-    private String modoPreparoReceitaAmigoClicada;
+    private String modoPreparoReceitaUserClicada;
     private String qtdPessoasServidasReceitaClicada;
     private String receitaFoto;
-    private String receitaAmigoFoto;
+    private String fotoReceitaUser;
     private Button buttonAcaoPerfil;
     private Toolbar toolbar;
 
     private String idChefLogado;
     private String idReceitaClicada;
     private String idPostagem;
-    private String idReceitaAmigoClicada;
+    private String idReceitaUserClicada;
     private String idReceitaFeedClicada;
 
     private DatabaseReference firebaseDbRef;
@@ -56,7 +56,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private Bundle bundle;
 
     private Receitas minhaReceitaClicada;
-    private Receitas receitaAmigoClicada;
+    private Receitas receitaUsuarioClicada;
     private Feed receitaFeedClicada;
 
     @Override
@@ -64,22 +64,17 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizar_receita);
 
-        //Inicializar componentes;
         inicializarComponentes();
 
-        //Configurações iniciais
-        configuracoesRef();
-
-        //referencia que atividadeAberta = essa Activity
-        atividadeAberta = this;
+        configuracoesIniciais();
 
         configurarToolbar();
 
-        recuperarExtras();
+        recuperarDadosReceitaClicada();
 
     }
 
-    private void recuperarExtras() {
+    private void recuperarDadosReceitaClicada() {
         //Recupera os dados da Receita selecionada
         bundle = getIntent().getExtras();
         if (bundle != null){
@@ -89,10 +84,10 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                 minhaReceitaClicada = (Receitas) bundle.getSerializable("dadosMinhaReceitaClicada");
                 minhaReceitaDados(minhaReceitaClicada);
 
-            } else if(bundle.containsKey("dadosReceitaAmigoClicada")){
+            } else if(bundle.containsKey("dadosReceitaClicada")){
 
-                receitaAmigoClicada = (Receitas) bundle.getSerializable("dadosReceitaAmigoClicada");
-                amigoReceitaDados(receitaAmigoClicada);
+                receitaUsuarioClicada = (Receitas) bundle.getSerializable("dadosReceitaClicada");
+                usuarioReceitaDados(receitaUsuarioClicada);
 
             }else if (bundle.containsKey("dadosReceitaFeedClicada")){
 
@@ -103,7 +98,10 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         }
     }
 
-    private void configuracoesRef() {
+    private void configuracoesIniciais() {
+        //referencia que atividadeAberta = essa Activity
+        atividadeAberta = this;
+
         firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         receitasRef = firebaseDbRef.child("receitas");
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
@@ -122,56 +120,56 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp); //customiza o botão voltar para o ícone q vc desejar
     }
 
-    private void minhaReceitaDados(Receitas receitaClicada) {
-
-        nomeReceitaClicada = receitaClicada.getNome();
-        textNomeReceita.setText(nomeReceitaClicada);
-
-        ingredientesReceitaClicada = receitaClicada.getIngredientes();
-        textIngredientes.setText(ingredientesReceitaClicada);
-
-        modoPreparoReceitaClicada = receitaClicada.getModoPreparo();
-        textModoPreparo.setText(modoPreparoReceitaClicada);
-
-        qtdPessoasServidasReceitaClicada = receitaClicada.getQtdPessoasServidas();
+    private void minhaReceitaDados(Receitas receitaSelecionada) {
 
         //recupera a idReceita que foi selecionada na lista
-        idReceitaClicada = receitaClicada.getIdReceita();
+        idReceitaClicada = receitaSelecionada.getIdReceita();
 
-        receitaFoto = receitaClicada.getUrlFotoReceita();
+        nomeReceitaClicada = receitaSelecionada.getNome();
+        textNomeReceita.setText(nomeReceitaClicada);
+
+        ingredientesReceitaClicada = receitaSelecionada.getIngredientes();
+        textIngredientes.setText(ingredientesReceitaClicada);
+
+        modoPreparoReceitaClicada = receitaSelecionada.getModoPreparo();
+        textModoPreparo.setText(modoPreparoReceitaClicada);
+
+        qtdPessoasServidasReceitaClicada = receitaSelecionada.getQtdPessoasServidas();
+
+        receitaFoto = receitaSelecionada.getUrlFotoReceita();
         if (receitaFoto != null){
             Uri url = Uri.parse(receitaFoto);
             Glide.with(VisualizarReceitaActivity.this)
                     .load(url)
-                    .into(displayImageReceitaFinal);
+                    .into(quadroFotoReceita);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.turkey_roast_3);
+            quadroFotoReceita.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }
 
-    private void amigoReceitaDados(Receitas receitaAmigoClicada) {
+    private void usuarioReceitaDados(Receitas receitaUserClicada) {
 
-        nomeReceitaAmigoClicada = receitaAmigoClicada.getNome();
-        textNomeReceita.setText(nomeReceitaAmigoClicada);
+        nomeReceitaUserClicada = receitaUserClicada.getNome();
+        textNomeReceita.setText(nomeReceitaUserClicada);
 
-        ingredientesReceitaAmigoClicada = receitaAmigoClicada.getIngredientes();
-        textIngredientes.setText(ingredientesReceitaAmigoClicada);
+        ingredientesReceitaUserClicada = receitaUserClicada.getIngredientes();
+        textIngredientes.setText(ingredientesReceitaUserClicada);
 
-        modoPreparoReceitaAmigoClicada = receitaAmigoClicada.getModoPreparo();
-        textModoPreparo.setText(modoPreparoReceitaAmigoClicada);
+        modoPreparoReceitaUserClicada = receitaUserClicada.getModoPreparo();
+        textModoPreparo.setText(modoPreparoReceitaUserClicada);
 
         //recupera a idReceita que foi selecionada na lista
-        idReceitaAmigoClicada = receitaAmigoClicada.getIdReceita();
+        idReceitaUserClicada = receitaUserClicada.getIdReceita();
 
-        receitaAmigoFoto = receitaAmigoClicada.getUrlFotoReceita();
-        if (receitaAmigoFoto != null){
-            Uri url = Uri.parse(receitaAmigoFoto);
+        fotoReceitaUser = receitaUserClicada.getUrlFotoReceita();
+        if (fotoReceitaUser != null){
+            Uri url = Uri.parse(fotoReceitaUser);
             Glide.with(VisualizarReceitaActivity.this)
                     .load(url)
-                    .into(displayImageReceitaFinal);
+                    .into(quadroFotoReceita);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.turkey_roast_3);
+            quadroFotoReceita.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }
@@ -196,9 +194,9 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
             Uri url = Uri.parse(postagemFotoFeed);
             Glide.with(VisualizarReceitaActivity.this)
                     .load(url)
-                    .into(displayImageReceitaFinal);
+                    .into(quadroFotoReceita);
         }else{
-            displayImageReceitaFinal.setImageResource(R.drawable.turkey_roast_3);
+            quadroFotoReceita.setImageResource(R.drawable.turkey_roast_3);
         }
 
     }
@@ -215,6 +213,8 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
         }
         return super.onCreateOptionsMenu(menu);
+
+
     }
 
     @Override
@@ -231,12 +231,12 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
                     break;
             }
         }
+
         return super.onOptionsItemSelected(item);
     }
 
     private void excluirReceita() {
         receitasChefRef.child(idReceitaClicada).removeValue();
-        //receitaFeedRef.child(idPostagem).removeValue();
         Toast.makeText(VisualizarReceitaActivity.this,"A receita " + nomeReceitaClicada + " foi excluída com sucesso", Toast.LENGTH_SHORT).show();
         finish();
     }
@@ -250,6 +250,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         i.putExtra("qtdPessoasServidas", qtdPessoasServidasReceitaClicada);
         i.putExtra("urlFoto", receitaFoto);
         i.putExtra("idR", idReceitaClicada);
+
         startActivity(i);
 
     }
@@ -259,13 +260,12 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         textNomeReceita = findViewById(R.id.textNomeReceita);
         textIngredientes = findViewById(R.id.textIngredientes);
         textModoPreparo = findViewById(R.id.textModoPreparo);
-        displayImageReceitaFinal = findViewById(R.id.imageReceitaFinal);
+        quadroFotoReceita = findViewById(R.id.quadroFotoReceita);
     }
 
 
     @Override
     public boolean onSupportNavigateUp() { //ao clicar no botao x da visualizacao da receita, a tela fecha e volta para a tela anterior
-
         finish();
         return false;
     }

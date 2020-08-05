@@ -31,6 +31,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -106,7 +108,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                 Receitas receitaAmigoSelecionada = listaReceitasAmigo.get(position);
 
                 Intent i = new Intent(getApplicationContext(), VisualizarReceitaActivity.class);
-                i.putExtra("dadosReceitaAmigoClicada", receitaAmigoSelecionada); //envia as informações da receita
+                i.putExtra("dadosReceitaClicada", receitaAmigoSelecionada); //envia as informações da receita
                 startActivity(i);
 
             }
@@ -183,6 +185,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
                     listaReceitasAmigo.add(receita);
                 }
+                listaEmOrdemAlfabetica();
                 configurarAdapter(listaReceitasAmigo);
             }
 
@@ -190,6 +193,17 @@ public class PerfilAmigoActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {  }
         });
 
+    }
+
+    private void listaEmOrdemAlfabetica() {
+        Collections.sort(listaReceitasAmigo, new Comparator<Receitas>() {
+            @Override
+            public int compare(Receitas recA1, Receitas recA2) {
+                return recA1.getNome().compareToIgnoreCase(recA2.getNome()); //ordem crescente por nome da receita
+                //return rec2.getNome().compareToIgnoreCase(rec1.getNome()); //ordem descrescente
+                //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
+            }
+        });
     }
 
     private void configurarAdapter(List<Receitas> lista) {
