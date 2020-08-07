@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/holo_blue_dark"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_gravity="center_horizontal"
         android:theme="@style/Toolbar" />
 
     <com.miguelcatalan.materialsearchview.MaterialSearchView

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.NovaReceitaInfoActivity;
@@ -47,6 +48,7 @@ public class MinhasReceitasFragment extends Fragment {
 
     private ImageView fabMiniChef;
     private View emptyFridgeView;
+    private ProgressBar progressBarMR;
 
     private String idChefLogado;
     private DatabaseReference firebaseDbRef;
@@ -93,21 +95,8 @@ public class MinhasReceitasFragment extends Fragment {
         super.onStart();
     }
 
-    //realça o botão de adicionar uma receita para que o usuário saiba onde clicar ao entrar pela primeira vez no app
-    public void mostrarHolofoteFAB(View vista){
-
-        showCaseView = new ShowcaseView.Builder(getActivity())
-                .withMaterialShowcase()
-                .setTarget(new ViewTarget(vista.findViewById(R.id.fab)))
-                .setContentTitle("Adicionando uma receita")
-                .setContentText("Clique no chef de cozinha para começar adicionando a sua receita")
-                .singleShot(CODIGO_ONE_TIME) //só aparece quando o usuario instala o app e loga na conta (pelo primeiro cadastro ou login)
-                .setStyle(R.style.ShowCaseViewStyle);
-
-        showCaseView.build();
-    }
-
     private void inicializarComponentes(View vista) {
+        progressBarMR = vista.findViewById(R.id.progressBarMR);
         emptyFridgeView = vista.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
         recyclerReceitas = vista.findViewById(R.id.recyclerViewReceitas);
         fabMiniChef = vista.findViewById(R.id.fab);
@@ -146,6 +135,20 @@ public class MinhasReceitasFragment extends Fragment {
         recyclerReceitas.setLayoutManager(layoutManager);
         recyclerReceitas.setHasFixedSize(true);
         recyclerReceitas.setAdapter(adapterMR);
+    }
+
+    //realça o botão de adicionar uma receita para que o usuário saiba onde clicar ao entrar pela primeira vez no app
+    public void mostrarHolofoteFAB(View vista){
+
+        showCaseView = new ShowcaseView.Builder(getActivity())
+                .withMaterialShowcase()
+                .setTarget(new ViewTarget(vista.findViewById(R.id.fab)))
+                .setContentTitle("Adicionando uma receita")
+                .setContentText("Clique no chef de cozinha para começar adicionando a sua receita")
+                .singleShot(CODIGO_ONE_TIME) //só aparece quando o usuario instala o app e loga na conta (pelo primeiro cadastro ou login)
+                .setStyle(R.style.ShowCaseViewStyle);
+
+        showCaseView.build();
     }
 
     private void configurarEventoCliqueMinhaReceita() {
@@ -198,6 +201,7 @@ public class MinhasReceitasFragment extends Fragment {
                     //se o usuário já tiver adicionado ao menos uma receita na sua lista, o homem da geladeira desaparece
                     if(minhasReceitas != null){
                         emptyFridgeView.setVisibility(View.GONE);
+                        progressBarMR.setVisibility(View.GONE);
                     }
                     listaMR.add(minhasReceitas);
                 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -38,15 +39,13 @@
         app:stl_distributeEvenly="true"
         app:stl_clickable="true"
         app:stl_titleOffset="24dp"
-        app:stl_drawDecorationAfterTab="false"
-        />
+        app:stl_drawDecorationAfterTab="false"/>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/viewPagerTab"
-        />
+        android:layout_below="@id/viewPagerTab" />
 
 </LinearLayout>
 

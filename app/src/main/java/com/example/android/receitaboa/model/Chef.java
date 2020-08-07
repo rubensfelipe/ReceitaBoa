@@ -25,30 +25,6 @@ public class Chef implements Serializable {
     public Chef() {
     }
 
-    public int getSeguidores() {
-        return seguidores;
-    }
-
-    public void setSeguidores(int seguidores) {
-        this.seguidores = seguidores;
-    }
-
-    public int getSeguindo() {
-        return seguindo;
-    }
-
-    public void setSeguindo(int seguindo) {
-        this.seguindo = seguindo;
-    }
-
-    public int getPostagens() {
-        return postagens;
-    }
-
-    public void setPostagens(int postagens) {
-        this.postagens = postagens;
-    }
-
     public void salvarFirebaseDatabase(){
 
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
@@ -82,6 +58,24 @@ public class Chef implements Serializable {
 
         return  usuarioMap;
     }
+
+    /*
+    public void atualizarContadorPostagem(){
+
+        DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase(); //instanciando o FirebaseDatabase (abrindo a porta FirebaseDatabase para atualizar os dados no servidor)
+        DatabaseReference chefsRef = firebaseRef
+                .child("chefs")
+                .child(getId());
+
+        HashMap<String,Object> dados = new HashMap<>();
+        dados.put("postagens", getPostagens());
+
+        //Atualiza os dados no FirebaseDatabase
+        chefsRef.updateChildren(dados); //atualiza o contador de postagens
+
+    }
+     */
+
 
     public String getUrlFotoChef() {
         return urlFotoChef;
@@ -125,12 +119,28 @@ public class Chef implements Serializable {
         this.senha = senha;
     }
 
-    //determina se o chef é do tipo item de lista ou cabeçalho
-    public int getType() {
-        return type;
+    public int getSeguidores() {
+        return seguidores;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setSeguidores(int seguidores) {
+        this.seguidores = seguidores;
     }
+
+    public int getSeguindo() {
+        return seguindo;
+    }
+
+    public void setSeguindo(int seguindo) {
+        this.seguindo = seguindo;
+    }
+
+    public int getPostagens() {
+        return postagens;
+    }
+
+    public void setPostagens(int postagens) {
+        this.postagens = postagens;
+    }
+
 }

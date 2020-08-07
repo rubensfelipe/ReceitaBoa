@@ -3,9 +3,11 @@ package com.example.android.receitaboa.activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.aurelhubert.ahbottomnavigation.notification.AHNotification;
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.fragment.AmigosFragment;
 import com.example.android.receitaboa.fragment.FeedFragment;
@@ -47,8 +52,9 @@ public class MainActivity extends AppCompatActivity {
 
         inicializarSearchView();
 
+        //configurarBottomNavigation();
+
         //Configurar abas com os respectivos fragments e seus nomes
-        //FragmentPagerItemAdapter adapter = criarAbas();
         adapter = criarAbas();
 
         //Configura as páginas de visualização nas fragments
@@ -130,6 +136,17 @@ public class MainActivity extends AppCompatActivity {
 
                         break;
 
+                    case 1: //Feed
+                        FeedFragment feedFrag = (FeedFragment) adaptador.getPage(1);
+
+                        if (newText != null && !newText.isEmpty()){
+                            feedFrag.pesquisarFeed(newText.toLowerCase());
+                        }else {
+                            //Aparente esse campo fica vazio (vamos ver)
+                        }
+
+                        break;
+
                     case 2: //Meus Amigos
                         AmigosFragment meusAmigosFrag = (AmigosFragment) adaptador.getPage(2);
                         if (newText != null && !newText.isEmpty()){
@@ -181,6 +198,11 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         MinhasReceitasFragment mrFrag = (MinhasReceitasFragment) adaptador.getPage(0);
                         mrFrag.recarregarMinhasReceitas();
+                        break;
+
+                    case 1:
+                        FeedFragment fdFrag = (FeedFragment) adaptador.getPage(1);
+                        fdFrag.recarregarFeed();
                         break;
 
                     case 2:

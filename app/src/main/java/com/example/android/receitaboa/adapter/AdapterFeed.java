@@ -1,6 +1,7 @@
 package com.example.android.receitaboa.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.android.receitaboa.R;
+import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.example.android.receitaboa.model.Feed;
+import com.example.android.receitaboa.model.Receitas;
 
 import java.util.List;
 
@@ -31,6 +34,11 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
     public AdapterFeed(List<Feed> listaFeed, Context context) {
         this.listaFeed = listaFeed;
         this.context = context;
+    }
+
+    //indentifica se a lista que está sendo utilizada pelo adapter é a lista completa das postagens do feed ou a lista de busca das postagens de um usuario (amigo) (assim as postagens mantem as suas posições definidas na lista completa)
+    public List<Feed> getListaFeed(){
+        return this.listaFeed;
     }
 
     @Override
@@ -55,6 +63,27 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         holder.nomeChef.setText(feed.getNomeChef());
 
         holder.dataPostagem.setText(feed.getDataPostagem());
+
+        eventoClickPostagem(holder, position);
+
+    }
+
+    private void eventoClickPostagem(final MyViewHolder hold, final int position) {
+
+        hold.fotoPostagem.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                List<Feed> listaFeedAtualizada = getListaFeed(); //permite que a posição na lista da receitas não se altere msm qdo houve uma busca
+
+                Feed postagemSelecionada = listaFeedAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
+
+                Intent i = new Intent(context, VisualizarReceitaActivity.class);
+                i.putExtra("dadosReceitaFeedClicada", postagemSelecionada);
+                context.startActivity(i);
+
+            }
+        });
 
     }
 

@@ -10,11 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.example.android.receitaboa.R;
+import com.example.android.receitaboa.activity.MainActivity;
 import com.example.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.example.android.receitaboa.adapter.AdapterFeed;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
@@ -61,7 +63,7 @@ public class FeedFragment extends Fragment {
 
         configurarAdapterMaisRecyclerView();
 
-        configurarEventoCliqueReceita();
+        //configurarEventoCliqueReceita();
 
         return view;
     }
@@ -101,10 +103,12 @@ public class FeedFragment extends Fragment {
                             @Override
                             public void onItemClick(View view, int position) {
 
-                                Feed receitaSelecionadaFeed = listaFeed.get(position);
+                                List<Feed> listaFeedAtualizada = adapterFeed.getListaFeed(); //permite que a posição na lista da receitas não se altere msm qdo houve uma busca
+
+                                Feed postagemSelecionada = listaFeedAtualizada.get(position); //recupera qual item foi clicado de acordo com a posição na lista no momento do click
 
                                 Intent i = new Intent(getActivity(), VisualizarReceitaActivity.class);
-                                i.putExtra("dadosReceitaFeedClicada", receitaSelecionadaFeed);
+                                i.putExtra("dadosReceitaFeedClicada", postagemSelecionada);
                                 startActivity(i);
                             }
 
@@ -140,11 +144,33 @@ public class FeedFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    /*
+    PESQUISA das postagens dos Amigos no Feed
+     */
+    public void pesquisarFeed(String feedNaPesquisa) { //chamada na MainActivity
+
+        List<Feed> listaFeedBusca = new ArrayList<>();
+
+        for (Feed post: listaFeed){
+            String nomeChef  = post.getNomeChef().toLowerCase();
+            //String nomeReceita  = post.getNomeReceita().toLowerCase(); //recupera o nome das minhas receitas na minha lista de receitas
+            if (nomeChef.contains(feedNaPesquisa)){
+                listaFeedBusca.add(post);
+            }
+        }
+        configuracoesAdaptador(listaFeedBusca);
     }
+
+    public void recarregarFeed() {
+        configuracoesAdaptador(listaFeed);
+    }
+
+    private void configuracoesAdaptador(List<Feed> listaEscolhida) {
+        adapterFeed = new AdapterFeed(listaEscolhida, getActivity());
+        recyclerFeed.setAdapter(adapterFeed);
+        adapterFeed.notifyDataSetChanged();
+    }
+
 
     @Override
     public void onStop() {

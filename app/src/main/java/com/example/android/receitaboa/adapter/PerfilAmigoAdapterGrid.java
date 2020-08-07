@@ -76,7 +76,8 @@ public class PerfilAmigoAdapterGrid extends ArrayAdapter<Receitas> {
         }else {
             mostrarImagem(receitasAmigo.getUrlFotoReceita(), viewHolder);
         }
-                return convertView;
+
+        return convertView;
 
     }
 
@@ -107,7 +108,6 @@ public class PerfilAmigoAdapterGrid extends ArrayAdapter<Receitas> {
                         vHolder.progressBar.setVisibility(View.GONE);
                     }
                 });
-
     }
 
 }

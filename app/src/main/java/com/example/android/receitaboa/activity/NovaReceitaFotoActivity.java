@@ -94,7 +94,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         displayFotoReceita = findViewById(R.id.displayFotoReceita);
         cameraMinhaReceita = findViewById(R.id.cameraMinhaReceita);
         galeriaMinhaReceita = findViewById(R.id.galeriaMinhaReceita);
-        progressBarFotoReceita = findViewById(R.id.progressBarNR);
+        progressBarFotoReceita = findViewById(R.id.progressBarMR);
     }
 
     private void configuracoesIniciais() {

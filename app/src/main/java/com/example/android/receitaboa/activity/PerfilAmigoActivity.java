@@ -224,7 +224,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         imagePerfil = findViewById(R.id.imagePerfil);
         gridViewPerfil = findViewById(R.id.gridViewPerfil);
         buttonAcaoPerfil = findViewById(R.id.buttonAcaoPerfil);
-        textPostagens = findViewById(R.id.textPostagens);
         textSeguidores = findViewById(R.id.textSeguidores);
         textSeguindo = findViewById(R.id.textSeguindo);
         buttonAcaoPerfil.setText("Carregando"); //muda o texto do botão que inicialmente era editar perfil no fragment_pesquisa
@@ -373,7 +372,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
                         String seguindo = String.valueOf(amigo.getSeguindo());
                         String seguidores = String.valueOf(amigo.getSeguidores());
 
-                        textPostagens.setText(postagens);
                         textSeguidores.setText(seguidores);
                         textSeguindo.setText(seguindo);
 
