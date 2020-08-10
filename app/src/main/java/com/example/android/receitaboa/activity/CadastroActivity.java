@@ -1,26 +1,48 @@
 package com.example.android.receitaboa.activity;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.Manifest;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.helper.Base64Custom;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
+import com.example.android.receitaboa.helper.Permissao;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.example.android.receitaboa.model.Chef;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CadastroActivity extends AppCompatActivity {
+
+    private String[] permissoesNecessarias = new String[]{
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+    };
 
     private EditText campoNome, campoEmail, campoSenha;
     private FirebaseAuth autenticacao;
@@ -32,6 +54,8 @@ public class CadastroActivity extends AppCompatActivity {
 
         inicializarComponentes();
 
+        configuracoesIniciais();
+
     }
 
     private void inicializarComponentes() {
@@ -39,6 +63,43 @@ public class CadastroActivity extends AppCompatActivity {
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoSenha = findViewById(R.id.editCadastroSenha);
     }
+
+    private void configuracoesIniciais() {
+        Permissao.validarPermissoes(permissoesNecessarias, this, 1);
+    }
+
+    public void validarCadastroChef(View view){ //metodo onClick activity_cadastro (botaoCadastrar)
+
+        //Recuperar textos dos campos digitados
+        String textoNome = campoNome.getText().toString();
+        String textoEmail = campoEmail.getText().toString();
+        String textoSenha = campoSenha.getText().toString();
+
+        if(!textoNome.isEmpty()){
+            if(!textoEmail.isEmpty()){
+                if(!textoSenha.isEmpty()){
+
+                    Chef chef = new Chef();
+                    chef.setNome(textoNome);
+                    chef.setEmail(textoEmail);
+                    chef.setSenha(textoSenha);
+
+                    cadastrarChefDbAuth(chef);
+
+                }else {
+                    Toast.makeText(CadastroActivity.this,"Preencha a senha!",Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                Toast.makeText(CadastroActivity.this,"Preencha o e-mail!",Toast.LENGTH_SHORT).show();
+            }
+
+        }else {
+            Toast.makeText(CadastroActivity.this,"Preencha o nome!",Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
     public void cadastrarChefDbAuth(final Chef chef){
 
@@ -87,38 +148,6 @@ public class CadastroActivity extends AppCompatActivity {
 
             }
         });
-
-    }
-
-    public void validarCadastroChef(View view){ //metodo onClick activity_cadastro (botaoCadastrar)
-
-        //Recuperar textos dos campos digitados
-        String textoNome = campoNome.getText().toString();
-        String textoEmail = campoEmail.getText().toString();
-        String textoSenha = campoSenha.getText().toString();
-
-        if(!textoNome.isEmpty()){
-            if(!textoEmail.isEmpty()){
-                if(!textoSenha.isEmpty()){
-
-                    Chef chef = new Chef();
-                    chef.setNome(textoNome);
-                    chef.setEmail(textoEmail);
-                    chef.setSenha(textoSenha);
-
-                    cadastrarChefDbAuth(chef);
-
-                }else {
-                    Toast.makeText(CadastroActivity.this,"Preencha a senha!",Toast.LENGTH_SHORT).show();
-                }
-
-            }else {
-                Toast.makeText(CadastroActivity.this,"Preencha o e-mail!",Toast.LENGTH_SHORT).show();
-            }
-
-        }else {
-            Toast.makeText(CadastroActivity.this,"Preencha o nome!",Toast.LENGTH_SHORT).show();
-        }
 
     }
 

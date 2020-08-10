@@ -1,5 +1,6 @@
 package com.example.android.receitaboa.model;
 
+import com.example.android.receitaboa.activity.ConfiguracoesActivity;
 import com.example.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.example.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -18,9 +19,9 @@ public class Chef implements Serializable {
     private String urlFotoChef;
     private int seguidores = 0;
     private int seguindo = 0;
-    private int postagens = 0;
 
-    private int type;
+    private DatabaseReference database;
+    private String identificadorChef;
 
     public Chef() {
     }
@@ -36,8 +37,8 @@ public class Chef implements Serializable {
     //Adiciona novos dados e reescreve os dados antigos que não sofreram alteração no FirebaseDatabase
     public void atualizarDadosFirebaseDb(){
 
-        String identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
-        DatabaseReference database = ConfiguracaoFirebase.getFirebaseDatabase(); //instacia o FirebaseDatabase
+        identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        database = ConfiguracaoFirebase.getFirebaseDatabase(); //instacia o FirebaseDatabase
 
         DatabaseReference chefsRef = database.child("chefs")
                                      .child(identificadorChef); //os dados serão atualizados dentro do nó idChef
@@ -52,8 +53,8 @@ public class Chef implements Serializable {
     @Exclude //não será executado dentro do app
     public Map<String,Object> converterParaMap(){ //converte a classe Chef para Map (Faz a mesma função da classe Chef) email = getEmail, nome = getNome....
         HashMap<String,Object> usuarioMap = new HashMap<>();
-        usuarioMap.put("email",getEmail());
-        usuarioMap.put("nome",getNome());
+        usuarioMap.put("email", getEmail());
+        usuarioMap.put("nome", getNome());
         usuarioMap.put("urlFotoChef", getUrlFotoChef());
 
         return  usuarioMap;
@@ -135,12 +136,22 @@ public class Chef implements Serializable {
         this.seguindo = seguindo;
     }
 
-    public int getPostagens() {
-        return postagens;
+    public void atualizarMeusDadosSeguidores(String idAmigo) {
+
+            DatabaseReference seguidoresRef = database.child("amigos").child(idAmigo).child(identificadorChef);
+
+            Map<String, Object> fotoChef = convertToMap();
+
+            seguidoresRef.updateChildren(fotoChef);
     }
 
-    public void setPostagens(int postagens) {
-        this.postagens = postagens;
+    @Exclude
+    public Map<String, Object> convertToMap() {
+
+        HashMap<String, Object> fotoPerfilMap = new HashMap<>();
+        fotoPerfilMap.put("urlFotoChef", getUrlFotoChef());
+
+        return fotoPerfilMap;
     }
 
 }

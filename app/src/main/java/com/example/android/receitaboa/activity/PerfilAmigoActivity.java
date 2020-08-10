@@ -368,7 +368,6 @@ public class PerfilAmigoActivity extends AppCompatActivity {
 
                         Chef amigo = dataSnapshot.getValue(Chef.class);
 
-                        String postagens = String.valueOf(amigo.getPostagens());
                         String seguindo = String.valueOf(amigo.getSeguindo());
                         String seguidores = String.valueOf(amigo.getSeguidores());
 

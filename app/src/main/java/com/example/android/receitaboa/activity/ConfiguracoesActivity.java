@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -31,10 +30,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -51,35 +59,68 @@ public class ConfiguracoesActivity extends AppCompatActivity {
     private CircleImageView circleImageViewPerfil;
     private EditText editPerfilNome;
     private StorageReference storageReference;
-    private String identificadorChef;
+    private String idChefLogado;
     private Chef chefLogado;
     private ImageView botaoAtualizarNome;
+
+    public List<String> listaSeguidoresUserLogado = new ArrayList<>();
+    private DatabaseReference firebaseDb, seguidoresRef, amigosRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracoes);
 
-        //Configurações iniciais
-        storageReference = ConfiguracaoFirebase.getFirebaseStorage();
-        identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //recupera o id do usuario (que é o email codificiado em base64) [email recuperado do FirebaseAuth]
-        chefLogado = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
+        configuracoesIniciais();
 
-        //Validar permissões de Câmera e Galeria de Imagens
+        inicializarComponentes();
+
+        configuracaoToolbar();
+
+        resgatarDadosChefLogado();
+
+        eventoClickCamera();
+
+        eventoClickGaleriaFotos();
+
+        eventoAtualizarNomeFirebaseDb();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarIdSeguidores();
+    }
+
+    private void configuracoesIniciais() {
         Permissao.validarPermissoes(permissoesNecessarias, this, 1);
 
-        //inicializar componentes
+        storageReference = ConfiguracaoFirebase.getFirebaseStorage();
+        idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //recupera o id do usuario (que é o email codificiado em base64) [email recuperado do FirebaseAuth]
+        chefLogado = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
+
+        firebaseDb = ConfiguracaoFirebase.getFirebaseDatabase();
+        seguidoresRef = firebaseDb.child("seguidores").child(idChefLogado);
+        amigosRef = firebaseDb.child("amigos");
+    }
+
+    private void inicializarComponentes() {
         imageButtonCamera = findViewById(R.id.imageButtonCamera);
         imageButtonGaleria = findViewById(R.id.imageButtonGaleria);
         circleImageViewPerfil = findViewById(R.id.circleImageViewFotoPerfil);
         editPerfilNome = findViewById(R.id.editPerfilNome);
         botaoAtualizarNome = findViewById(R.id.botaoAtualizarNome);
+    }
 
-        //Configurações da Toolbar
+    private void configuracaoToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
         toolbar.setTitle("Configurações");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //botao voltar
+    }
+
+    private void resgatarDadosChefLogado() {
 
         //Recuperar dados do usuário do FirebaseUser (FirebaseAuth)
         FirebaseUser chefAuth = UsuarioFirebaseAuth.getChefAtualAuth(); //FirebaseAuth
@@ -97,6 +138,10 @@ public class ConfiguracoesActivity extends AppCompatActivity {
         //carrega o nome do usuário na editText
         editPerfilNome.setText(chefAuth.getDisplayName());
 
+    }
+
+    private void eventoClickCamera() {
+
         imageButtonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +155,10 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void eventoClickGaleriaFotos() {
+
         imageButtonGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +171,10 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
             }
         });
+
+    }
+
+    private void eventoAtualizarNomeFirebaseDb() {
 
         //Renomeia o nome do usuário no App e no autualiza no FirebaseDatabase
         botaoAtualizarNome.setOnClickListener(new View.OnClickListener() {
@@ -159,9 +212,12 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                         break;
                     case SELECAO_GALERIA:
                         Uri localImagemSelecionada = data.getData();
-                        //imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada); Depreciado no API 29
+                        imagem = MediaStore.Images.Media.getBitmap(getContentResolver(), localImagemSelecionada); //Depreciado no API 29 (melhor deixar seu android studio no API 28)
+                        /*
                         ImageDecoder.Source imgSource = ImageDecoder.createSource(getContentResolver(),localImagemSelecionada); //PRIMEIRO: Cria Source
                         imagem = ImageDecoder.decodeBitmap(imgSource); //SEGUNDO: converte ImageDecoder.Source -> Bitmap
+                         */
+
                         break;
                 }
 
@@ -178,7 +234,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     StorageReference imagemRef = storageReference
                             .child("imagens") //pasta
                             .child("perfil")
-                            .child(identificadorChef + ".jpeg");
+                            .child(idChefLogado + ".jpeg");
 
                     UploadTask uploadTask = imagemRef.putBytes(dadosImagem); //upload para o FirebaseStorage
 
@@ -192,7 +248,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(ConfiguracoesActivity.this,"Upload da imagem feito com sucesso!",Toast.LENGTH_SHORT).show();
 
-                            //Uri url = taskSnapshot.getDownloadUrl() DEPRECIADO
+                            //Uri url = taskSnapshot.getDownloadUrl() DEPRECIADO no FirebaseStorage
                             //Recupera a foto do chef do FirebaseStorage
                             if (taskSnapshot.getMetadata() != null) {
                                 if (taskSnapshot.getMetadata().getReference() != null) {
@@ -226,11 +282,40 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
         boolean retorno = UsuarioFirebaseAuth.atualizarFotoChefAuth(urlFotoChefAuth); //atualizando o caminho do foto no FirebaseAuth
         if (retorno){
+
             chefLogado.setUrlFotoChefAuth(urlFotoChefAuth.toString()); //recupera o caminho da foto do FirebaseAuth e seta-o na classe Chef
             chefLogado.atualizarDadosFirebaseDb(); //recupera todos os dados não alterados e os reescreve no FirebaseDatabase e também recupera o caminho da foto alterada e a atualiza no FirebaseDatabase
 
-            Toast.makeText(ConfiguracoesActivity.this,"Sua foto foi atualizada com sucesso!",Toast.LENGTH_SHORT).show();
+            //atualiza a foto de perfil para seus seguidores
+            for (String idAmigo : listaSeguidoresUserLogado){
+
+                chefLogado.atualizarMeusDadosSeguidores(idAmigo);
+
+            }
+            Toast.makeText(ConfiguracoesActivity.this,"Sua foto foi atualizada com sucesso!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void recuperarIdSeguidores(){
+
+        seguidoresRef.addValueEventListener(new ValueEventListener(){
+
+            @Override
+            public void onDataChange(@NonNull final DataSnapshot ds) {
+
+
+                for (DataSnapshot dados: ds.getChildren()){
+
+                    String idSeguidor = dados.getKey();
+
+                    listaSeguidoresUserLogado.add(idSeguidor);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {   }
+        });
 
     }
 

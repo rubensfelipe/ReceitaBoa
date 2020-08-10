@@ -168,15 +168,11 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
 
                 }
 
-
-
                 //Se a foto foi selecionada ou da camera ou da galeria, temos uma imagem
                 if (fotoReceita != null){
 
                     //A progressBar fica visível após o usuário ter selecionado uma foto
                     carregarProgressBar();
-
-                    //salvarImagemDirCelular(fotoReceita);
 
                     //Seta a imagem na tela
                     displayFotoReceita.setImageBitmap(fotoReceita);

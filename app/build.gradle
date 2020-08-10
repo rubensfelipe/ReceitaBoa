@@ -9,6 +9,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        android.defaultConfig.vectorDrawables.useSupportLibrary = true
+
     }
     buildTypes {
         release {
@@ -53,8 +55,8 @@ dependencies {
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
     //Dependência para o recyclerView MultiViewAdapter com Headers (Usuários) e itens da lista (Receitas Amigos)
-    implementation 'dev.ahamed.mva3:adapter:3.0.0'
-    implementation 'dev.ahamed.mva3:ext-decorator:3.0.0' //extensão do MultiViewAdapter
+    //implementation 'dev.ahamed.mva3:adapter:3.0.0'
+    //implementation 'dev.ahamed.mva3:ext-decorator:3.0.0' //extensão do MultiViewAdapter
 
     //Dependencia Lib icones de Like
     //implementation 'com.jackandphantom.android:androidlikebutton:1.2.0'
