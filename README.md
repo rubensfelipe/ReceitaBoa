@@ -21,6 +21,10 @@ First Screen after you logged in
 
 ![Meu Cardapio Sem receitas](https://user-images.githubusercontent.com/37719411/90185223-c0524b00-dd8c-11ea-86e2-44030e814c35.PNG)
 
+Here you can add your profile photo on CONFIGURACOES
+
+![configuracoes perfil](https://user-images.githubusercontent.com/37719411/90186789-2770ff00-dd8f-11ea-9a19-874139b68f60.PNG)
+
 Adding a New Recipe, put data
 
 ![Nova Receita Info](https://user-images.githubusercontent.com/37719411/90185308-e4ae2780-dd8c-11ea-99e4-4b1b78c2057b.PNG)
