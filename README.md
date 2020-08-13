@@ -1,6 +1,9 @@
 # ReceitaBoa
-App para adicionar as suas Receitas
 
-Social App for Recipes.
+## Introduction
 
-You can add your recipes and add friends to see their recipes too.
+This is a app was made to create a space where you can store your recipes.
+Besides that, you can see the recipes from other users of the app.
+
+Summarizing: This is a Social Media App for you and your friends to share recipes with each other.
+
