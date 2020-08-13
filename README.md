@@ -41,7 +41,7 @@ the first screen (after you logged in) creates a list of your recipe
 
 ![Meu Cardápio](https://user-images.githubusercontent.com/37719411/90185862-ab29ec00-dd8d-11ea-9a9c-13f5b376cab6.PNG)
 
-this is the screen after you click a recipe (here you can edit it or delete it)
+this is the screen after you click one of your recipes (here you can edit it or delete it)
 
 ![receita chef logado](https://user-images.githubusercontent.com/37719411/90185979-d90f3080-dd8d-11ea-9524-0321cfa7a140.PNG)
 
