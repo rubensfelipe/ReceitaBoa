@@ -39,11 +39,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CadastroActivity extends AppCompatActivity {
 
-    private String[] permissoesNecessarias = new String[]{
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA
-    };
-
     private EditText campoNome, campoEmail, campoSenha;
     private FirebaseAuth autenticacao;
 
@@ -54,18 +49,12 @@ public class CadastroActivity extends AppCompatActivity {
 
         inicializarComponentes();
 
-        configuracoesIniciais();
-
     }
 
     private void inicializarComponentes() {
         campoNome = findViewById(R.id.editCadastroNome);
         campoEmail = findViewById(R.id.editCadastroEmail);
         campoSenha = findViewById(R.id.editCadastroSenha);
-    }
-
-    private void configuracoesIniciais() {
-        Permissao.validarPermissoes(permissoesNecessarias, this, 1);
     }
 
     public void validarCadastroChef(View view){ //metodo onClick activity_cadastro (botaoCadastrar)
