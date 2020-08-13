@@ -16,3 +16,7 @@ Login
 Register
 
 ![cadastro](https://user-images.githubusercontent.com/37719411/90184915-44580300-dd8c-11ea-9856-62b2326c7ff1.PNG)
+
+First Screen after you logged in
+
+![Meu Cardapio Sem receitas](https://user-images.githubusercontent.com/37719411/90185223-c0524b00-dd8c-11ea-86e2-44030e814c35.PNG)
