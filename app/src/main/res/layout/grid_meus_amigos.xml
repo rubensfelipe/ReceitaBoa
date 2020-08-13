@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <!--tornam as fotos quadradas-->
+
     <com.example.android.receitaboa.helper.SquareImageView
         android:id="@+id/fotoReceitaPerfil"
         android:layout_width="0dp"
@@ -17,11 +18,12 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/avatar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/avatar" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progressGridPerfil"

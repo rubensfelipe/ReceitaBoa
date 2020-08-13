@@ -22,12 +22,6 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
-//public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> {
-
-    private CircleImageView fotoPerfil;
-    private TextView nomeChef, nomeReceita;
-    private ImageView fotoPostagem;
-
     private List<Feed> listaFeed;
     private Context context;
 
@@ -92,42 +86,22 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         return listaFeed.size();
     }
 
-
-    //public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
      CircleImageView fotoPerfil;
      TextView nomeChef, nomeReceita, dataPostagem;
      ImageView fotoPostagem;
 
-     public MyViewHolder(View itemView){
-         super(itemView);
+         public MyViewHolder(View itemView){
+             super(itemView);
 
-         dataPostagem = itemView.findViewById(R.id.dataPostagem);
-         fotoPerfil = itemView.findViewById(R.id.ciFotoPerfilFeed);
-         fotoPostagem = itemView.findViewById(R.id.ivPostagem);
-         nomeChef = itemView.findViewById(R.id.tvNomeChefFeed);
-         nomeReceita = itemView.findViewById(R.id.tvNomeReceitaFeed);
+             dataPostagem = itemView.findViewById(R.id.dataPostagem);
+             fotoPerfil = itemView.findViewById(R.id.ciFotoPerfilFeed);
+             fotoPostagem = itemView.findViewById(R.id.ivPostagem);
+             nomeChef = itemView.findViewById(R.id.tvNomeChefFeed);
+             nomeReceita = itemView.findViewById(R.id.tvNomeReceitaFeed);
 
-         //fotoPostagem.setOnClickListener(this);
-         //nomeReceita.setOnClickListener(this);
-
-     }
-
-     /*
-     @Override
-        public void onClick(View view) {
-
-            if (view.getId() == nomeReceita.getId()) {
-                Toast.makeText(context, "Receita Clicked!", Toast.LENGTH_LONG).show();
-            } else if (view.getId() == fotoPostagem.getId()) {
-                Toast.makeText(context, "Postagem Clicked!", Toast.LENGTH_LONG).show();
-            } else if (view.getId() == fotoPerfil.getId()) {
-                Toast.makeText(context, "Foto Perfil Clicked!", Toast.LENGTH_LONG).show();
-            }
-
-        }
-      */
+         }
 
     }
 

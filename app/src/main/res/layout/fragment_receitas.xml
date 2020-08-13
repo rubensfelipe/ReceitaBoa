@@ -28,7 +28,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="24dp"
         android:baselineAlignBottom="false"
-        android:src="@drawable/fab_chef"
+        android:src="@drawable/fab_chef_blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -73,24 +73,21 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A2AAB0" />
 
-
-
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/progressBarMR"
+        android:id="@+id/progressBarCard"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:layout_weight="1"
         android:backgroundTint="@android:color/white"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emptyLayoutFridgeView"
-        app:layout_constraintVertical_bias="0.225" />
+        app:layout_constraintVertical_bias="0.225"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

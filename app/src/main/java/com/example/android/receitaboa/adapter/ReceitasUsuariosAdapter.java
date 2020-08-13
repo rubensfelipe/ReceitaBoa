@@ -17,8 +17,6 @@ import com.example.android.receitaboa.model.Receitas;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuariosAdapter.MyViewHolder> {
 
     private Context context;
@@ -41,7 +39,6 @@ public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuari
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receita, parent,false);
-        //View itemLista = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_receitas_amigos, parent,false);
         return new ReceitasUsuariosAdapter.MyViewHolder(itemLista);
     }
 
@@ -80,7 +77,6 @@ public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuari
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView fotoReceitaUsuario;
-        //CircleImageView fotoUsuario;
         TextView nomeReceitaUsuario;
         TextView qtdPessoasServidasUser;
 
@@ -94,9 +90,6 @@ public class ReceitasUsuariosAdapter extends RecyclerView.Adapter<ReceitasUsuari
             qtdPessoasServidasUser = itemView.findViewById(R.id.tvQtdPessoasServidasUser);
 
             nomeUsuario = itemView.findViewById(R.id.tvNomeUser);
-
-            //fotoUsuario = itemView.findViewById(R.id.ciFotoUsuario);
-
 
         }
     }

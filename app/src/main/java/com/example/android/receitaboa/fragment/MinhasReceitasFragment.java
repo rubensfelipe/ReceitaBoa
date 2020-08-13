@@ -29,6 +29,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,7 +50,7 @@ public class MinhasReceitasFragment extends Fragment {
 
     private ImageView fabMiniChef;
     private View emptyFridgeView;
-    private ProgressBar progressBarMR;
+    private ProgressBar progressBarCard;
 
     private String idChefLogado;
     private DatabaseReference firebaseDbRef;
@@ -96,13 +98,14 @@ public class MinhasReceitasFragment extends Fragment {
     }
 
     private void inicializarComponentes(View vista) {
-        progressBarMR = vista.findViewById(R.id.progressBarMR);
+        progressBarCard = vista.findViewById(R.id.progressBarCard);
         emptyFridgeView = vista.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
         recyclerReceitas = vista.findViewById(R.id.recyclerViewReceitas);
         fabMiniChef = vista.findViewById(R.id.fab);
     }
 
     private void configuracoesIniciais() {
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
 
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
 
@@ -198,10 +201,12 @@ public class MinhasReceitasFragment extends Fragment {
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
                     Receitas minhasReceitas = ds.getValue(Receitas.class);
 
+                    progressBarCard.setVisibility(View.VISIBLE);
+
                     //se o usuário já tiver adicionado ao menos uma receita na sua lista, o homem da geladeira desaparece
                     if(minhasReceitas != null){
                         emptyFridgeView.setVisibility(View.GONE);
-                        progressBarMR.setVisibility(View.GONE);
+                        progressBarCard.setVisibility(View.GONE);
                     }
                     listaMR.add(minhasReceitas);
                 }
@@ -212,6 +217,7 @@ public class MinhasReceitasFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {  }
         });
+
     }
 
     private void listaEmOrdemAlfabetica() {

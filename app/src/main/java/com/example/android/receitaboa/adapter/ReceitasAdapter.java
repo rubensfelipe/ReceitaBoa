@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -58,6 +59,7 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
         holder.qtdPessoasServidas.setText(receita.getQtdPessoasServidas());
 
 
+
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
             Uri uriFotoReceita = Uri.parse(receita.getUrlFotoReceita());
@@ -68,18 +70,22 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
             holder.fotoReceita.setImageResource(R.drawable.turkey_roast_3);
         }
 
+
+
         //verica se o usuário já colocou uma foto na receita
+
         /*
-        if (receita.getUrlFotoReceita()==null){
+        if (receita.getUrlFotoReceita() != null){
 
-            String imgPadrao = "android.resource://com.example.android.receitaboa/drawable/turkey_roast_2";
-
-            mostrarImagem(imgPadrao, holder);
+            mostrarImagem(receita.getUrlFotoReceita(), holder);
 
         }else {
-            mostrarImagem(receita.getUrlFotoReceita(), holder);
+            String imgPadrao = "android.resource://com.example.android.receitaboa/drawable/turkey_roast_3";
+
+            mostrarImagem(imgPadrao, holder);
         }
          */
+
 
 
     }
@@ -96,12 +102,12 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
         TextView nomeReceita;
         TextView qtdPessoasServidas;
 
-        ProgressBar progressBarMR;
+        //ProgressBar progressBarCard;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            progressBarMR = itemView.findViewById(R.id.progressBarMR);
+            //progressBarCard = itemView.findViewById(R.id.progressBarCard);
 
             fotoReceita = itemView.findViewById(R.id.imageListaFotoReceita);
             nomeReceita = itemView.findViewById(R.id.textNomeReceitaPerfil);
@@ -110,7 +116,8 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
         }
     }
 
-    private void mostrarImagem(String caminhoFoto, final ReceitasAdapter.MyViewHolder vHolder) {
+    /*
+    private void mostrarImagem(String caminhoFoto, final MyViewHolder vHolder) {
 
         //Recuperar as fotos da lista de receitas do amigo de acordo com a posição e seta elas na GridView
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -119,24 +126,26 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
                 new ImageLoadingListener() {
                     @Override
                     public void onLoadingStarted(String imageUri, View view) {
-                        vHolder.progressBarMR.setVisibility(View.VISIBLE);
+                        vHolder.progressBarCard.setVisibility(View.VISIBLE);
                     }
 
                     @Override
                     public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                        vHolder.progressBarMR.setVisibility(View.GONE);
+                        vHolder.progressBarCard.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                        vHolder.progressBarMR.setVisibility(View.GONE);
+                        vHolder.progressBarCard.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onLoadingCancelled(String imageUri, View view) {
-                        vHolder.progressBarMR.setVisibility(View.GONE);
+                        vHolder.progressBarCard.setVisibility(View.GONE);
                     }
                 });
     }
+     */
+
 
 }

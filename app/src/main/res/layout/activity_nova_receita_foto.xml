@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/progressBarMR"
+        android:id="@+id/progressBarNF"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="80dp"
