@@ -25,7 +25,7 @@ Adding a New Recipe, put data
 
 ![Nova Receita Info](https://user-images.githubusercontent.com/37719411/90185308-e4ae2780-dd8c-11ea-99e4-4b1b78c2057b.PNG)
 
-Dialog Screen: decides with you want to upload the photo of your recipe now or if you want to do that later (after you prepared your meal for example)
+Dialog Screen: decides if you want to upload the photo of your recipe now or if you want to do that later (after you prepared your meal for example)
 
 ![dialog nova receita](https://user-images.githubusercontent.com/37719411/90185349-fc85ab80-dd8c-11ea-9433-707230661446.PNG)
 
