@@ -82,12 +82,13 @@
         android:layout_height="80dp"
         android:layout_weight="1"
         android:backgroundTint="@android:color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emptyLayoutFridgeView"
-        app:layout_constraintVertical_bias="0.225"/>
+        app:layout_constraintVertical_bias="0.225" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

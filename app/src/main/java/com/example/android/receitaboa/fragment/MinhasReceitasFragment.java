@@ -195,21 +195,25 @@ public class MinhasReceitasFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                progressBarCard.setVisibility(View.VISIBLE);
+
                 //limpa a lista de receitas para evitar que haja repetição ao mudar de tela
                 listaMR.clear();
 
                 for (DataSnapshot ds: dataSnapshot.getChildren()){
+
                     Receitas minhasReceitas = ds.getValue(Receitas.class);
 
-                    progressBarCard.setVisibility(View.VISIBLE);
-
-                    //se o usuário já tiver adicionado ao menos uma receita na sua lista, o homem da geladeira desaparece
-                    if(minhasReceitas != null){
-                        emptyFridgeView.setVisibility(View.GONE);
-                        progressBarCard.setVisibility(View.GONE);
-                    }
                     listaMR.add(minhasReceitas);
                 }
+
+                //se o usuário já tiver adicionado ao menos uma receita na sua lista, o homem da geladeira desaparece
+                if(listaMR.size() != 0){
+                    emptyFridgeView.setVisibility(View.GONE);
+                }
+
+                progressBarCard.setVisibility(View.GONE);
+
                 listaEmOrdemAlfabetica();
                 adapterMR.notifyDataSetChanged();
             }

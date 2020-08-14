@@ -53,6 +53,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             Manifest.permission.CAMERA
     };
 
+    private AlertDialog dialog;
+
     private ImageButton imageButtonCamera, imageButtonGaleria;
     private static final int SELECAO_CAMERA = 100;
     private static final int SELECAO_GALERIA = 200;
@@ -223,6 +225,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
                 if (imagem != null){
 
+                    abrirDialogCarregamento( getApplicationContext().getString(R.string.dialog_titulo_carregando_foto) );
+
                     circleImageViewPerfil.setImageBitmap(imagem);
 
                     //Recuperar dados da imagem selecionada pelo usuário
@@ -241,11 +245,17 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     uploadTask.addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+
+                            dialog.dismiss();
+
                             Toast.makeText(ConfiguracoesActivity.this,"Erro ao fazer upload da imagem!",Toast.LENGTH_SHORT).show();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            dialog.dismiss();
+
                             Toast.makeText(ConfiguracoesActivity.this,"Upload da imagem feito com sucesso!",Toast.LENGTH_SHORT).show();
 
                             //Uri url = taskSnapshot.getDownloadUrl() DEPRECIADO no FirebaseStorage
@@ -344,6 +354,16 @@ public class ConfiguracoesActivity extends AppCompatActivity {
             }
         });
         AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void abrirDialogCarregamento(String titulo) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(titulo);
+        alert.setCancelable(false); //impedi que o usuario cancele o pop-up
+        alert.setView(R.layout.carregamento); //layout com apenas uma progressbar
+
+        dialog = alert.create();
         dialog.show();
     }
 
