@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 
 import com.example.android.receitaboa.R;
 import com.example.android.receitaboa.activity.MainActivity;
@@ -45,6 +46,8 @@ public class FeedFragment extends Fragment {
     private DatabaseReference feedRef;
     private AdapterFeed adapterFeed;
 
+    private ProgressBar progressBarFeed;
+
     private ValueEventListener valueEventListenerFeed;
 
     public FeedFragment() {
@@ -63,7 +66,7 @@ public class FeedFragment extends Fragment {
 
         configurarAdapterMaisRecyclerView();
 
-        //configurarEventoCliqueReceita();
+        //configurarEventoCliqueReceita(); (agora evento de clique é tratado no adapter)
 
         return view;
     }
@@ -82,6 +85,7 @@ public class FeedFragment extends Fragment {
     }
 
     private void inicializarComponentes(View visto) {
+        progressBarFeed = visto.findViewById(R.id.progressBarFeed);
         recyclerFeed = visto.findViewById(R.id.recyclerFeed);
     }
 
@@ -92,6 +96,7 @@ public class FeedFragment extends Fragment {
         recyclerFeed.setAdapter(adapterFeed);
     }
 
+    /*
     private void configurarEventoCliqueReceita() {
 
 
@@ -122,7 +127,7 @@ public class FeedFragment extends Fragment {
         );
 
     }
-
+    */
     private void listandoFeed() {
 
         //limpar lista (evita repetição ao sair da tela de feed)
@@ -131,9 +136,17 @@ public class FeedFragment extends Fragment {
         valueEventListenerFeed = feedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                progressBarFeed.setVisibility(View.VISIBLE);
+
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
+
                     listaFeed.add(ds.getValue(Feed.class)); //recuperado os dados de publicacao dos nossos seguidores que estão gravados na tree do feed no FirebaseDatabase
+
                 }
+
+                progressBarFeed.setVisibility(View.GONE);
+
                 Collections.reverse(listaFeed); //reverte a ordem da lista (para que q sempre apareça primeiro a ultima postagem)
                 adapterFeed.notifyDataSetChanged();
             }

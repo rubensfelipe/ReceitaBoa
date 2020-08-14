@@ -43,7 +43,7 @@ public class BuscarAmigosFragment extends Fragment {
     private DatabaseReference chefsRef;
     private ValueEventListener valueEventListenerAmigos;
     private FirebaseUser chefAtualAuth;
-    private ProgressBar progressBar;
+    private ProgressBar progressBarBuscaUser;
 
 
     public BuscarAmigosFragment() {
@@ -74,7 +74,7 @@ public class BuscarAmigosFragment extends Fragment {
     }
 
     private void inicializarComponentes(View vista) {
-        progressBar = vista.findViewById(R.id.progressBarAmigos);
+        progressBarBuscaUser = vista.findViewById(R.id.progressBarBuscaAmigos);
         recyclerListaUsuarios = vista.findViewById(R.id.recyclerViewListaAmigos);
     }
 
@@ -92,6 +92,7 @@ public class BuscarAmigosFragment extends Fragment {
         recyclerListaUsuarios.setLayoutManager(layoutManager);
         recyclerListaUsuarios.setHasFixedSize(true);
         recyclerListaUsuarios.setAdapter(adapter);
+
     }
 
     private void configuracaoEventoCliqueAmigos() {
@@ -136,6 +137,8 @@ public class BuscarAmigosFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                progressBarBuscaUser.setVisibility(View.VISIBLE);
+
                 //limpar lista para evitar repetição de amigos
                 limparListaAmigos();
 
@@ -143,15 +146,15 @@ public class BuscarAmigosFragment extends Fragment {
 
                     Chef usuario = dados.getValue(Chef.class); //recupera os dados salvo nos nós do FirebaseDatabase
 
-                    if (usuario != null){
-                        progressBar.setVisibility(View.GONE);
-                    }
-
                     String emailChefLogado = chefAtualAuth.getEmail();
                     if ( !emailChefLogado.equals( usuario.getEmail() ) ){ //verifica se o usuario adicionado na lista não é o próprio usuario logado
                         listaUsuarios.add(usuario); //adiciona um novo usuario (os dados dos amigos do chef) a lista de amigos
                     }
+
                 }
+
+                progressBarBuscaUser.setVisibility(View.GONE);
+
                 listaEmOrdemAlfabetica();
                 adapter.notifyDataSetChanged(); //a lista de usuarios só é atualizada quando há uma alteração na lista de usuarios (só adicionaremos mais usuarios a lista de usuarios se houverem novos usuarios cadastrados no app)
             }

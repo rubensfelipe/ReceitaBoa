@@ -84,7 +84,7 @@ public class ReceitasUsuariosFragment extends Fragment {
 
     private void inicializarComponentes(View vista) {
         recyclerReceitas = vista.findViewById(R.id.recyclerReceitasAmigos);
-        progressBarReceitas = vista.findViewById(R.id.progressBarRA);
+        progressBarReceitas = vista.findViewById(R.id.progressBarReceitas);
     }
 
     private void configuracoesIniciais() {
@@ -103,13 +103,14 @@ public class ReceitasUsuariosFragment extends Fragment {
     }
 
     private void configurarAdapterMaisRecyclerView() {
-        //adapterRA = new ReceitasAdapter(listaRA, getActivity() );
+
         adapterReceitas = new ReceitasUsuariosAdapter(listaReceitas, getActivity() );
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerReceitas.setLayoutManager(layoutManager);
         recyclerReceitas.setHasFixedSize(true);
         recyclerReceitas.setAdapter(adapterReceitas);
+
     }
 
     private void configurarEventoCliqueReceita() {
@@ -152,6 +153,8 @@ public class ReceitasUsuariosFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
+                    progressBarReceitas.setVisibility(View.VISIBLE);
+
                     for (DataSnapshot ds: dataSnapshot.getChildren()){
                         for (DataSnapshot dadosReceita: ds.getChildren()){
 
@@ -159,10 +162,11 @@ public class ReceitasUsuariosFragment extends Fragment {
 
                                 listaReceitas.add(receitas);
 
-                                sumirProgressBar(receitas);
-
                         }
                     }
+
+                    progressBarReceitas.setVisibility(View.GONE);
+
                     listaEmOrdemAlfabetica();
                     adapterReceitas.notifyDataSetChanged();
                 }
@@ -181,13 +185,6 @@ public class ReceitasUsuariosFragment extends Fragment {
                 //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
             }
         });
-    }
-
-    private void sumirProgressBar(Receitas rAmigo) {
-        //se o amigo já tiver adicionado ao menos uma receita no app, a progressBar desaparece
-        if(rAmigo != null){
-            progressBarReceitas.setVisibility(View.GONE);
-        }
     }
 
     public void pesquisarReceitas(String receitaNaPesquisa){
