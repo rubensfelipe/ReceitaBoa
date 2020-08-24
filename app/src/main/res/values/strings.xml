@@ -26,4 +26,6 @@
     <string name="dialog_titulo_devo_adicionar_foto_receita">Foto Receita</string>
     <string name="dialog_msg_devo_adicionar_foto_receita">Quer adicionar a foto da sua Receita agora?\n\n Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.</string>
 
+    <string name="pagina_web_politicas_privacidade">https://rubensfelipevaz.wixsite.com/politicas-receitaboa</string>
+
 </resources>

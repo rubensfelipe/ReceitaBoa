@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context=".activity.LoginActivity"
+    tools:context="com.rubensvaz.android.receitaboa.activity.LoginActivity"
     tools:layout_editor_absoluteY="25dp">
 
     <ImageView

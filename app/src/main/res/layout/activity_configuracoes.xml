@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/cinza_claro"
-    tools:context=".activity.ConfiguracoesActivity">
+    tools:context="com.rubensvaz.android.receitaboa.activity.ConfiguracoesActivity">
 
     <include
         android:id="@+id/include"

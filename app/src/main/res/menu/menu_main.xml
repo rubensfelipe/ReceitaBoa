@@ -13,6 +13,11 @@
         app:showAsAction="never"
         />
 
+    <item android:id="@+id/menuPoliticasPrivacidade"
+        android:title="Políticas de Privacidade"
+        app:showAsAction="never"
+        />
+
     <item android:id="@+id/menuDeslogar"
         android:title="Sair"
         app:showAsAction="never"

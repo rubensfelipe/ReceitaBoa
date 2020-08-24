@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <!--tornam as fotos quadradas-->
-    <com.example.android.receitaboa.helper.SquareImageView
+    <com.rubensvaz.android.receitaboa.helper.SquareImageView
         android:id="@+id/fotoReceitaPerfil"
         android:layout_width="0dp"
         android:layout_height="200dp"

@@ -7,7 +7,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context="com.example.android.receitaboa.activity.MainActivity">
+    tools:context="com.rubensvaz.android.receitaboa.activity.MainActivity">
 
     <include layout="@layout/toolbar" />
 

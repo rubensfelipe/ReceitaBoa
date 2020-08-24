@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:328145833310:android:bb67158800d2b3029113cf",
         "android_client_info": {
-          "package_name": "com.example.android.receitaboa"
+          "package_name": "com.rubensfelipe.android.receitaboa"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "328145833310-cska223h445u5o47t4307d79vg3ia5c0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.android.receitaboa",
+            "package_name": "com.rubensfelipe.android.receitaboa",
             "certificate_hash": "ca170d17e02d176b75c16831d7099e967ab0f0f1"
           }
         },

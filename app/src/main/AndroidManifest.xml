@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.receitaboa">
+    package="com.rubensfelipe.android.receitaboa">
     <!-- necessario usuario ter uma camera para baixar meu app -->
     <uses-feature
         android:name="android.hardware.camera2"
@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_receitaboa_foreground"
@@ -21,41 +20,41 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
-
         <!-- Configurar como vertical a cada nova atividade criada -->
-        <activity android:name=".activity.EditarReceitaActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".activity.VisualizarReceitaActivity"
-            android:parentActivityName=".activity.MainActivity"
+        <activity
+            android:name="com.rubensvaz.android.receitaboa.activity.EditarReceitaActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.NovaReceitaFotoActivity"
-            android:parentActivityName=".activity.MainActivity"
+            android:name="com.rubensvaz.android.receitaboa.activity.VisualizarReceitaActivity"
+            android:parentActivityName="com.rubensvaz.android.receitaboa.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.PerfilAmigoActivity"
-            android:parentActivityName=".activity.MainActivity"
+            android:name="com.rubensvaz.android.receitaboa.activity.NovaReceitaFotoActivity"
+            android:parentActivityName="com.rubensvaz.android.receitaboa.activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ConfiguracoesActivity"
-            android:parentActivityName=".activity.MainActivity"
+            android:name="com.rubensvaz.android.receitaboa.activity.PerfilAmigoActivity"
+            android:parentActivityName="com.rubensvaz.android.receitaboa.activity.MainActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-
-
-        <activity android:name=".activity.CadastroActivity"
+        <activity
+            android:name="com.rubensvaz.android.receitaboa.activity.ConfiguracoesActivity"
+            android:parentActivityName="com.rubensvaz.android.receitaboa.activity.MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.NovaReceitaInfoActivity"
+        <activity
+            android:name="com.rubensvaz.android.receitaboa.activity.MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name="com.rubensvaz.android.receitaboa.activity.CadastroActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait" >
+        <activity
+            android:name="com.rubensvaz.android.receitaboa.activity.NovaReceitaInfoActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.rubensvaz.android.receitaboa.activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

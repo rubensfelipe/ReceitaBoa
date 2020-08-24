@@ -7,7 +7,7 @@
     android:background="#f6f6f6"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".activity.NovaReceitaFotoActivity">
+    tools:context="com.rubensvaz.android.receitaboa.activity.NovaReceitaFotoActivity">
 
     <ImageView
         android:id="@+id/imageView2"
