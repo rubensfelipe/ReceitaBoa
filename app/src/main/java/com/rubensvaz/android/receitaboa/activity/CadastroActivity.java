@@ -60,15 +60,21 @@ public class CadastroActivity extends AppCompatActivity {
                     cadastrarChefDbAuth(chef);
 
                 }else {
-                    Toast.makeText(CadastroActivity.this, R.string.ponha_senha, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastroActivity.this,
+                            getString(R.string.ponha_senha),
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }else {
-                Toast.makeText(CadastroActivity.this, R.string.ponha_email, Toast.LENGTH_SHORT).show();
+                Toast.makeText(CadastroActivity.this,
+                        getString(R.string.ponha_email),
+                        Toast.LENGTH_SHORT).show();
             }
 
         }else {
-            Toast.makeText(CadastroActivity.this, R.string.ponha_nome, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroActivity.this,
+                    getString(R.string.ponha_nome),
+                    Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -85,7 +91,7 @@ public class CadastroActivity extends AppCompatActivity {
 
                 if (task.isSuccessful()){ //conseguiu cadastrar no FirebaseAuth
                     Toast.makeText(CadastroActivity.this,
-                            R.string.bem_vindo + chef.getNome() + R.string.cadastro_finalizado,
+                            getString(R.string.bem_vindo) + chef.getNome() + getString(R.string.cadastro_finalizado),
                             Toast.LENGTH_LONG).show();
                     UsuarioFirebaseAuth.atualizarNomeChefAuth(chef.getNome()); //atualiza o nome no FirebaseAuth
 

@@ -212,7 +212,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
 
 
                 Toast.makeText(EditarReceitaActivity.this,
-                        R.string.receita + nome + R.string.atualizada,
+                        getString(R.string.receita) + nome + getString(R.string.atualizada),
                         Toast.LENGTH_SHORT).show();
 
                 fecharAtividadeAtualAnterior(VisualizarReceitaActivity.atividadeAberta);
@@ -423,7 +423,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
         if (postagem.salvar(seguidoresSnapshot)) {
 
             Toast.makeText(EditarReceitaActivity.this,
-                    R.string.toast_salvar_postagem,
+                    getString(R.string.toast_salvar_postagem),
                     Toast.LENGTH_SHORT).show();
             finish(); //após publicar a foto, a activity filtro é encerrada
         }

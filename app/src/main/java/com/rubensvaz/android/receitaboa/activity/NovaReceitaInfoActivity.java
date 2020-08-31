@@ -134,19 +134,19 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
                 }else {
                     Toast.makeText(NovaReceitaInfoActivity.this,
-                            R.string.ponha_modoPreparo,
+                            getString(R.string.ponha_modoPreparo),
                             Toast.LENGTH_SHORT).show();
                 }
 
             }else {
                 Toast.makeText(NovaReceitaInfoActivity.this,
-                        R.string.ponha_ingredientes,
+                        getString(R.string.ponha_ingredientes),
                         Toast.LENGTH_SHORT).show();
             }
 
         }else {
             Toast.makeText(NovaReceitaInfoActivity.this,
-                    R.string.ponha_nome_receita,
+                    getString(R.string.ponha_nome_receita),
                     Toast.LENGTH_SHORT).show();
         }
 

@@ -238,7 +238,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     private void excluirReceita() {
         receitasChefRef.child(idReceitaClicada).removeValue();
         Toast.makeText(VisualizarReceitaActivity.this,
-                "A " + R.string.receita + nomeReceitaClicada + R.string.excluida,
+                "A " + getString(R.string.receita) + nomeReceitaClicada + getString(R.string.excluida),
                 Toast.LENGTH_SHORT).show();
         finish();
     }

@@ -54,7 +54,7 @@
 
     <string name="toast_salvar_postagem">Sucesso ao salvar postagem!</string>
     <string name="receita">Receita </string>
-    <string name="atualizada">atualizada!</string>
+    <string name="atualizada"> atualizada!</string>
     <string name="ponha_senha">Preencha a senha!</string>
     <string name="ponha_email">Preencha o e-mail!</string>
     <string name="ponha_nome">Preencha o nome!</string>
@@ -95,5 +95,7 @@
     <string name="nao">Não</string>
     <string name="botao_editar">Editar</string>
     <string name="botao_deletar">Deletar</string>
+    <string name="vamos_cozinhar">Vamos Cozinhar</string>
+    <string name="receitaboa">Receita Boa</string>
 
 </resources>

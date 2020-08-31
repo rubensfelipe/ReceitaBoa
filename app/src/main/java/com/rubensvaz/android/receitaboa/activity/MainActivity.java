@@ -256,11 +256,11 @@ public class MainActivity extends AppCompatActivity {
         try {
             autenticacao.signOut();
             Toast.makeText(MainActivity.this,
-                    R.string.logout,
+                    getString(R.string.logout),
                     Toast.LENGTH_SHORT).show();
         }catch (Exception e){
             Toast.makeText(MainActivity.this,
-                    R.string.erro_logout,
+                    getString(R.string.erro_logout),
                     Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }

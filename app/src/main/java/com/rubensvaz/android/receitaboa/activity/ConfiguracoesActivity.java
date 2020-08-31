@@ -188,7 +188,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     chefLogado.atualizarDadosFirebaseDb(); //recupera todos os dados já configurados (email, foto) e o nome que foi alterado e atualiza no FirebaseDatabase
 
                     Toast.makeText(ConfiguracoesActivity.this,
-                            R.string.nome_alterado,
+                            getString(R.string.nome_alterado),
                             Toast.LENGTH_SHORT).show();
 
                 }
@@ -248,7 +248,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                             dialog.dismiss();
 
                             Toast.makeText(ConfiguracoesActivity.this,
-                                    R.string.erro_upload_img,
+                                    getString(R.string.erro_upload_img),
                                     Toast.LENGTH_SHORT).show();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -258,7 +258,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                             dialog.dismiss();
 
                             Toast.makeText(ConfiguracoesActivity.this,
-                                    R.string.upload_sucesso,
+                                    getString(R.string.upload_sucesso),
                                     Toast.LENGTH_SHORT).show();
 
                             //Uri url = taskSnapshot.getDownloadUrl() DEPRECIADO no FirebaseStorage
@@ -306,7 +306,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
             }
             Toast.makeText(ConfiguracoesActivity.this,
-                    R.string.foto_perfil_atualizada,
+                    getString(R.string.foto_perfil_atualizada),
                     Toast.LENGTH_SHORT).show();
         }
     }
