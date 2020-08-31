@@ -1,6 +1,6 @@
 # ReceitaBoa
 
-Apk File download: https://drive.google.com/drive/folders/1EtQkqLqLbbl_heB2uBiEd1H095jAQDTp?usp=sharing
+App on Play Store: https://play.google.com/store/apps/details?id=com.rubensfelipe.android.receitaboa
 
 IMPORTANT: to run this app you will need to create an account on Firebase server (http://firebase.google.com/)
 and configure a new database for this app. (Firebase gives you the steps to do it).
