@@ -27,8 +27,8 @@
     <string name="que_fome">HMMM I\'m starving!!!</string>
     <string name="texto_homem_geladeira">Start by adding a recipe</string>
     <string name="toast_salvar_postagem">Post saved!</string>
-    <string name="receita">Recipe </string>
-    <string name="atualizada"> updated!</string>
+    <string name="receita">" Recipe "</string>
+    <string name="atualizada">" updated! "</string>
     <string name="ponha_senha">Fulfill your password!</string>
     <string name="ponha_email">Fulfill your e-mail!</string>
     <string name="ponha_nome">Fulfill your name!</string>
@@ -49,7 +49,7 @@
     <string name="ponha_modoPreparo">Fulfill the steps of your recipe!</string>
     <string name="botao_seguindo">Following</string>
     <string name="botao_seguir">Follow</string>
-    <string name="excluida">was successfully deleted</string>
+    <string name="excluida">" was successfully deleted"</string>
     <string name="visualizar_receita">View Recipe</string>
     <string name="meu_cardapio">My Menu</string>
     <string name="meus_amigos">My Friends</string>

@@ -53,13 +53,13 @@
     <string name="erro_upload_img">Erro ao salvar a imagem, tente novamente!</string>
 
     <string name="toast_salvar_postagem">Sucesso ao salvar postagem!</string>
-    <string name="receita">Receita </string>
-    <string name="atualizada"> atualizada!</string>
+    <string name="receita">" Receita "</string>
+    <string name="atualizada">" atualizada! "</string>
     <string name="ponha_senha">Preencha a senha!</string>
     <string name="ponha_email">Preencha o e-mail!</string>
     <string name="ponha_nome">Preencha o nome!</string>
-    <string name="bem_vindo">"Bem-vindo, Chef. "</string>
-    <string name="cadastro_finalizado">" Cadastro feito com sucesso!"</string>
+    <string name="bem_vindo">Bem-vindo, Chef. </string>
+    <string name="cadastro_finalizado"> Cadastro feito com sucesso!</string>
     <string name="senha_fraca">Digite uma senha mais forte!</string>
     <string name="conta_jacadastrada">Esta conta já está cadastrada</string>
     <string name="erro_cadastro">Erro ao fazer o cadastro no sistema!</string>
@@ -71,7 +71,7 @@
     <string name="ponha_modoPreparo">Preencha o modo de preparo de sua receita!</string>
     <string name="botao_seguindo">Seguindo</string>
     <string name="botao_seguir">Seguir</string>
-    <string name="excluida">" foi excluída com sucesso"</string>
+    <string name="excluida"> foi excluída com sucesso</string>
     <string name="visualizar_receita">Visualizar Receita</string>
     <string name="meu_cardapio">Meu Cardápio</string>
     <string name="feed" translatable="false">Feed</string>
@@ -83,7 +83,7 @@
     <string name="title_holofote">Adicionando uma receita</string>
     <string name="texto_holofote">Clique no chef de cozinha para começar adicionando a sua receita</string>
     <string name="email_invalido">Digite um e-mail válido</string>
-    <string name="erro_login">"Erro ao logar o usuário: "</string>
+    <string name="erro_login">Erro ao logar o usuário: </string>
     <string name="nome_alterado">Nome alterado com sucesso!</string>
     <string name="ponha_nome_receita">Preencha o nome de sua receita!</string>
     <string name="configuracoes">Configurações</string>
