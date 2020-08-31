@@ -37,7 +37,7 @@
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:gravity="center"
-                    android:text="Nome"
+                    android:text="@string/dica_nome"
                     android:textColor="@color/colorBlueDark"
                     android:textSize="24sp" />
 
@@ -57,7 +57,7 @@
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:gravity="center"
-                    android:text="Ingredientes"
+                    android:text="@string/edit_ingredientes"
                     android:textColor="@color/colorBlueDark"
                     android:textSize="24sp" />
 
@@ -82,7 +82,7 @@
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:gravity="center"
-                    android:text="Modo de Preparo"
+                    android:text="@string/edit_modo_preparo"
                     android:textColor="@color/colorBlueDark"
                     android:textSize="24sp" />
 

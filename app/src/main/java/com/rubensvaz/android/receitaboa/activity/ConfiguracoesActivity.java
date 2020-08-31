@@ -114,7 +114,7 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
     private void configuracaoToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
-        toolbar.setTitle("Configurações");
+        toolbar.setTitle(R.string.configuracoes);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //botao voltar
     }
@@ -187,7 +187,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     chefLogado.setNome(nome); //seta o nome que foi alterado pelo chef na Classe Chef
                     chefLogado.atualizarDadosFirebaseDb(); //recupera todos os dados já configurados (email, foto) e o nome que foi alterado e atualiza no FirebaseDatabase
 
-                    Toast.makeText(ConfiguracoesActivity.this,"Nome alterado com sucesso!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfiguracoesActivity.this,
+                            R.string.nome_alterado,
+                            Toast.LENGTH_SHORT).show();
 
                 }
 
@@ -245,7 +247,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
                             dialog.dismiss();
 
-                            Toast.makeText(ConfiguracoesActivity.this,"Erro ao fazer upload da imagem!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ConfiguracoesActivity.this,
+                                    R.string.erro_upload_img,
+                                    Toast.LENGTH_SHORT).show();
                         }
                     }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -253,7 +257,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
 
                             dialog.dismiss();
 
-                            Toast.makeText(ConfiguracoesActivity.this,"Upload da imagem feito com sucesso!",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ConfiguracoesActivity.this,
+                                    R.string.upload_sucesso,
+                                    Toast.LENGTH_SHORT).show();
 
                             //Uri url = taskSnapshot.getDownloadUrl() DEPRECIADO no FirebaseStorage
                             //Recupera a foto do chef do FirebaseStorage
@@ -299,7 +305,9 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                 chefLogado.atualizarMeusDadosSeguidores(idAmigo);
 
             }
-            Toast.makeText(ConfiguracoesActivity.this,"Sua foto foi atualizada com sucesso!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ConfiguracoesActivity.this,
+                    R.string.foto_perfil_atualizada,
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

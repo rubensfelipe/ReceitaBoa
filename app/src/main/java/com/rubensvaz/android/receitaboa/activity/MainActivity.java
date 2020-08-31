@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
         final FragmentPagerItemAdapter adapter = new FragmentPagerItemAdapter(
                 getSupportFragmentManager(),
                 FragmentPagerItems.with(this)
-                        .add("Meu Cardápio", MinhasReceitasFragment.class)
-                        .add("Feed", FeedFragment.class)
-                        .add("Meus Amigos", AmigosFragment.class)
-                        .add("Receitas", ReceitasUsuariosFragment.class)
-                        .add("Buscar Amigos", BuscarAmigosFragment.class)
+                        .add(R.string.meu_cardapio, MinhasReceitasFragment.class)
+                        .add(R.string.feed, FeedFragment.class)
+                        .add(R.string.meus_amigos, AmigosFragment.class)
+                        .add(R.string.receitas, ReceitasUsuariosFragment.class)
+                        .add(R.string.buscar_amigos, BuscarAmigosFragment.class)
                         .create()
         );
         return adapter;
@@ -255,9 +255,13 @@ public class MainActivity extends AppCompatActivity {
 
         try {
             autenticacao.signOut();
-            Toast.makeText(MainActivity.this,"Chef Deslogado",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,
+                    R.string.logout,
+                    Toast.LENGTH_SHORT).show();
         }catch (Exception e){
-            Toast.makeText(MainActivity.this,"Erro ao deslogar Chef",Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this,
+                    R.string.erro_logout,
+                    Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
 

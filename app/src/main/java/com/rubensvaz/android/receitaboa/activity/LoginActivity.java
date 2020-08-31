@@ -66,14 +66,16 @@ public class LoginActivity extends AppCompatActivity {
                     try{
                         throw task.getException();
                     }catch ( FirebaseAuthInvalidUserException e){
-                        excecao = "Usuário não existe!";
+                        excecao = getString(R.string.usuario_inexistente);
                     }catch (FirebaseAuthInvalidCredentialsException e){
-                        excecao = "E-mail ou senha incorreto";
+                        excecao = getString(R.string.emailSenha_incorreto);
                     }catch (Exception e){
-                        excecao ="Erro ao logar o usuário: " + e.getMessage();
+                        excecao = getString(R.string.erro_login) + e.getMessage();
                         e.printStackTrace();
                     }
-                    Toast.makeText(LoginActivity.this,excecao,Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this,
+                            excecao,
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -98,11 +100,15 @@ public class LoginActivity extends AppCompatActivity {
                 logarUsuario(chef);
 
             }else {
-                Toast.makeText(LoginActivity.this,"Preencha a sua senha!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this,
+                        getString(R.string.ponha_senha),
+                        Toast.LENGTH_SHORT).show();
             }
 
         }else {
-            Toast.makeText(LoginActivity.this,"Preencha o seu e-mail!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this,
+                    getString(R.string.ponha_email),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

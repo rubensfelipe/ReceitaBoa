@@ -26,7 +26,7 @@
                     android:layout_height="30dp"
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
-                    android:hint="Nome da receita"
+                    android:hint="@string/edit_nome_receita"
                     android:inputType="textCapWords"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
@@ -51,7 +51,7 @@
                     android:fontFamily="@font/alegreya"
                     android:paddingLeft="5dp"
                     android:paddingRight="8dp"
-                    android:text="Serve"
+                    android:text="@string/edit_serve"
                     android:textColor="@color/colorBlueDark" />
 
                 <EditText
@@ -75,7 +75,7 @@
                     android:layout_marginRight="5dp"
                     android:background="@drawable/background_caixa_texto2"
                     android:onClick="validarReceita"
-                    android:text="atualizar"
+                    android:text="@string/botao_atualizar"
                     android:textColor="#FFFFFF" />
 
             </RelativeLayout>
@@ -102,7 +102,7 @@
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:gravity="center"
-                    android:text="Ingredientes"
+                    android:text="@string/edit_ingredientes"
                     android:textColor="@color/colorBlueDark"
                     android:textSize="24sp" />
 
@@ -146,7 +146,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="Modo de Preparo"
+                android:text="@string/edit_modo_preparo"
                 android:textColor="@color/colorBlueDark"
                 android:textSize="24sp" />
 

@@ -133,15 +133,21 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                     cadastrarMinhaReceita(minhasReceitas);
 
                 }else {
-                    Toast.makeText(NovaReceitaInfoActivity.this,"Preencha o modo de preparo de sua receita!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NovaReceitaInfoActivity.this,
+                            R.string.ponha_modoPreparo,
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }else {
-                Toast.makeText(NovaReceitaInfoActivity.this,"Preencha os ingredientes de sua receita!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(NovaReceitaInfoActivity.this,
+                        R.string.ponha_ingredientes,
+                        Toast.LENGTH_SHORT).show();
             }
 
         }else {
-            Toast.makeText(NovaReceitaInfoActivity.this,"Preencha o nome de sua receita!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(NovaReceitaInfoActivity.this,
+                    R.string.ponha_nome_receita,
+                    Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -181,7 +187,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
     private void acaoSePositiva(AlertDialog.Builder dialog, final Receitas minhasReceitas) {
 
-        dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+        dialog.setPositiveButton(R.string.sim, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -206,11 +212,13 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
 
     private void acaoSeNegativa(AlertDialog.Builder dialog) {
 
-        dialog.setNegativeButton("Não", new DialogInterface.OnClickListener() {
+        dialog.setNegativeButton(R.string.nao, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.nova_receita_adicionada), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),
+                        getApplicationContext().getString(R.string.nova_receita_adicionada),
+                        Toast.LENGTH_SHORT).show();
 
                 finish();
             }

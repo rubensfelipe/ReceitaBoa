@@ -9,17 +9,17 @@
         />
 
     <item android:id="@+id/menuConfiguracoes"
-        android:title="Configurações"
+        android:title="@string/configuracoes"
         app:showAsAction="never"
         />
 
     <item android:id="@+id/menuPoliticasPrivacidade"
-        android:title="Políticas de Privacidade"
+        android:title="@string/politicas"
         app:showAsAction="never"
         />
 
     <item android:id="@+id/menuDeslogar"
-        android:title="Sair"
+        android:title="@string/sair"
         app:showAsAction="never"
         />
 

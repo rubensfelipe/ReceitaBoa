@@ -35,7 +35,7 @@
                     android:paddingLeft="5dp"
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
-                    android:hint="Nome receita"
+                    android:hint="@string/nome_receita"
                     android:inputType="textCapWords"
                     android:textColor="#484E6E"
                     android:textColorHint="@color/colorHintGraySoft"
@@ -57,7 +57,7 @@
                     android:fontFamily="@font/alegreya"
                     android:paddingLeft="5dp"
                     android:paddingRight="8dp"
-                    android:text="Serve"
+                    android:text="@string/edit_serve"
                     android:textColor="@color/colorBlueDark" />
 
                 <EditText
@@ -82,7 +82,7 @@
                     android:layout_marginRight="5dp"
                     android:background="@drawable/background_caixa_texto2"
                     android:onClick="validarReceita"
-                    android:text="salvar"
+                    android:text="@string/botao_salvar"
                     android:textColor="#FFFFFF" />
 
             </RelativeLayout>
@@ -95,7 +95,7 @@
                     android:background="@drawable/background_botao2"
                     android:fontFamily="@font/alegreya"
                     android:gravity="center"
-                    android:text="Ingredientes"
+                    android:text="@string/edit_ingredientes"
                     android:textColor="@color/colorBlueDark"
                     android:textSize="24sp" />
 
@@ -108,7 +108,7 @@
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
                 android:gravity="start|top"
-                android:hint="Adicione aqui os ingredientes!"
+                android:hint="@string/dica_add_ingredientes"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 android:textColor="#484E6E"
@@ -124,7 +124,7 @@
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
                 android:gravity="center"
-                android:text="Modo de Preparo"
+                android:text="@string/edit_modo_preparo"
                 android:textColor="@color/colorBlueDark"
                 android:textSize="24sp" />
 
@@ -136,7 +136,7 @@
                 android:background="@drawable/background_botao2"
                 android:fontFamily="@font/alegreya"
                 android:gravity="start|top"
-                android:hint="Adicione aqui o modo de preparo!"
+                android:hint="@string/dica_add_modoPreparo"
                 android:inputType="textMultiLine"
                 android:padding="10dp"
                 android:textColor="#484E6E"

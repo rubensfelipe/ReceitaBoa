@@ -112,7 +112,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     }
 
     private void configurarToolbar() {
-        toolbar.setTitle("Visualizar Receita");
+        toolbar.setTitle(R.string.visualizar_receita);
         setSupportActionBar( toolbar );
         //adiciona o botão voltar (na barra superior) para MainActivity (padrão) (PARTE 1)
         //OBS: deve-se adicionar android:parentActivityName=".activity.MainActivity" no Android Manifest na parte do EditarPerfilActivity, botão voltar retorna a parentActivity
@@ -237,7 +237,9 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private void excluirReceita() {
         receitasChefRef.child(idReceitaClicada).removeValue();
-        Toast.makeText(VisualizarReceitaActivity.this,"A receita " + nomeReceitaClicada + " foi excluída com sucesso", Toast.LENGTH_SHORT).show();
+        Toast.makeText(VisualizarReceitaActivity.this,
+                "A " + R.string.receita + nomeReceitaClicada + R.string.excluida,
+                Toast.LENGTH_SHORT).show();
         finish();
     }
 

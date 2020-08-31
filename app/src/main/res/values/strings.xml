@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ReceitaBoa</string>
 
+
     <style name="CategoryStyle">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">0dp</item>
@@ -11,21 +12,88 @@
         <item name="android:textAppearance">?android:textAppearanceSmall</item>
     </style>
 
+    <!--Tela Cadastro/Tela Login-->
+    <string name="dica_nome">Nome</string>
+    <string name="dica_email" translatable="false">E-mail</string>
+    <string name="dica_senha">Senha</string>
+    <string name="botao_logar">Entrar</string>
+    <string name="botao_cadastrar">Cadastrar</string>
+    <string name="hyperlink_para_tela_cadastro">Clique aqui para fazer o Cadastro!!!</string>
+
+    <string name="edit_nome_receita">Nome da receita</string>
+
+    <string name="info_foto_perfil">Esse nome estará visível para seus contatos do Receita Boa.</string>
+
     <!--Receita para testes-->
-    <string name="Titulo_Pudim">Pudim\n</string>
-    <string name="Ingredientes_Pudim">\n1) 1 lata de leite condensado\n\n2) 1 lata de leite (medida da lata de leite condensado)\n\n3) 3 ovos inteiros\n\nCALDA\n\n4) 1 xícara (chá) de açúcar\n\n5)2 xícaras de água\n</string>
-    <string name="Preparo_Pudim">\n+Primeiro, bata bem os ovos no liquidificador\n\n+Acrescente o leite condensado e o leite, e bata novamente\n\n/*CALDA*/\n\n+Derreta o açúcar na panela até ficar moreno, acrescente a água e deixe engrossar\n\n+Coloque em uma forma redonda e despeje a massa do pudim por cima\n\n+Asse em forno médio por 45 minutos, com a assadeira redonda dentro de uma maior com água\n\n+Espete um garfo para ver se está bem assado\n\n+Deixe esfriar e desenforme</string>
+    <string name="Titulo_Pudim" translatable="false">Pudim\n</string>
+    <string name="Ingredientes_Pudim" translatable="false">\n1) 1 lata de leite condensado\n\n2) 1 lata de leite (medida da lata de leite condensado)\n\n3) 3 ovos inteiros\n\nCALDA\n\n4) 1 xícara (chá) de açúcar\n\n5)2 xícaras de água\n</string>
+    <string name="Preparo_Pudim" translatable="false">\n+Primeiro, bata bem os ovos no liquidificador\n\n+Acrescente o leite condensado e o leite, e bata novamente\n\n/*CALDA*/\n\n+Derreta o açúcar na panela até ficar moreno, acrescente a água e deixe engrossar\n\n+Coloque em uma forma redonda e despeje a massa do pudim por cima\n\n+Asse em forno médio por 45 minutos, com a assadeira redonda dentro de uma maior com água\n\n+Espete um garfo para ver se está bem assado\n\n+Deixe esfriar e desenforme</string>
 
     <!--mensagens de Toast-->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="foto_adicionada">Sua foto foi adicionada com sucesso!</string>
     <string name="dialog_titulo_carregando_foto">Carregando foto, aguarde.</string>
-    <string name="erro_upload_img">Erro ao salvar a imagem, tente novamente!</string>
     <string name="foto_carregada">Foto carregada com sucesso.</string>
     <string name="nova_receita_adicionada">Sua Receita Boa foi adicionada com sucesso!</string>
     <string name="dialog_titulo_devo_adicionar_foto_receita">Foto Receita</string>
-    <string name="dialog_msg_devo_adicionar_foto_receita">Quer adicionar a foto da sua Receita agora?\n\n Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.</string>
+    <string name="dialog_msg_devo_adicionar_foto_receita">Quer adicionar a foto da sua Receita agora?   Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.</string>
 
-    <string name="pagina_web_politicas_privacidade">https://rubensfelipevaz.wixsite.com/politicas-receitaboa</string>
+    <string name="pagina_web_politicas_privacidade" translatable="false">https://rubensfelipevaz.wixsite.com/politicas-receitaboa</string>
+    <string name="edit_serve">Serve</string>
+    <string name="edit_ingredientes">Ingredientes</string>
+    <string name="edit_modo_preparo">Modo de Preparo</string>
+    <string name="botao_atualizar">Atualizar</string>
+    <string name="nome_receita">Nome receita</string>
+    <string name="botao_salvar">Salvar</string>
+    <string name="seguidores">Seguidores</string>
+    <string name="seguindo">Seguindo</string>
+    <string name="botao_editar_perfil">editar perfil</string>
+    <string name="que_fome">HMMM que fome!!!</string>
+    <string name="texto_homem_geladeira">Comece adicionando uma receita</string>
+    <string name="erro_upload_img">Erro ao salvar a imagem, tente novamente!</string>
+
+    <string name="toast_salvar_postagem">Sucesso ao salvar postagem!</string>
+    <string name="receita">Receita </string>
+    <string name="atualizada">atualizada!</string>
+    <string name="ponha_senha">Preencha a senha!</string>
+    <string name="ponha_email">Preencha o e-mail!</string>
+    <string name="ponha_nome">Preencha o nome!</string>
+    <string name="bem_vindo">"Bem-vindo, Chef. "</string>
+    <string name="cadastro_finalizado">" Cadastro feito com sucesso!"</string>
+    <string name="senha_fraca">Digite uma senha mais forte!</string>
+    <string name="conta_jacadastrada">Esta conta já está cadastrada</string>
+    <string name="erro_cadastro">Erro ao fazer o cadastro no sistema!</string>
+    <string name="usuario_inexistente">Usuário não existe!</string>
+    <string name="emailSenha_incorreto">E-mail ou senha incorreto</string>
+    <string name="upload_sucesso">Upload da imagem feito com sucesso!</string>
+    <string name="foto_perfil_atualizada">Sua foto de perfil foi atualizada com sucesso!</string>
+    <string name="ponha_ingredientes">Preencha os ingredientes de sua receita!</string>
+    <string name="ponha_modoPreparo">Preencha o modo de preparo de sua receita!</string>
+    <string name="botao_seguindo">Seguindo</string>
+    <string name="botao_seguir">Seguir</string>
+    <string name="excluida">" foi excluída com sucesso"</string>
+    <string name="visualizar_receita">Visualizar Receita</string>
+    <string name="meu_cardapio">Meu Cardápio</string>
+    <string name="feed" translatable="false">Feed</string>
+    <string name="meus_amigos">Meus Amigos</string>
+    <string name="receitas">Receitas</string>
+    <string name="buscar_amigos">Buscar Amigos</string>
+    <string name="logout">Chef Deslogado</string>
+    <string name="erro_logout">Erro ao deslogar Chef</string>
+    <string name="title_holofote">Adicionando uma receita</string>
+    <string name="texto_holofote">Clique no chef de cozinha para começar adicionando a sua receita</string>
+    <string name="email_invalido">Digite um e-mail válido</string>
+    <string name="erro_login">"Erro ao logar o usuário: "</string>
+    <string name="nome_alterado">Nome alterado com sucesso!</string>
+    <string name="ponha_nome_receita">Preencha o nome de sua receita!</string>
+    <string name="configuracoes">Configurações</string>
+    <string name="politicas">Políticas de Privacidade</string>
+    <string name="sair">Sair</string>
+    <string name="dica_add_ingredientes">Adicione aqui os ingredientes!</string>
+    <string name="dica_add_modoPreparo">Adicione aqui o modo de preparo!</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="botao_editar">Editar</string>
+    <string name="botao_deletar">Deletar</string>
 
 </resources>

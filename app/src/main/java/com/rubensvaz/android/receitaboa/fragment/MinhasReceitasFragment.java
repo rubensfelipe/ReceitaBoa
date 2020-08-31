@@ -146,8 +146,8 @@ public class MinhasReceitasFragment extends Fragment {
         showCaseView = new ShowcaseView.Builder(getActivity())
                 .withMaterialShowcase()
                 .setTarget(new ViewTarget(vista.findViewById(R.id.fab)))
-                .setContentTitle("Adicionando uma receita")
-                .setContentText("Clique no chef de cozinha para começar adicionando a sua receita")
+                .setContentTitle(R.string.title_holofote)
+                .setContentText(R.string.texto_holofote)
                 .singleShot(CODIGO_ONE_TIME) //só aparece quando o usuario instala o app e loga na conta (pelo primeiro cadastro ou login)
                 .setStyle(R.style.ShowCaseViewStyle);
 

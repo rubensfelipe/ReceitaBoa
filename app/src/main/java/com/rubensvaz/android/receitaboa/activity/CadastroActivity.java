@@ -60,15 +60,15 @@ public class CadastroActivity extends AppCompatActivity {
                     cadastrarChefDbAuth(chef);
 
                 }else {
-                    Toast.makeText(CadastroActivity.this,"Preencha a senha!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastroActivity.this, R.string.ponha_senha, Toast.LENGTH_SHORT).show();
                 }
 
             }else {
-                Toast.makeText(CadastroActivity.this,"Preencha o e-mail!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(CadastroActivity.this, R.string.ponha_email, Toast.LENGTH_SHORT).show();
             }
 
         }else {
-            Toast.makeText(CadastroActivity.this,"Preencha o nome!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(CadastroActivity.this, R.string.ponha_nome, Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -84,7 +84,9 @@ public class CadastroActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()){ //conseguiu cadastrar no FirebaseAuth
-                    Toast.makeText(CadastroActivity.this,"Bem-vindo, Chef. " + chef.getNome() + " Cadastro feito com sucesso!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(CadastroActivity.this,
+                            R.string.bem_vindo + chef.getNome() + R.string.cadastro_finalizado,
+                            Toast.LENGTH_LONG).show();
                     UsuarioFirebaseAuth.atualizarNomeChefAuth(chef.getNome()); //atualiza o nome no FirebaseAuth
 
 
@@ -107,16 +109,18 @@ public class CadastroActivity extends AppCompatActivity {
                     try{
                         throw task.getException();
                     }catch ( FirebaseAuthWeakPasswordException e){
-                        excecao = "Digite uma senha mais forte!";
+                        excecao =  getString(R.string.senha_fraca);
                     }catch (FirebaseAuthInvalidCredentialsException e){
-                        excecao = "Digite um e-mail válido";
+                        excecao = getString(R.string.email_invalido);
                     }catch (FirebaseAuthUserCollisionException e){
-                        excecao = "Esta conta já está cadastrada";
+                        excecao = getString(R.string.conta_jacadastrada);
                     }catch (Exception e){
-                        excecao ="Erro ao fazer o cadastro no sistema!" + e.getMessage();
+                        excecao = getString(R.string.erro_cadastro) + e.getMessage();
                         e.printStackTrace();
                     }
-                    Toast.makeText(CadastroActivity.this,excecao, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CadastroActivity.this,
+                            excecao,
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }

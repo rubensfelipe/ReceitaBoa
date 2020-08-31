@@ -58,7 +58,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
-            android:text="HMMM que fome!!!"
+            android:text="@string/que_fome"
             android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
@@ -69,7 +69,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:paddingTop="8dp"
-            android:text="Comece adicionando uma receita"
+            android:text="@string/texto_homem_geladeira"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A2AAB0" />
 

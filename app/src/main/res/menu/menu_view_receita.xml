@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/menuEdicao"
-        android:title="Editar"
+        android:title="@string/botao_editar"
         app:showAsAction="always"
         />
 
     <item android:id="@+id/menuApagar"
-        android:title="Deletar"
+        android:title="@string/botao_deletar"
         app:showAsAction="never"
         />
-
-
 
 </menu>

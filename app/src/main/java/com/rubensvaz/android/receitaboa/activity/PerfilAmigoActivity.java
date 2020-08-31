@@ -281,9 +281,9 @@ public class PerfilAmigoActivity extends AppCompatActivity {
     private void habilitarBotaoSeguir(boolean seguindoAmigo) {
 
         if (seguindoAmigo){
-            buttonAcaoPerfil.setText("Seguindo");
+            buttonAcaoPerfil.setText(R.string.botao_seguindo);
         }else {
-            buttonAcaoPerfil.setText("Seguir");
+            buttonAcaoPerfil.setText(R.string.botao_seguir);
 
             //Adicionar evento de seguir amigo
             buttonAcaoPerfil.setOnClickListener(new View.OnClickListener() {
@@ -312,7 +312,7 @@ public class PerfilAmigoActivity extends AppCompatActivity {
         seguidorRef.setValue(dadosChefLogado); //atualiza a contagem de seguidores do usuário logado
 
         //Alterar botão para seguindo
-        buttonAcaoPerfil.setText("Seguindo");
+        buttonAcaoPerfil.setText(R.string.botao_seguindo);
         buttonAcaoPerfil.setOnClickListener(null); //bloqueia o click no botão acao após o texto do botão setar para seguindo
 
         //Incrementar o contador Seguindo do chef logado
