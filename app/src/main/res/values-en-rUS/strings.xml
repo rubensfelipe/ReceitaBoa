@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GoodRecipe</string>
+    <string name="app_name">Good Recipe</string>
     <string name="dica_nome">Name</string>
     <string name="dica_senha">Password</string>
     <string name="botao_logar">Log-In</string>
@@ -70,4 +70,5 @@
     <string name="botao_deletar">Delete</string>
     <string name="receitaboa">Good Recipe</string>
     <string name="vamos_cozinhar">Let\'s Cook</string>
+    <string name="dica_email">E-mail</string>
 </resources>
