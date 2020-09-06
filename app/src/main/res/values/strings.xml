@@ -33,8 +33,7 @@
     <string name="foto_adicionada">Sua foto foi adicionada com sucesso!</string>
     <string name="dialog_titulo_carregando_foto">Carregando foto, aguarde.</string>
     <string name="foto_carregada">Foto carregada com sucesso.</string>
-    <string name="dialog_titulo_devo_adicionar_foto_receita">Foto Receita</string>
-    <string name="dialog_msg_devo_adicionar_foto_receita">Quer adicionar a foto da sua Receita agora?   Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.</string>
+    <string name="dialog_msg_devo_adicionar_foto_receita">Quer adicionar a foto da sua Receita agora? Se não tiver a foto ainda, não se preocupe, você pode adicioná-la após preparar a sua receita.</string>
 
     <string name="pagina_web_politicas_privacidade" translatable="false">https://rubensfelipevaz.wixsite.com/politicas-receitaboa</string>
     <string name="edit_serve">Serve</string>
@@ -88,7 +87,6 @@
     <string name="politicas">Políticas de Privacidade</string>
     <string name="sair">Sair</string>
     <string name="dica_add_ingredientes">Adicione aqui os ingredientes!</string>
-    <string name="dica_add_modoPreparo">Adicione aqui o modo de preparo!</string>
     <string name="sim">Sim</string>
     <string name="nao">Não</string>
     <string name="botao_editar">Editar</string>
@@ -97,5 +95,7 @@
     <string name="receitaboa">Receita Boa</string>
     <string name="dica_email">E-mail</string>
     <string name="nova_receita_adicionada">Sua Receita Boa foi adicionada com sucesso!</string>
+    <string name="dialog_titulo_devo_adicionar_foto_receita">Foto Receita</string>
+    <string name="dica_add_modoPreparo">Adicione aqui o Modo de Preparo!</string>
 
 </resources>
