@@ -88,13 +88,11 @@ public class UsuarioFirebaseAuth {
         chef.setNome(chefAuth.getDisplayName());
 
         if(chefAuth.getPhotoUrl() == null){
-            chef.setUrlFotoChefAuth("");  //caso o chef não tenha selecionado uma foto de perfil, seta o caminho da foto como vazio
+            chef.setUrlFotoChefAuth("https://firebasestorage.googleapis.com/v0/b/receita-boa-b409e.appspot.com/o/imagens%2Fperfil%2Favatar.jpg?alt=media&token=13e9ff79-8869-496f-985e-fd30e4d091b0");  //caso o chef não tenha selecionado uma foto de perfil, seta o caminho da foto como vazio
         }else {
             chef.setUrlFotoChefAuth(chefAuth.getPhotoUrl().toString()); //recupera o caminho da foto do chef, foto de perfil, do FirebaseAuth e seta este caminho da foto na Classe Chef
         }
         return chef;
     }
-
-
 
 }

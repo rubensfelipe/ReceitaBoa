@@ -23,7 +23,8 @@ import java.util.Map;
 public class Postagem implements Serializable { //Serializable passar dados entre activities (getExtra,putExtra)
 
     private String id;
-    private String idUsuario;
+    private String idChef;
+    private String idReceita;
     private String urlPostagem;
     private String dataPostagem;
 
@@ -44,40 +45,54 @@ public class Postagem implements Serializable { //Serializable passar dados entr
     public boolean salvar(DataSnapshot seguidoresSnapshot){ //salva a postagem para o usuario logado e para seus seguidores
 
         Map objeto = new HashMap();
-        Chef chefLogado = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
 
+        Chef chefLogado = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
         DatabaseReference firebaseRef = ConfiguracaoFirebase.getFirebaseDatabase();
 
         //Referencia para postagem
         String combinacaoId = "/" + getIdChef() + "/" + getId(); //idUsurio + idPostagem
-        objeto.put("/postagens" + combinacaoId, this); // = firebaseRef.child("postagens").child(getIdUsuario()); this: esta postagem
+        objeto.put("/postagens" + combinacaoId, this); // = firebaseRef.child("postagens").child(getIdUsuario()); this: salva todos os dados dessa classe
 
-        //Referencia para postagem (espalhamento da msma informação para varios nós)
+        //Monta objeto para salvar
+        HashMap<String, Object> dadosPostagemFeed = new HashMap<>();
+        dadosPostagemFeed.put("fotoPostagem", getUrlPostagem());
+        dadosPostagemFeed.put("dataPostagem", getDataPostagem());
+        dadosPostagemFeed.put("idPostagem", getId()); //idPostagem
+        dadosPostagemFeed.put("nomeChef", chefLogado.getNome()); //dados do nome do usuario que postou a foto
+
+        if (chefLogado.getUrlFotoChef() != null)
+        dadosPostagemFeed.put("fotoUsuario", chefLogado.getUrlFotoChef()); //foto de perfil do usuario que postou a foto no seu feed
+
+        dadosPostagemFeed.put("idReceita", getIdReceita());
+        dadosPostagemFeed.put("nomeReceita", getNomeReceita());
+        dadosPostagemFeed.put("ingredientes", getIngredientes());
+        dadosPostagemFeed.put("modoPreparo", getModoPreparo());
+        dadosPostagemFeed.put("qtdPessoasServidas", getQtdPessoasServidas());
+
+        //Referencia para postagem (armazenamento da msma informação para varios nó, no caso os seguidores do perfil que postou a foto)
         for (DataSnapshot seguidores : seguidoresSnapshot.getChildren() ){ //recupera os seguidores do usuario logado (tree: feed->id_meu_seguidor->id-postagem->minha postagem)
 
             String idSeguidor = seguidores.getKey(); //recupera na tree q é o id do seguidor
 
-            //Monta objeto para salvar
-            HashMap<String, Object> dadosSeguidor = new HashMap<>();
-            dadosSeguidor.put("fotoPostagem", getUrlPostagem());
-            dadosSeguidor.put("dataPostagem", getDataPostagem());
-            dadosSeguidor.put("idPostagem", getId()); //idPostagem
-            dadosSeguidor.put("nomeChef", chefLogado.getNome()); //dados do nome do usuario que postou a foto
-            dadosSeguidor.put("fotoUsuario", chefLogado.getUrlFotoChef()); //foto de perfil do usuario que postou a foto no seu feed
-
-            dadosSeguidor.put("nomeReceita", getNomeReceita());
-            dadosSeguidor.put("ingredientes", getIngredientes());
-            dadosSeguidor.put("modoPreparo", getModoPreparo());
-            dadosSeguidor.put("qtdPessoasServidas", getQtdPessoasServidas());
-
             String idsAtualizacao = "/" + idSeguidor + "/" + getId(); //idMeuSeguidor + idPostagem
-            objeto.put("/feed" + idsAtualizacao, dadosSeguidor); //local onde eu quero salvar as postagens será salva nessa variável dadosSeguidor
+            objeto.put("/feed" + idsAtualizacao, dadosPostagemFeed); //local onde eu quero salvar as postagens. Será salva nessa variável dadosPostagemFeed
 
         }
 
-        firebaseRef.updateChildren(objeto);
-        return true;
+            //a postagem do chef logado também aparecerá no feed dele, além de aparecer no feed dos seguidores
+            objeto.put("/feed/" + getIdChef() + "/" + getId(), dadosPostagemFeed); //local onde eu quero salvar as postagens será salva nessa variável dadosPostagemFeed
 
+            firebaseRef.updateChildren(objeto);
+            return true;
+
+    }
+
+    public String getIdReceita() {
+        return idReceita;
+    }
+
+    public void setIdReceita(String idReceita) {
+        this.idReceita = idReceita;
     }
 
     public String getDataPostagem() {
@@ -97,11 +112,11 @@ public class Postagem implements Serializable { //Serializable passar dados entr
     }
 
     public String getIdChef() {
-        return idUsuario;
+        return idChef;
     }
 
     public void setIdChef(String idUsuario) {
-        this.idUsuario = idUsuario;
+        this.idChef = idUsuario;
     }
 
     public String getNomeReceita() {

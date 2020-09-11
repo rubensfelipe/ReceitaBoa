@@ -9,10 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.rubensfelipe.android.receitaboa.R;
+import com.rubensvaz.android.receitaboa.activity.ComentariosActivity;
 import com.rubensvaz.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.rubensvaz.android.receitaboa.model.Feed;
 
@@ -46,16 +48,34 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
         final Feed feed = listaFeed.get(position);
 
         //Carrega dados do feed
-        Uri uriFotoChef = Uri.parse(feed.getFotoUsuario());
-        Uri uriFotoPostagem = Uri.parse(feed.getFotoPostagem());
+        /*Uri uriFotoChef = Uri.parse(feed.getFotoUsuario());
+        Glide.with(context).load(uriFotoChef).into(holder.fotoPerfil);*/
 
-        Glide.with(context).load(uriFotoChef).into(holder.fotoPerfil);
+        Uri uriFotoPostagem = Uri.parse(feed.getFotoPostagem());
         Glide.with(context).load(uriFotoPostagem).into(holder.fotoPostagem);
+
+        if(feed.getFotoUsuario() != null){
+            Uri uriFotoChef = Uri.parse(feed.getFotoUsuario()); //String -> Uri
+            Glide.with(context).load(uriFotoChef).into(holder.fotoPerfil);
+        }else {
+            //holder.fotoPerfil.setImageResource(R.drawable.avatar); //estava dando erro
+            holder.fotoPerfil.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.avatar));
+        }
 
         holder.nomeReceita.setText(feed.getNomeReceita());
         holder.nomeChef.setText(feed.getNomeChef());
 
         holder.dataPostagem.setText(feed.getDataPostagem());
+
+        //Adiciona evento de clique nos comentários
+        holder.visualizarComentario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, ComentariosActivity.class);
+                i.putExtra("idPostagem", feed.getIdPostagem());
+                context.startActivity(i); //método que é utilizado em adapters
+            }
+        });
 
         eventoClickPostagem(holder, position);
 
@@ -89,7 +109,7 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
 
      CircleImageView fotoPerfil;
      TextView nomeChef, nomeReceita, dataPostagem;
-     ImageView fotoPostagem;
+     ImageView fotoPostagem, visualizarComentario;
 
          public MyViewHolder(View itemView){
              super(itemView);
@@ -99,6 +119,8 @@ public class AdapterFeed extends RecyclerView.Adapter<AdapterFeed.MyViewHolder> 
              fotoPostagem = itemView.findViewById(R.id.ivPostagem);
              nomeChef = itemView.findViewById(R.id.tvNomeChefFeed);
              nomeReceita = itemView.findViewById(R.id.tvNomeReceitaFeed);
+
+             visualizarComentario = itemView.findViewById(R.id.comentariosFeed);
 
          }
 

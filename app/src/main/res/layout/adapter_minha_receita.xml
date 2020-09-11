@@ -14,6 +14,8 @@
         android:paddingTop="4dp"
         android:orientation="horizontal">
 
+
+
         <TextView
             android:id="@+id/textNomeReceitaPerfil"
             android:layout_width="wrap_content"
@@ -41,6 +43,17 @@
             android:gravity="center"
             android:text="10"
             android:textSize="18sp" />
+
+        <!--
+        <ImageView
+            android:id="@+id/comentariosMR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="8dp"
+            app:srcCompat="@drawable/ic_comment_azul_24" />
+            -->
 
     </LinearLayout>
 

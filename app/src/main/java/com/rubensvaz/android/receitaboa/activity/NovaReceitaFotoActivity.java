@@ -81,12 +81,13 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
     private void regastarDadosReceita() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
+
             idReceita = (String) bundle.getSerializable("idReceita");
             nomeReceita = (String) bundle.getSerializable("nome");
-
             ingredientes = (String) bundle.getSerializable("ingredientes");
             modoPreparo = (String) bundle.getSerializable("modoPreparo");
             qtdPessoasServidas = (String) bundle.getSerializable("qtdPessoasServidas");
+
         }
     }
 
@@ -311,6 +312,7 @@ public class NovaReceitaFotoActivity extends AppCompatActivity {
         postagem.setUrlPostagem(caminhoReceita.toString());
         postagem.setDataPostagem(DateCustom.dataAtual());
 
+        postagem.setIdReceita(idReceita);
         postagem.setNomeReceita(nomeReceita);
         postagem.setIngredientes(ingredientes);
         postagem.setModoPreparo(modoPreparo);

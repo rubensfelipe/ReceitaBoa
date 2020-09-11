@@ -2,6 +2,7 @@ package com.rubensvaz.android.receitaboa.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.rubensvaz.android.receitaboa.model.Postagem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +37,7 @@ public class FeedFragment extends Fragment {
     private RecyclerView recyclerFeed;
     private String idUsuarioLogado;
     private DatabaseReference feedRef;
+    private DatabaseReference postagensRef;
     private AdapterFeed adapterFeed;
 
     private ProgressBar progressBarFeed;
@@ -68,16 +71,24 @@ public class FeedFragment extends Fragment {
         listandoFeed();
     }
 
-    private void configuracoesIniciais() {
-        idUsuarioLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth();
-        feedRef = ConfiguracaoFirebase.getFirebaseDatabase()
-                .child("feed")
-                .child(idUsuarioLogado);
-    }
-
     private void inicializarComponentes(View visto) {
         progressBarFeed = visto.findViewById(R.id.progressBarFeed);
         recyclerFeed = visto.findViewById(R.id.recyclerFeed);
+    }
+
+    private void configuracoesIniciais() {
+
+        idUsuarioLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        DatabaseReference firebase = ConfiguracaoFirebase.getFirebaseDatabase();
+
+        feedRef = firebase
+                .child("feed")
+                .child(idUsuarioLogado);
+
+        postagensRef = firebase
+                .child("postagens")
+                .child(idUsuarioLogado);
+
     }
 
     private void configurarAdapterMaisRecyclerView() {
@@ -119,6 +130,31 @@ public class FeedFragment extends Fragment {
 
     }
     */
+
+    //listando Posts do Usuário Logado no Feed dele (necessário para visualizar os comentários nas receitas dele)
+    /*private void recuperandoIdPostagensUsuarioLogado(){
+
+        valueEventListenerMinhasPostagens = postagensRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                progressBarFeed.setVisibility(View.VISIBLE);
+
+                for (DataSnapshot ds : snapshot.getChildren()){
+
+                    listaIdPostagens.add(ds.getKey());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }*/
+
     private void listandoFeed() {
 
         //limpar lista (evita repetição ao sair da tela de feed)

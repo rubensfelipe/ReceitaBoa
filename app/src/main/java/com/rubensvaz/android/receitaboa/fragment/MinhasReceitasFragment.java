@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.rubensfelipe.android.receitaboa.R;
+import com.rubensvaz.android.receitaboa.activity.ComentariosActivity;
 import com.rubensvaz.android.receitaboa.activity.NovaReceitaInfoActivity;
 import com.rubensvaz.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.rubensvaz.android.receitaboa.adapter.ReceitasAdapter;
@@ -49,6 +50,7 @@ public class MinhasReceitasFragment extends Fragment {
     private ReceitasAdapter adapterMR;
 
     private ImageView fabMiniChef;
+    private ImageView comentariosMR;
     private View emptyFridgeView;
     private ProgressBar progressBarCard;
 
@@ -102,9 +104,12 @@ public class MinhasReceitasFragment extends Fragment {
         emptyFridgeView = vista.findViewById(R.id.emptyLayoutFridgeView); //Linear Layout contendo a imagem e as frases da geladeira
         recyclerReceitas = vista.findViewById(R.id.recyclerViewReceitas);
         fabMiniChef = vista.findViewById(R.id.fab);
+
+        /*comentariosMR = vista.findViewById(R.id.comentariosMR);*/
     }
 
     private void configuracoesIniciais() {
+
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
 
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
@@ -214,7 +219,8 @@ public class MinhasReceitasFragment extends Fragment {
 
                 progressBarCard.setVisibility(View.GONE);
 
-                listaEmOrdemAlfabetica();
+                //listaEmOrdemAlfabetica();
+                Collections.reverse(listaMR); //reverte a ordem da lista (para que q sempre apareça primeiro a ultima postagem)
                 adapterMR.notifyDataSetChanged();
             }
 

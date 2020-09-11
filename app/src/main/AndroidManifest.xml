@@ -2,13 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.rubensfelipe.android.receitaboa">
     <!-- necessario usuario ter uma camera para baixar meu app -->
-
     <!--
+incopatibilidade com os celulares se essa função estiver ativada
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="true" />
-        -->
-
+    -->
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="false" />
@@ -26,7 +25,7 @@
         android:roundIcon="@mipmap/ic_receitaboa_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name="com.rubensvaz.android.receitaboa.activity.ComentariosActivity"></activity>
         <!-- Configurar como vertical a cada nova atividade criada -->
         <activity
             android:name="com.rubensvaz.android.receitaboa.activity.EditarReceitaActivity"
@@ -49,7 +48,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="com.rubensvaz.android.receitaboa.activity.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.rubensvaz.android.receitaboa.activity.CadastroActivity"
             android:screenOrientation="portrait" />

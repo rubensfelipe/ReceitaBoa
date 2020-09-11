@@ -176,7 +176,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private void feedReceitaDados(Feed receitaFeedClicada) {
 
-        idPostagem = receitaFeedClicada.getId();
+        idPostagem = receitaFeedClicada.getIdPostagem();
 
         nomeReceitaClicada = receitaFeedClicada.getNomeReceita();
         textNomeReceita.setText(nomeReceitaClicada);

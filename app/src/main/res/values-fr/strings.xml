@@ -32,7 +32,7 @@
     <string name="ponha_email">Remplissez l\'email!</string>
     <string name="ponha_nome">Remplissez le nom!</string>
     <string name="bem_vindo">"Bienvenue, Chef. "</string>
-    <string name="cadastro_finalizado">Inscription réussi!</string>
+    <string name="cadastro_finalizado">" Inscription réussi!"</string>
     <string name="senha_fraca">Entrez un mot de passe plus fort!</string>
     <string name="conta_jacadastrada">Ce compte est déjà enregistré</string>
     <string name="erro_cadastro">Erreur lors de l\'enregistrement dans le système!</string>
@@ -71,4 +71,7 @@
     <string name="receitaboa">Bonne Recette</string>
     <string name="dica_email">Email</string>
     <string name="nova_receita_adicionada">Votre bonne recette a été ajoutée avec succès!</string>
+    <string name="titulo_toolbar">Bonne Recette</string>
+    <string name="comentario_enviado">Commentaire envoyé avec succès!</string>
+    <string name="comentario_vazio">Insérez un commentaire avant d\'envoyer le message!</string>
 </resources>

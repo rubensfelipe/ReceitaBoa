@@ -167,7 +167,8 @@ public class ReceitasUsuariosFragment extends Fragment {
 
                     progressBarReceitas.setVisibility(View.GONE);
 
-                    listaEmOrdemAlfabetica();
+                    //listaEmOrdemAlfabetica();
+                    Collections.reverse(listaReceitas); //reverte a ordem da lista (para que q sempre apareça primeiro a ultima postagem)
                     adapterReceitas.notifyDataSetChanged();
                 }
 

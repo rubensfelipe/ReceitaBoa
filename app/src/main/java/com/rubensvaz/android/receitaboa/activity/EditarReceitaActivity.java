@@ -414,6 +414,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
         postagem.setUrlPostagem(caminhoReceita);
         postagem.setDataPostagem(DateCustom.dataAtual());
 
+        postagem.setIdReceita(receitaId);
         postagem.setNomeReceita(receitaNome);
         postagem.setIngredientes(receitaIngredientes);
         postagem.setModoPreparo(receitaModoPreparo);
@@ -426,6 +427,7 @@ public class EditarReceitaActivity extends AppCompatActivity {
                     getString(R.string.toast_salvar_postagem),
                     Toast.LENGTH_SHORT).show();
             finish(); //após publicar a foto, a activity filtro é encerrada
+
         }
     }
 

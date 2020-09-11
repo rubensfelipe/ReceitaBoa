@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.DialogInterface;
@@ -131,7 +132,8 @@ public class ConfiguracoesActivity extends AppCompatActivity {
                     .load(urlAuth) //carrega o caminho da foto que foi recuperado da classe FirebaseUser
                     .into(circleImageViewPerfil);
         }else {
-            circleImageViewPerfil.setImageResource(R.drawable.avatar);
+            //circleImageViewPerfil.setImageResource(R.drawable.avatar);
+            circleImageViewPerfil.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.avatar));
         }
 
         //carrega o nome do usuário na editText

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -53,7 +54,8 @@ public class BuscaAmigosAdapter extends RecyclerView.Adapter<BuscaAmigosAdapter.
             Uri uriFotoChef = Uri.parse(chef.getUrlFotoChef()); //String -> Uri
             Glide.with(context).load(uriFotoChef).into(holder.fotoAmigo);
         }else {
-            holder.fotoAmigo.setImageResource(R.drawable.avatar);
+            //holder.fotoAmigo.setImageResource(Integer.parseInt("drawable://" + R.drawable.avatar));
+            holder.fotoAmigo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.avatar));
         }
 
 

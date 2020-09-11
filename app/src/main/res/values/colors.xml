@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorBlueDark">#ff0099cc</color>
     <color name="cinza_claro">#EEEEEE</color>
     <color name="colorHintGraySoft">#A9B0B1</color>
+
+    <!--cores base do app-->
+    <color name="azul_light">#33b5e5</color>
+    <color name="azul_bright">#00ddff</color>
+    <color name="azul_dark">#0099cc</color>
+
 </resources>

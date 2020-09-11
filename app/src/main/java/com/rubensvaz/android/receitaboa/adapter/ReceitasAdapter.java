@@ -52,8 +52,6 @@ public class ReceitasAdapter extends RecyclerView.Adapter<ReceitasAdapter.MyView
         holder.nomeReceita.setText(receita.getNome());
         holder.qtdPessoasServidas.setText(receita.getQtdPessoasServidas());
 
-
-
         if (receita.getUrlFotoReceita() != null){
             //Recupera o caminho da foto da receita
             Uri uriFotoReceita = Uri.parse(receita.getUrlFotoReceita());

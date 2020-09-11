@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private void configurarToolbar() {
 
         Toolbar toolbar = findViewById(R.id.toolbarPrincipal);
-        toolbar.setTitle("Receita Boa");
+        toolbar.setTitle(R.string.titulo_toolbar);
         setSupportActionBar(toolbar);
 
     }

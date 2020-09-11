@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Feed implements Serializable  {
 
-    private String id;
+    private String idPostagem;
 
     private String fotoPostagem;
     private String dataPostagem;
@@ -12,12 +12,21 @@ public class Feed implements Serializable  {
 
     private String fotoUsuario;
 
+    private String idReceita;
     private String nomeReceita;
     private String ingredientes;
     private String modoPreparo;
     private String qtdPessoasServidas;
 
     public Feed() {
+    }
+
+    public String getIdReceita() {
+        return idReceita;
+    }
+
+    public void setIdReceita(String idReceita) {
+        this.idReceita = idReceita;
     }
 
     public String getDataPostagem() {
@@ -52,12 +61,12 @@ public class Feed implements Serializable  {
         this.qtdPessoasServidas = qtdPessoasServidas;
     }
 
-    public String getId() { //pega o id da postagem no Feed
-        return id;
+    public String getIdPostagem() { //pega o id da postagem no Feed
+        return idPostagem;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIdPostagem(String idPostagem) {
+        this.idPostagem = idPostagem;
     }
 
     public String getFotoPostagem() {

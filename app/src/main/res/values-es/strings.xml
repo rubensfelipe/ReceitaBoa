@@ -35,7 +35,7 @@
     <string name="ponha_email">¡Rellena el correo!</string>
     <string name="ponha_nome">¡Rellena el nombre!</string>
     <string name="bem_vindo">"Bienvenido, Chef. "</string>
-    <string name="cadastro_finalizado">¡Cadastro hecho con éxito!</string>
+    <string name="cadastro_finalizado">" ¡Cadastro hecho con éxito!"</string>
     <string name="senha_fraca">¡Usa una contraseña más fuerte!</string>
     <string name="conta_jacadastrada">Esta cuenta ya está cadastrada</string>
     <string name="erro_cadastro">¡Error al hacer el cadastro en el sistema!</string>
@@ -72,5 +72,8 @@
     <string name="botao_deletar">Borrar</string>
     <string name="vamos_cozinhar">Cocinemos</string>
     <string name="receitaboa">Receta Rica</string>
+    <string name="titulo_toolbar">Receta Rica</string>
+    <string name="comentario_enviado">" ¡Comentario enviado con éxito!"</string>
+    <string name="comentario_vazio">¡Inserta un comentario antes de enviar el mensaje!</string>
 
 </resources>

@@ -97,5 +97,8 @@
     <string name="nova_receita_adicionada">Sua Receita Boa foi adicionada com sucesso!</string>
     <string name="dialog_titulo_devo_adicionar_foto_receita">Foto Receita</string>
     <string name="dica_add_modoPreparo">Adicione aqui o Modo de Preparo!</string>
+    <string name="titulo_toolbar">Receita Boa</string>
+    <string name="comentario_enviado">Comentário enviado com sucesso!</string>
+    <string name="comentario_vazio">Insira um comentário antes de enviar a mensagem!</string>
 
 </resources>
