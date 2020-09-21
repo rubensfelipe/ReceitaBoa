@@ -31,8 +31,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import retrofit2.http.FormUrlEncoded;
-
 /**
  * A simple {@link Fragment} subclass.
  */

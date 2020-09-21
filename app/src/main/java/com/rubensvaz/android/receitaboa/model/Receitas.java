@@ -45,7 +45,7 @@ public class Receitas implements Serializable {
         HashMap<String, Object> dadosUltimaPostagem = new HashMap<>();
 
         //recuperar os dados
-        dadosUltimaPostagem.put("nomeReceita", getNome());
+        dadosUltimaPostagem.put("nome", getNome());
         dadosUltimaPostagem.put("ingredientes", getIngredientes());
         dadosUltimaPostagem.put("modoPreparo", getModoPreparo());
         dadosUltimaPostagem.put("qtdPessoasServidas", getQtdPessoasServidas());

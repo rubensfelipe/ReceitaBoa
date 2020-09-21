@@ -35,7 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.rubensfelipe.android.receitaboa.R;
 import com.rubensvaz.android.receitaboa.api.NotificationService;
-import com.rubensvaz.android.receitaboa.fragment.ReceitasUsuariosFragment;
 import com.rubensvaz.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.rubensvaz.android.receitaboa.helper.Permissao;
 import com.rubensvaz.android.receitaboa.helper.UsuarioFirebaseAuth;

@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.rubensfelipe.android.receitaboa.R;
-import com.rubensvaz.android.receitaboa.activity.ComentariosActivity;
 import com.rubensvaz.android.receitaboa.activity.NovaReceitaInfoActivity;
 import com.rubensvaz.android.receitaboa.activity.VisualizarReceitaActivity;
 import com.rubensvaz.android.receitaboa.adapter.ReceitasAdapter;
