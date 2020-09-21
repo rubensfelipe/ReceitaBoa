@@ -8,11 +8,16 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.rubensfelipe.android.receitaboa.R;
 import com.rubensvaz.android.receitaboa.fragment.AmigosFragment;
 import com.rubensvaz.android.receitaboa.fragment.FeedFragment;
@@ -25,6 +30,7 @@ import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems;
+import com.rubensvaz.android.receitaboa.model.Chef;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public MaterialSearchView searchView;
     private ViewPager viewPager;
     private FragmentPagerItemAdapter adapter;
+
+    private Chef chef = new Chef();
 
     //public boolean iconePesquisaClicado = false;
 
@@ -61,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
 
         eventoFecharPesquisa(viewPager, adapter);
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarTokenCelUsuario();
     }
 
     private void configuracaoInicial() {
@@ -282,9 +296,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void recuperarTokenCelUsuario() {
+
+        //recuperar token celular do usuário, ou seja, id do celular
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+            @Override
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                String token = instanceIdResult.getToken();
+                chef.setTokenCel(token);
+
+                chef.salvarTokenDadosUsuario();
+            }
+        });
+
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
         searchView.closeSearch();
     }
+
+
 }

@@ -74,4 +74,6 @@
     <string name="titulo_toolbar">Good Recipe</string>
     <string name="comentario_enviado">Comment sent successfully!</string>
     <string name="comentario_vazio">Insert a comment before sending the message!</string>
+    <string name="notification_title">New Recipe on the App!</string>
+    <string name="notification_body">" added a new recipe to Good Recipe, come check it out!"</string>
 </resources>

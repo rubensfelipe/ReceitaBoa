@@ -74,4 +74,6 @@
     <string name="titulo_toolbar">Bonne Recette</string>
     <string name="comentario_enviado">Commentaire envoyé avec succès!</string>
     <string name="comentario_vazio">Insérez un commentaire avant d\'envoyer le message!</string>
+    <string name="notification_title">Nouvelle recette dans l\'application!</string>
+    <string name="notification_body">" a ajouté une nouvelle recette à Bonne Recette, venez la découvrir!"</string>
 </resources>

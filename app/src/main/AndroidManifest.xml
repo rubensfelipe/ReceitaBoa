@@ -25,7 +25,20 @@ incopatibilidade com os celulares se essa função estiver ativada
         android:roundIcon="@mipmap/ic_receitaboa_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.rubensvaz.android.receitaboa.activity.ComentariosActivity"></activity>
+
+        <!-- Classe que gerencia as notificações recebidas -->
+        <service
+            android:name="com.rubensvaz.android.receitaboa.services.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service> <!-- Adiciona um icone para as notificações -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_chef_24dp" />
+
+        <activity android:name="com.rubensvaz.android.receitaboa.activity.ComentariosActivity"/>
         <!-- Configurar como vertical a cada nova atividade criada -->
         <activity
             android:name="com.rubensvaz.android.receitaboa.activity.EditarReceitaActivity"

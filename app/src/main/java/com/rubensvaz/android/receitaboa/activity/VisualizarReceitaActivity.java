@@ -49,6 +49,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
     private DatabaseReference firebaseDbRef;
     private DatabaseReference receitasRef;
+    private DatabaseReference ultimaPostagemRef;
     private DatabaseReference receitasChefRef;
 
     public static Activity atividadeAberta;
@@ -104,6 +105,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
         firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         receitasRef = firebaseDbRef.child("receitas");
+        ultimaPostagemRef = firebaseDbRef.child("ultimasPostagens");
         idChefLogado = UsuarioFirebaseAuth.getIdentificadorChefAuth(); //id do chef logado (emailAuth convertido em base64)
 
         //Configurar referência receitas do chef logado
@@ -236,10 +238,14 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     }
 
     private void excluirReceita() {
+
         receitasChefRef.child(idReceitaClicada).removeValue();
+        ultimaPostagemRef.child(idReceitaClicada).removeValue();
+
         Toast.makeText(VisualizarReceitaActivity.this,
                 "A " + getString(R.string.receita) + nomeReceitaClicada + getString(R.string.excluida),
                 Toast.LENGTH_SHORT).show();
+
         finish();
     }
 

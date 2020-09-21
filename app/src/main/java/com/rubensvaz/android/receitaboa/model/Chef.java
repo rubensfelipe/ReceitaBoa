@@ -19,6 +19,8 @@ public class Chef implements Serializable {
     private int seguidores = 0;
     private int seguindo = 0;
 
+    private String tokenCel;
+
     private DatabaseReference database;
     private String identificadorChef;
 
@@ -31,6 +33,7 @@ public class Chef implements Serializable {
         DatabaseReference chef = firebaseRef.child("chefs").child(getId()); //tree (receita-boa-asd -> chefs -> idChef(Base64)
 
         chef.setValue(this); //salva todos os dados da Classe Chef dentro do caminho do chef  (salvo FirebaseDatabase [nome chef, email])
+
     }
 
     //Adiciona novos dados e reescreve os dados antigos que não sofreram alteração no FirebaseDatabase
@@ -59,6 +62,21 @@ public class Chef implements Serializable {
         return  usuarioMap;
     }
 
+    public void salvarTokenDadosUsuario(){
+
+        identificadorChef = UsuarioFirebaseAuth.getIdentificadorChefAuth();
+        database = ConfiguracaoFirebase.getFirebaseDatabase(); //instacia o FirebaseDatabase
+
+        DatabaseReference chefsRef = database.child("chefs")
+                .child(identificadorChef); //os dados serão atualizados dentro do nó idChef
+
+        HashMap<String,Object> tokenChef = new HashMap<>();
+        tokenChef.put("tokenCel", getTokenCel());
+
+        chefsRef.updateChildren(tokenChef);
+
+    }
+
     /*
     public void atualizarContadorPostagem(){
 
@@ -76,6 +94,13 @@ public class Chef implements Serializable {
     }
      */
 
+    public String getTokenCel() {
+        return tokenCel;
+    }
+
+    public void setTokenCel(String tokenCel) {
+        this.tokenCel = tokenCel;
+    }
 
     public String getUrlFotoChef() {
         return urlFotoChef;

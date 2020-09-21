@@ -75,5 +75,7 @@
     <string name="titulo_toolbar">Receta Rica</string>
     <string name="comentario_enviado">" ¡Comentario enviado con éxito!"</string>
     <string name="comentario_vazio">¡Inserta un comentario antes de enviar el mensaje!</string>
+    <string name="notification_title">¡Nueva receta en la aplicación!</string>
+    <string name="notification_body">" agregó una nueva receta a Receita Boa, ¡ven a verla!"</string>
 
 </resources>

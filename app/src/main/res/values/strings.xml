@@ -101,4 +101,8 @@
     <string name="comentario_enviado">Comentário enviado com sucesso!</string>
     <string name="comentario_vazio">Insira um comentário antes de enviar a mensagem!</string>
 
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <string name="notification_title">Nova Receita Adicionada!</string>
+    <string name="notification_body">" adicionou uma nova receita ao Receita Boa, venha conferir!"</string>
+
 </resources>

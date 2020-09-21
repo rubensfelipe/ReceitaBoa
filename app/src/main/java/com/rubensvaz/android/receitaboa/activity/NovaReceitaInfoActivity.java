@@ -25,15 +25,34 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.rubensfelipe.android.receitaboa.R;
+import com.rubensvaz.android.receitaboa.api.NotificationService;
+import com.rubensvaz.android.receitaboa.fragment.ReceitasUsuariosFragment;
+import com.rubensvaz.android.receitaboa.helper.ConfiguracaoFirebase;
 import com.rubensvaz.android.receitaboa.helper.Permissao;
 import com.rubensvaz.android.receitaboa.helper.UsuarioFirebaseAuth;
 import com.rubensvaz.android.receitaboa.model.Chef;
+import com.rubensvaz.android.receitaboa.model.Notificacao;
+import com.rubensvaz.android.receitaboa.model.NotificacaoDados;
 import com.rubensvaz.android.receitaboa.model.Receitas;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.rubensvaz.android.receitaboa.helper.UsuarioFirebaseAuth.getChefAtualAuth;
 
@@ -59,6 +78,13 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
     private Chef dadosChef;
     private FirebaseUser chefAuth;
 
+    private DatabaseReference firebase;
+    private DatabaseReference chefsRef;
+
+    private List<String> listaTokens = new ArrayList<>();
+
+    private Retrofit retrofit;
+    private String baseUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +94,53 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         //referenciando a Activity
         atividadeAberta = this;
 
+        inicializarComponentes();
+
         configuracoesIniciais();
 
-        inicializarComponentes();
+        configuracaoNotificacoes();
+
+    }
+
+    private void configuracaoNotificacoes() {
+
+        baseUrl = "https://fcm.googleapis.com/fcm/";
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarTokens();
+    }
+
+    private void recuperarTokens() {
+
+        chefsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for (DataSnapshot ds: snapshot.getChildren()){
+
+                    Chef chefToken = ds.getValue(Chef.class);
+
+                    String tokenCel = chefToken.getTokenCel();
+
+                    if (tokenCel != null)
+                    listaTokens.add(tokenCel);
+
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
 
@@ -79,6 +149,9 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         dadosChef = UsuarioFirebaseAuth.getDadosChefLogadoAuth();
 
         chefAuth = getChefAtualAuth();
+
+        firebase = ConfiguracaoFirebase.getFirebaseDatabase();
+        chefsRef = firebase.child("chefs");
     }
 
     private void inicializarComponentes() {
@@ -191,6 +264,8 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                enviarNotificacao();
+
                 dialog.cancel();
 
                 //Validar permissões (para acesso da camera e da galeria de fotos do usuário)
@@ -203,6 +278,7 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
                 i.putExtra("ingredientes", minhasReceitas.getIngredientes());
                 i.putExtra("modoPreparo", minhasReceitas.getModoPreparo());
                 i.putExtra("qtdPessoasServidas", minhasReceitas.getQtdPessoasServidas());
+
                 startActivity(i);
 
             }
@@ -216,6 +292,8 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
+                enviarNotificacao();
+
                 Toast.makeText(getApplicationContext(),
                         getApplicationContext().getString(R.string.nova_receita_adicionada),
                         Toast.LENGTH_SHORT).show();
@@ -225,5 +303,42 @@ public class NovaReceitaInfoActivity extends AppCompatActivity {
         });
 
     }
+
+
+    public void enviarNotificacao() { //envia notificacao para o firebase
+
+        for (String tokenCel : listaTokens) {
+
+                String to = tokenCel;
+
+                //Monta objeto notificação
+                Notificacao notificacao = new Notificacao( getString(R.string.notification_title), chefAuth.getDisplayName() + getString(R.string.notification_body) );
+                NotificacaoDados notificacaoDados = new NotificacaoDados(to, notificacao);
+
+                NotificationService service = retrofit.create(NotificationService.class);
+                Call<NotificacaoDados> call = service.salvarNotificacao(notificacaoDados);
+
+            call.enqueue(new Callback<NotificacaoDados>() {
+                @Override
+                public void onResponse(Call<NotificacaoDados> call, Response<NotificacaoDados> response) {
+
+                    if (response.isSuccessful()) {
+
+                        /*Intent i = new Intent(getApplicationContext(), ReceitasUsuariosFragment.class);
+                        startActivity(i);*/
+
+                        //Toast.makeText(NovaReceitaInfoActivity.this, "Notificação enviada", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<NotificacaoDados> call, Throwable t) {
+
+                }
+            });
+        }
+    }
+
 
 }

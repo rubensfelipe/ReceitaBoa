@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import retrofit2.http.FormUrlEncoded;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -49,6 +51,7 @@ public class ReceitasUsuariosFragment extends Fragment {
     private DatabaseReference firebaseDbRef;
     private DatabaseReference amigosRef;
     private DatabaseReference receitasRef;
+    private DatabaseReference ultimasPostagensRef;
     private String idChefLogado;
 
     private ValueEventListener valueEventListenerRA;
@@ -96,6 +99,9 @@ public class ReceitasUsuariosFragment extends Fragment {
         amigosRef = firebaseDbRef
                 .child("amigos")
                 .child(idChefLogado);
+
+        ultimasPostagensRef = firebaseDbRef
+                .child("ultimasPostagens");
 
         receitasRef = firebaseDbRef
                 .child("receitas");
@@ -148,26 +154,42 @@ public class ReceitasUsuariosFragment extends Fragment {
 
         listaReceitas.clear(); //nenhuma alteração
 
-            valueEventListenerRA = receitasRef.addValueEventListener(new ValueEventListener() {
+            //valueEventListenerRA = receitasRef.addValueEventListener(new ValueEventListener() {
+            valueEventListenerRA = ultimasPostagensRef.addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
 
                     progressBarReceitas.setVisibility(View.VISIBLE);
 
-                    for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    for (DataSnapshot dadosReceita: dataSnapshot.getChildren()){
+
+                        Receitas receitas = dadosReceita.getValue(Receitas.class);
+                        listaReceitas.add(receitas);
+
+                    }
+
+
+                    //METODO UTILIZADO QUANDO AS RECEITAS ERAM RECUPERADAS DO NÓ RECEITAS
+                    /*for (DataSnapshot ds: dataSnapshot.getChildren()){
                         for (DataSnapshot dadosReceita: ds.getChildren()){
 
                                 Receitas receitas = dadosReceita.getValue(Receitas.class);
 
                                 listaReceitas.add(receitas);
 
+                                //copiar e colar as receitas do nó receitas para o nó ultimas postagens
+                                //tree: ultimasPostagens->idReceita(dados Receita)
+                                *//*DatabaseReference ultimosPostsRef = firebaseDbRef.child("ultimasPostagens").child(dadosReceita.getKey());
+                                ultimosPostsRef.setValue(receitas);*//*
+
                         }
-                    }
+                    }*/
 
                     progressBarReceitas.setVisibility(View.GONE);
 
                     //listaEmOrdemAlfabetica();
+
                     Collections.reverse(listaReceitas); //reverte a ordem da lista (para que q sempre apareça primeiro a ultima postagem)
                     adapterReceitas.notifyDataSetChanged();
                 }

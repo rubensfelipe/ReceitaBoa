@@ -39,6 +39,31 @@ public class Receitas implements Serializable {
         setIdReceita(identificadorReceita);
     }
 
+    //salva todas as receitas publicadas
+    public void salvarReceitas(){
+
+        HashMap<String, Object> dadosUltimaPostagem = new HashMap<>();
+
+        //recuperar os dados
+        dadosUltimaPostagem.put("nomeReceita", getNome());
+        dadosUltimaPostagem.put("ingredientes", getIngredientes());
+        dadosUltimaPostagem.put("modoPreparo", getModoPreparo());
+        dadosUltimaPostagem.put("qtdPessoasServidas", getQtdPessoasServidas());
+        dadosUltimaPostagem.put("idUltimaPostagem", getIdReceita());
+
+        dadosUltimaPostagem.put("idChef", identificadorChef);
+        dadosUltimaPostagem.put("nomeChef", getNomeChef());
+
+        //Configurações iniciais, referencia firebase
+        DatabaseReference firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
+        DatabaseReference postsRef = firebaseDbRef.child("ultimasPostagens");
+        DatabaseReference ultimasPostagensRef = postsRef.child(getIdReceita());
+
+        /*salvar os dados firebasedb*/
+        ultimasPostagensRef.setValue(dadosUltimaPostagem);
+
+    }
+
     //tree (receita-boa-asd -> receitas -> idChef(Base64) -> idReceita -> todos os dados da receitas)
     public void salvarMinhaReceitaFirebaseDb(){
 
@@ -54,8 +79,8 @@ public class Receitas implements Serializable {
         dadosReceita.put("idReceita", getIdReceita());
 
         dadosReceita.put("idChef", identificadorChef);
-        //dadosReceita.put("nomeChef", chefAuth.getDisplayName());
         dadosReceita.put("nomeChef", getNomeChef());
+        //dadosReceita.put("nomeChef", chefAuth.getDisplayName());
 
         DatabaseReference firebaseDbRef = ConfiguracaoFirebase.getFirebaseDatabase();
         DatabaseReference chefRef = firebaseDbRef.child("receitas").child(identificadorChef);
@@ -63,6 +88,8 @@ public class Receitas implements Serializable {
 
         //seta todos os dados [idchef, idReceita, nomeReceita, ingredientes, preparo e serveXpessoas], setados nessa classe, dentro do nó idReceita no FirebaseDatabase
         receitaRef.setValue(dadosReceita);
+
+        salvarReceitas();
 
     }
 
@@ -75,10 +102,14 @@ public class Receitas implements Serializable {
                                                     .child(identificadorChef)
                                                          .child(idRecipe); //os dados serão atualizados dentro do nó idChef
 
+        DatabaseReference ultimaPostagemRef = database.child("ultimasPostagens")
+                .child(idRecipe);
+
         Map<String,Object> urlFotoAdicionada = converterParaMap(); //email,nome,urlFotoChef (necessário para utilizar o método upadateChildren) [Converte: Classe Usuario -> Classe Map]
 
         //atualiza esses dados no FirebaseDatabase
         receitaRef.updateChildren(urlFotoAdicionada); //updateChildren: necessario utilizar como input um Map
+        ultimaPostagemRef.updateChildren(urlFotoAdicionada);
 
     }
 
@@ -97,11 +128,17 @@ public class Receitas implements Serializable {
         DatabaseReference receitaRef = database.child("receitas")
                 .child(identificadorChef)
                 .child(idReceituario); //os dados serão atualizados dentro do nó idChef
-
         Map<String,Object> receitaAtualizada = converterParaMap2();
 
-        //atualiza esses dados no FirebaseDatabase
+        //atualiza esses dados no nó receitas FirebaseDatabase
         receitaRef.updateChildren(receitaAtualizada);
+
+        //referencia para o nó ultimas postagens id da receita atualizada
+        DatabaseReference ultimaPostagemRef = database.child("ultimasPostagens")
+                .child(idReceituario);
+
+        //atualizando a receita no nó ultimas postagens
+        ultimaPostagemRef.updateChildren(receitaAtualizada);
 
     }
 

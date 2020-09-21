@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.rubensfelipe.android.receitaboa.R;
 import com.rubensvaz.android.receitaboa.helper.Base64Custom;
 import com.rubensvaz.android.receitaboa.helper.ConfiguracaoFirebase;
@@ -57,6 +60,15 @@ public class CadastroActivity extends AppCompatActivity {
                     chef.setEmail(textoEmail);
                     chef.setSenha(textoSenha);
 
+                    //recuperar token celular do usuário, ou seja, id do celular
+                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                        @Override
+                        public void onSuccess(InstanceIdResult instanceIdResult) {
+                            String token = instanceIdResult.getToken();
+                            chef.setTokenCel(token);
+                        }
+                    });
+
                     cadastrarChefDbAuth(chef);
 
                 }else {
@@ -99,6 +111,7 @@ public class CadastroActivity extends AppCompatActivity {
                     finish();
 
                     try {
+
                         String idChef64 = Base64Custom.codificarBase64(chef.getEmail());
                         chef.setId(idChef64); //setando o id do Chef cadastrado na classe Chef
 
