@@ -47,18 +47,21 @@ public class BuscaAmigosAdapter extends RecyclerView.Adapter<BuscaAmigosAdapter.
 
         Chef chef = amigos.get(position);
 
-        holder.nomeAmigo.setText(chef.getNome());
-        holder.emailAmigo.setText(chef.getEmail());
+        if (chef != null) {
+            holder.nomeAmigo.setText(chef.getNome() != null ? chef.getNome() : "");
+            holder.emailAmigo.setText(chef.getEmail() != null ? chef.getEmail() : "");
 
-        if(chef.getUrlFotoChef() != null){
-            Uri uriFotoChef = Uri.parse(chef.getUrlFotoChef()); //String -> Uri
-            Glide.with(context).load(uriFotoChef).into(holder.fotoAmigo);
-        }else {
-            //holder.fotoAmigo.setImageResource(Integer.parseInt("drawable://" + R.drawable.avatar));
+            if (chef.getUrlFotoChef() != null){
+                Uri uriFotoChef = Uri.parse(chef.getUrlFotoChef()); //String -> Uri
+                Glide.with(context)
+                        .load(uriFotoChef)
+                        .placeholder(R.drawable.avatar)
+                        .error(R.drawable.avatar)
+                        .into(holder.fotoAmigo);
+             } else {
             holder.fotoAmigo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.avatar));
+             }
         }
-
-
     }
 
     @Override

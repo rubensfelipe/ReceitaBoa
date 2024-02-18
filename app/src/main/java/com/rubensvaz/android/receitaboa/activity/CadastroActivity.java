@@ -8,9 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
+import android.util.Log;
 import com.rubensfelipe.android.receitaboa.R;
 import com.rubensvaz.android.receitaboa.helper.Base64Custom;
 import com.rubensvaz.android.receitaboa.helper.ConfiguracaoFirebase;
@@ -61,13 +60,22 @@ public class CadastroActivity extends AppCompatActivity {
                     chef.setSenha(textoSenha);
 
                     //recuperar token celular do usuário, ou seja, id do celular
-                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+                    // Recuperar o novo token FCM do dispositivo
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
                         @Override
-                        public void onSuccess(InstanceIdResult instanceIdResult) {
-                            String token = instanceIdResult.getToken();
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w("FCM Token", "Fetching FCM registration token failed", task.getException());
+                                return;
+                            }
+
+                            // Obter o novo Token de Registro FCM
+                            String token = task.getResult();
                             chef.setTokenCel(token);
+                            // Aqui você pode continuar com o registro do chef, como anteriormente
                         }
                     });
+
 
                     cadastrarChefDbAuth(chef);
 

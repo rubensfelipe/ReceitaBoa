@@ -197,13 +197,17 @@ public class ReceitasUsuariosFragment extends Fragment {
             });
     }
 
-    private void listaEmOrdemAlfabetica() {
+    private void listaEmOrdemAlfabetica() { //receitas em ordem alfabetica
         Collections.sort(listaReceitas, new Comparator<Receitas>() {
             @Override
             public int compare(Receitas rec1, Receitas rec2) {
+                if (rec1 == null || rec2 == null){
+                    return 0;
+                }
+                if (rec1.getNome() == null || rec2.getNome() == null){
+                    return 0;
+                }
                 return rec1.getNome().compareToIgnoreCase(rec2.getNome()); //ordem crescente por nome da receita
-                //return rec2.getNome().compareToIgnoreCase(rec1.getNome()); //ordem descrescente
-                //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
             }
         });
     }

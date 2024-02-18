@@ -15,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.rubensfelipe.android.receitaboa.R;
 import com.rubensvaz.android.receitaboa.fragment.AmigosFragment;
 import com.rubensvaz.android.receitaboa.fragment.FeedFragment;
@@ -249,20 +249,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()){
-            case R.id.menuDeslogar:
+        int itemId = item.getItemId();
+
+            if(itemId == R.id.menuDeslogar){
                 deslogarChef();
                 finish();
-                break;
-            case R.id.menuPoliticasPrivacidade:
+            } else if (itemId == R.id.menuPoliticasPrivacidade) {
                 abrirPoliticasPrivacidade();
-                break;
-            case R.id.menuConfiguracoes:
+            } else if (itemId == R.id.menuConfiguracoes) {
                 abrirConfiguracoes();
-                break;
-        }
+            } else {
+                return super.onOptionsItemSelected(item);
+            }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     public void deslogarChef(){
@@ -295,21 +295,27 @@ public class MainActivity extends AppCompatActivity {
         startActivity(abrirNavegador);
 
     }
-
-    private void recuperarTokenCelUsuario() {
-
-        //recuperar token celular do usuário, ou seja, id do celular
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+        private void recuperarTokenCelUsuario() {
+        // Recuperar o novo token FCM do dispositivo
+        // Recuperar token celular do usuário, ou seja, id do celular
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
-            public void onSuccess(InstanceIdResult instanceIdResult) {
-                String token = instanceIdResult.getToken();
-                chef.setTokenCel(token);
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    // Aqui você obtém o token
+                    String token = task.getResult();
+                    chef.setTokenCel(token);
 
-                chef.salvarTokenDadosUsuario();
+                    chef.salvarTokenDadosUsuario();
+                    // Log do token, se necessário
+                    Log.d("FCM Token", "Token do dispositivo: " + token);
+                } else {
+                    Log.w("FCM Token", "Falha ao buscar o token FCM.", task.getException());
+                }
             }
         });
-
     }
+
 
     @Override
     protected void onStop() {

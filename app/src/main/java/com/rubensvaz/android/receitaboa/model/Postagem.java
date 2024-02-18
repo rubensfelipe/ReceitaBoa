@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Postagem implements Serializable { //Serializable passar dados entre activities (getExtra,putExtra)
+public class Postagem implements Serializable { //Serializable: passar dados entre activities (getExtra,putExtra)
 
     private String id;
     private String idChef;
@@ -61,7 +61,7 @@ public class Postagem implements Serializable { //Serializable passar dados entr
         dadosPostagemFeed.put("nomeChef", chefLogado.getNome()); //dados do nome do usuario que postou a foto
 
         if (chefLogado.getUrlFotoChef() != null)
-        dadosPostagemFeed.put("fotoUsuario", chefLogado.getUrlFotoChef()); //foto de perfil do usuario que postou a foto no seu feed
+            dadosPostagemFeed.put("fotoUsuario", chefLogado.getUrlFotoChef()); //foto de perfil do usuario que postou a foto no seu feed
 
         dadosPostagemFeed.put("idReceita", getIdReceita());
         dadosPostagemFeed.put("nomeReceita", getNomeReceita());

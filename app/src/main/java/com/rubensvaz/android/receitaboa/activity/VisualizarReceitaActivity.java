@@ -224,17 +224,21 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
 
         if (bundle.containsKey("dadosMinhaReceitaClicada")){
 
-            switch (item.getItemId()){
-                case R.id.menuEdicao:
-                    abrirEditor();
-                    break;
-                case R.id.menuApagar:
-                    excluirReceita();
-                    break;
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.menuEdicao){
+                abrirEditor();
+            } else if (itemId == R.id.menuApagar) {
+                excluirReceita();
+            } else if (itemId == com.miguelcatalan.materialsearchview.R.id.homeAsUp){
+                finish();
+            } else {
+                return super.onOptionsItemSelected(item);
             }
+
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void excluirReceita() {
@@ -275,7 +279,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() { //ao clicar no botao x da visualizacao da receita, a tela fecha e volta para a tela anterior
         finish();
-        return false;
+        return true;
     }
 
 }

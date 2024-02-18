@@ -147,7 +147,7 @@ public class BuscarAmigosFragment extends Fragment {
                     Chef usuario = dados.getValue(Chef.class); //recupera os dados salvo nos nós do FirebaseDatabase
 
                     String emailChefLogado = chefAtualAuth.getEmail();
-                    if ( !emailChefLogado.equals( usuario.getEmail() ) ){ //verifica se o usuario adicionado na lista não é o próprio usuario logado
+                    if (usuario != null && usuario.getEmail() != null && !emailChefLogado.equals(usuario.getEmail()) && usuario.getNome() != null){ //verifica se o usuario adicionado na lista não é o próprio usuario logado e se o user tem nome e mail não nulos
                         listaUsuarios.add(usuario); //adiciona um novo usuario (os dados dos amigos do chef) a lista de amigos
                     }
 
@@ -169,9 +169,12 @@ public class BuscarAmigosFragment extends Fragment {
         Collections.sort(listaUsuarios, new Comparator<Chef>() {
             @Override
             public int compare(Chef u1, Chef u2) {
-                return u1.getNome().compareToIgnoreCase(u2.getNome()); //ordem crescente por nome da receita
-                //return rec2.getNome().compareToIgnoreCase(rec1.getNome()); //ordem descrescente
-                //return Integer.valueOf(rec1.getQtdPessoasServidas()).compareTo(Integer.valueOf(rec2.getQtdPessoasServidas()); //orderna em ordem crescente para números inteiros
+                // Verifica se algum dos Chefs ou seus nomes são null antes de comparar
+                if (u1.getNome() == null && u2.getNome() == null) return 0;
+                if (u1.getNome() == null) return -1; // Considera null menor que qualquer valor não-null
+                if (u2.getNome() == null) return 1;  // Vice-versa
+
+                return u1.getNome().compareToIgnoreCase(u2.getNome()); // Comparação normal se ambos os nomes não forem null (ordem crescente por receita)
             }
         });
     }
@@ -189,10 +192,11 @@ public class BuscarAmigosFragment extends Fragment {
         List<Chef> listaChefsBusca = new ArrayList<>();
 
         for (Chef chefAmigo : listaUsuarios){
-
-            String nome = chefAmigo.getNome().toLowerCase(); //recupera os nomes e grava eles em lowerCase
-            if (nome.contains(nomeAmigo)){ //se o começo do nome for correspondente a um amigo da lista
-                listaChefsBusca.add(chefAmigo); //adiciona a lista de busca
+            if (chefAmigo.getNome() != null) {
+                String nome = chefAmigo.getNome().toLowerCase(); //recupera os nomes e grava eles em lowerCase
+                if (nome.contains(nomeAmigo)){ //se o começo do nome for correspondente a um amigo da lista
+                    listaChefsBusca.add(chefAmigo); //adiciona a lista de busca
+                }
             }
         }
         configuracoesAdapter(listaChefsBusca);
