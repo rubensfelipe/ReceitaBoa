@@ -6,9 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    android:orientation="vertical"
     tools:context="com.rubensvaz.android.receitaboa.activity.LoginActivity">
-
 
     <ImageView
         android:id="@+id/imageView"
@@ -58,7 +56,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
 
     <EditText
         android:id="@+id/editLoginEmail"
@@ -123,13 +120,26 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         app:fontFamily="@font/alegreya"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textEsqueciSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/botaoCadastrar" />
 
+    <TextView
+        android:id="@+id/textEsqueciSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="recuperarSenha"
+        android:text="Esqueci a senha"
+        android:textColor="#FF0000"
+        android:textSize="18sp"
+        app:fontFamily="@font/alegreya"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCadastrar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bonne Recette</string>
+
+    <string name="msg_foto_perfil">Cliquez sur le mini chef pour ajouter votre photo</string>
     <string name="dica_nome">Nom</string>
     <string name="dica_senha">Mot de Passe</string>
     <string name="botao_logar">Entrer</string>
+    <string name="selecione_opcao">Sélectionnez une option</string>
+    <string name="galeria">Galerie</string>
+    <string name="camera">Caméra</string>
     <string name="botao_cadastrar">S\'inscrire</string>
     <string name="hyperlink_para_tela_cadastro">Cliquez ici pour vous inscrire !!!</string>
     <string name="edit_nome_receita">Nom de la recette</string>
@@ -31,6 +36,7 @@
     <string name="ponha_senha">Remplissez le mot de passe!</string>
     <string name="ponha_email">Remplissez l\'email!</string>
     <string name="ponha_nome">Remplissez le nom!</string>
+    <string name="sem_caracter_especial">Remplissez le nom sans caractères spéciaux comme @!</string>
     <string name="bem_vindo">"Bienvenue, Chef. "</string>
     <string name="cadastro_finalizado">" Inscription réussi!"</string>
     <string name="senha_fraca">Entrez un mot de passe plus fort!</string>
@@ -76,4 +82,9 @@
     <string name="comentario_vazio">Insérez un commentaire avant d\'envoyer le message!</string>
     <string name="notification_title">Nouvelle recette dans l\'application!</string>
     <string name="notification_body">" a ajouté une nouvelle recette à Bonne Recette, venez la découvrir!"</string>
+    <string name="email_reset_senha_enviado">"Vérifiez votre e-mail d'inscription"</string>
+    <string name="erro_reset_senha">"Erreur de réinitialisation du mot de passe"</string>
+    <string name="preencha_email_para_reset">"Remplissez l'e-mail de réinitialisation du mot de passe"</string>
+    <string name="enviar_email_recuperacao">Envoyer</string>
+
 </resources>

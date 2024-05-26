@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.rubensfelipe.android.receitaboa">
     <!-- necessario usuario ter uma camera para baixar meu app -->
     <!--
@@ -9,13 +10,15 @@ incopatibilidade com os celulares se essa função estiver ativada
         android:required="true" />
     -->
     <uses-feature
-        android:name="android.hardware.camera2"
+        android:name="android.hardware.camera"
         android:required="false" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.hardware.CAMERA" android:required="false"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
 
     <application
 

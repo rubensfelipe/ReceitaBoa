@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Good Recipe</string>
+    <string name="msg_foto_perfil">Click on the mini chef to add your photo</string>
     <string name="dica_nome">Name</string>
     <string name="dica_senha">Password</string>
     <string name="botao_logar">Log-In</string>
+    <string name="selecione_opcao">Select an option</string>
+    <string name="galeria">Gallery</string>
+    <string name="camera">Camera</string>
     <string name="botao_cadastrar">Register</string>
     <string name="hyperlink_para_tela_cadastro">Click here to Register!!!</string>
     <string name="info_foto_perfil">This name will be visible to your contacts.</string>
@@ -32,6 +36,7 @@
     <string name="ponha_senha">Fulfill your password!</string>
     <string name="ponha_email">Fulfill your e-mail!</string>
     <string name="ponha_nome">Fulfill your name!</string>
+    <string name="sem_caracter_especial">Fill in the name without special characters like @!</string>
     <string name="bem_vindo">Welcome, Chef.</string>
     <string name="cadastro_finalizado">" Successful registration"</string>
     <string name="senha_fraca">Enter a stronger password!</string>
@@ -76,4 +81,9 @@
     <string name="comentario_vazio">Insert a comment before sending the message!</string>
     <string name="notification_title">New Recipe on the App!</string>
     <string name="notification_body">" added a new recipe to Good Recipe, come check it out!"</string>
+    <string name="email_reset_senha_enviado">"Check your registration email"</string>
+    <string name="erro_reset_senha">"Error resetting password"</string>
+    <string name="preencha_email_para_reset">"Fill in the password reset email"</string>
+    <string name="enviar_email_recuperacao">Send</string>
+
 </resources>

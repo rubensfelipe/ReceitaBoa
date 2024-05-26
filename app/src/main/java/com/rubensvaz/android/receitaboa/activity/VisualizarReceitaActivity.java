@@ -247,7 +247,7 @@ public class VisualizarReceitaActivity extends AppCompatActivity {
         ultimaPostagemRef.child(idReceitaClicada).removeValue();
 
         Toast.makeText(VisualizarReceitaActivity.this,
-                "A " + getString(R.string.receita) + nomeReceitaClicada + getString(R.string.excluida),
+                "A " + getString(R.string.receita) + nomeReceitaClicada +" "+ getString(R.string.excluida),
                 Toast.LENGTH_SHORT).show();
 
         finish();

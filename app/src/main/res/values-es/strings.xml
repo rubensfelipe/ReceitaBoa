@@ -2,9 +2,13 @@
 <resources>
     <string name="app_name">Receta Rica</string>
 
+    <string name="msg_foto_perfil">Haga clic en el mini chef para agregar su foto</string>
     <string name="dica_nome">Nombre</string>
     <string name="dica_email">Correo</string>
     <string name="dica_senha">Contraseña</string>
+    <string name="selecione_opcao">Seleccione una opción</string>
+    <string name="galeria">Galería</string>
+    <string name="camera">Cámara</string>
     <string name="botao_logar">Entrar</string>
     <string name="botao_cadastrar">Inscribirse</string>
     <string name="hyperlink_para_tela_cadastro">Haz clic aquí para inscribirse!</string>
@@ -34,6 +38,7 @@
     <string name="ponha_senha">¡Rellena la contraseña!</string>
     <string name="ponha_email">¡Rellena el correo!</string>
     <string name="ponha_nome">¡Rellena el nombre!</string>
+    <string name="sem_caracter_especial">Rellene el nombre sin caracteres especiales como @!</string>
     <string name="bem_vindo">"Bienvenido, Chef. "</string>
     <string name="cadastro_finalizado">" ¡Cadastro hecho con éxito!"</string>
     <string name="senha_fraca">¡Usa una contraseña más fuerte!</string>
@@ -77,5 +82,8 @@
     <string name="comentario_vazio">¡Inserta un comentario antes de enviar el mensaje!</string>
     <string name="notification_title">¡Nueva receta en la aplicación!</string>
     <string name="notification_body">" agregó una nueva receta a Receita Boa, ¡ven a verla!"</string>
-
+    <string name="email_reset_senha_enviado">"Verifique su correo electrónico de registro"</string>
+    <string name="erro_reset_senha">"Error al restablecer la contraseña"</string>
+    <string name="preencha_email_para_reset">"Complete el correo electrónico de restablecimiento de contraseña"</string>
+    <string name="enviar_email_recuperacao">Enviar</string>
 </resources>

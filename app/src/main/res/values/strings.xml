@@ -13,10 +13,14 @@
     </style>
 
     <!--Tela Cadastro/Tela Login-->
+    <string name="msg_foto_perfil">Clique no mini chefe para adicionar a sua foto</string>
     <string name="dica_nome">Nome</string>
     <string name="dica_senha">Senha</string>
     <string name="botao_logar">Entrar</string>
     <string name="botao_cadastrar">Cadastrar</string>
+    <string name="selecione_opcao">Selecione uma opção</string>
+    <string name="galeria">Galeria</string>
+    <string name="camera">Câmera</string>
     <string name="hyperlink_para_tela_cadastro">Clique aqui para fazer o Cadastro!!!</string>
 
     <string name="edit_nome_receita">Nome da receita</string>
@@ -55,6 +59,7 @@
     <string name="ponha_senha">Preencha a senha!</string>
     <string name="ponha_email">Preencha o e-mail!</string>
     <string name="ponha_nome">Preencha o nome!</string>
+    <string name="sem_caracter_especial">Preencha o nome sem caracteres especiais como @!</string>
     <string name="bem_vindo">Bem-vindo, Chef. </string>
     <string name="cadastro_finalizado"> Cadastro feito com sucesso!</string>
     <string name="senha_fraca">Digite uma senha mais forte!</string>
@@ -68,7 +73,7 @@
     <string name="ponha_modoPreparo">Preencha o modo de preparo de sua receita!</string>
     <string name="botao_seguindo">Seguindo</string>
     <string name="botao_seguir">Seguir</string>
-    <string name="excluida"> foi excluída com sucesso</string>
+    <string name="excluida">foi excluída com sucesso</string>
     <string name="visualizar_receita">Visualizar Receita</string>
     <string name="meu_cardapio">Meu Cardápio</string>
     <string name="feed" translatable="false">Feed</string>
@@ -104,5 +109,9 @@
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="notification_title">Nova Receita Adicionada!</string>
     <string name="notification_body">" adicionou uma nova receita ao Receita Boa, venha conferir!"</string>
+    <string name="email_reset_senha_enviado">\"Verifique seu e-mail de cadastro\"</string>
+    <string name="erro_reset_senha">\"Erro ao resetar senha\"</string>
+    <string name="preencha_email_para_reset">\"preencha o email de reset da senha\"</string>
+    <string name="enviar_email_recuperacao">Enviar</string>
 
 </resources>

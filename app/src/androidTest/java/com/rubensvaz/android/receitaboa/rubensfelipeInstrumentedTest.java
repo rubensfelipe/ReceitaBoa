@@ -1,6 +1,8 @@
-package com.rubensfelipe.android.receitaboa;
+package com.rubensvaz.android.receitaboa;
 
 import android.content.Context;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -19,7 +21,7 @@ public class rubensfelipeInstrumentedTest {
     @Test
     public void useAppContext() throws Exception {
         // Context of the app under test.
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = ApplicationProvider.getApplicationContext();
 
         assertEquals("com.rubensfelipe.android.receitaboa", appContext.getPackageName());
     }

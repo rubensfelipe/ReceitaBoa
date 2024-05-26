@@ -6,41 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_blue_dark"
-    tools:context="com.rubensvaz.android.receitaboa.activity.LoginActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context="com.rubensvaz.android.receitaboa.activity.CadastroActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/textViewMiniChef"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="@string/msg_foto_perfil"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayoutMiniChef"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.951" />
+
+    <FrameLayout
+        android:id="@+id/frameLayoutMiniChef"
         android:layout_width="125dp"
         android:layout_height="125dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/editCadastroNome"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:srcCompat="@drawable/mini_chef" />
+        app:layout_constraintVertical_chainStyle="packed">
 
-    <EditText
-        android:id="@+id/editCadastroSenha"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/background_caixa_texto"
-        android:ems="10"
-        android:hint="@string/dica_senha"
-        android:inputType="textPassword"
-        android:padding="10dp"
-        android:textColor="@android:color/white"
-        android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/botaoCadastrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCadastroEmail" />
+        <ImageView
+            android:id="@+id/miniChef"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/mini_chef" />
+
+    </FrameLayout>
 
     <EditText
         android:id="@+id/editCadastroNome"
@@ -59,7 +59,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editCadastroEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutMiniChef" />
 
     <EditText
         android:id="@+id/editCadastroEmail"
@@ -79,6 +79,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editCadastroNome" />
+
+    <EditText
+        android:id="@+id/editCadastroSenha"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/background_caixa_texto"
+        android:ems="10"
+        android:hint="@string/dica_senha"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/botaoCadastrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCadastroEmail" />
 
     <Button
         android:id="@+id/botaoCadastrar"
